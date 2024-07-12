@@ -2,8 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-// * {
-//   box-sizing: border-box;
-//   padding: 0;
-//   margin: 0;
-// }
+// DaisyUI card component
+.card {
+  .card-body {
+    flex-grow-0,
+    .card-title {
+      height: 2.5rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}

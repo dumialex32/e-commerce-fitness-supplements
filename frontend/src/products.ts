@@ -47,7 +47,7 @@ const products: ProductType[] = [
     category: "Recovery",
     price: 14.8,
     countInStock: 11,
-    rating: 3.8,
+    rating: 3,
     numReviews: 132,
   },
   {

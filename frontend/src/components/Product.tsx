@@ -12,7 +12,7 @@ const Product = ({ product }: { product: ProductType }) => {
             <img src={product.image} alt={product.name} />
           </Link>
         </figure>
-        <div className="card-body min-h-80 ">
+        <div className="card-body">
           <h2 className="card-title">{product.name}</h2>
           <p className="whitespace-nowrap overflow-hidden text-ellipsis">
             {product.description}

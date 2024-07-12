@@ -24,7 +24,7 @@ const Rating: React.FC<RatingProps> = ({
       <div className="flex gap-1">
         {Array.from({ length: starNum }, (_, i) => (
           <span className="text-yellow-300 text-xl" key={i}>
-            {value >= i ? (
+            {value >= i + 1 ? (
               <FaStar />
             ) : value >= i - 0.5 ? (
               <FaStarHalfAlt />
