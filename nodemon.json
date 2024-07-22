@@ -1,6 +1,6 @@
 {
   "watch": ["backend"],
-  "ext": "ts,json",
+  "ext": ".ts,.js,.json",
   "ignore": ["backend/**/*.spec.ts"],
-  "exec": "node --loader ts-node/esm ./backend/server.ts"
+  "exec": "ts-node ./backend/server.ts"
 }
