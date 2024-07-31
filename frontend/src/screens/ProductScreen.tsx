@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import Rating from "../components/Rating";
-import { formatPrice } from "../utils/formatters";
+import { formatPriceCurrency } from "../utils/formatters";
 import { useGetProductDetailsQuery } from "../slices/productsApiSlice";
 
 import { IuseGetProductDetailsQuery } from "../types/products/productQueryTypes";
@@ -62,7 +62,7 @@ const ProductScreen: React.FC = () => {
               </div>
               <div className="divider"></div>
               <p className="px-3 text-lg text-gray-500 font-semibold">
-                Price: {formatPrice(product.price)}
+                Price: {formatPriceCurrency(product.price)}
               </p>
               <div className="divider"></div>
               <p className="text-sm px-3">{product.description}</p>
@@ -70,7 +70,7 @@ const ProductScreen: React.FC = () => {
             <div className="card bg-base-100 border-2 max-h-44">
               <div className="card-body divide-y-2">
                 <h2 className="card-title">
-                  Price: <span>{formatPrice(product.price)}</span>
+                  Price: <span>{formatPriceCurrency(product.price)}</span>
                 </h2>
                 <p>
                   <span className="text-gray-400">Status: </span>

@@ -1,0 +1,175 @@
+[{
+  "_id": {
+    "$oid": "669fd5203878a5949c0f7082"
+  },
+  "user": {
+    "$oid": "669fd5203878a5949c0f707e"
+  },
+  "name": "Beast workout",
+  "image": "/images/beast-preworkout.png",
+  "brand": "Beast",
+  "category": "Pre-workouts",
+  "description": "A preworkout to enhance your workouts",
+  "rating": 4.1,
+  "numReviews": 2,
+  "price": 39,
+  "countInStock": 9,
+  "reviews": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2024-07-23T16:06:56.082Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-23T16:06:56.082Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "669fd5203878a5949c0f7083"
+  },
+  "user": {
+    "$oid": "669fd5203878a5949c0f707e"
+  },
+  "name": "Creatine ON",
+  "image": "/images/creatine-on.png",
+  "brand": "ON",
+  "category": "Creatines",
+  "description": "High-quality creatine to boost strength and performance",
+  "rating": 4.5,
+  "numReviews": 5,
+  "price": 29,
+  "countInStock": 12,
+  "reviews": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2024-07-23T16:06:56.082Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-23T16:06:56.082Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "669fd5203878a5949c0f7084"
+  },
+  "user": {
+    "$oid": "669fd5203878a5949c0f707e"
+  },
+  "name": "Fish Oil HW",
+  "image": "/images/fishoil-hw.png",
+  "brand": "HW",
+  "category": "Supplements",
+  "description": "Premium fish oil for overall health and wellness",
+  "rating": 4.2,
+  "numReviews": 8,
+  "price": 25,
+  "countInStock": 20,
+  "reviews": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2024-07-23T16:06:56.082Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-23T16:06:56.082Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "669fd5203878a5949c0f7085"
+  },
+  "user": {
+    "$oid": "669fd5203878a5949c0f707e"
+  },
+  "name": "Gold Whey",
+  "image": "/images/gold-whey.png",
+  "brand": "Gold",
+  "category": "Protein",
+  "description": "High-quality whey protein isolate for muscle growth",
+  "rating": 4.8,
+  "numReviews": 10,
+  "price": 49,
+  "countInStock": 7,
+  "reviews": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2024-07-23T16:06:56.083Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-23T16:06:56.083Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "669fd5203878a5949c0f7086"
+  },
+  "user": {
+    "$oid": "669fd5203878a5949c0f707e"
+  },
+  "name": "ON BCAA",
+  "image": "/images/on-bcaa.png",
+  "brand": "ON",
+  "category": "Amino Acids",
+  "description": "Branched-chain amino acids to support muscle recovery",
+  "rating": 4.4,
+  "numReviews": 6,
+  "price": 34,
+  "countInStock": 15,
+  "reviews": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2024-07-23T16:06:56.083Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-23T16:06:56.083Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "669fd5203878a5949c0f7087"
+  },
+  "user": {
+    "$oid": "669fd5203878a5949c0f707e"
+  },
+  "name": "ON Glutamine",
+  "image": "/images/on-glutamine.png",
+  "brand": "ON",
+  "category": "Amino Acids",
+  "description": "Glutamine supplement for improved muscle recovery",
+  "rating": 4.3,
+  "numReviews": 4,
+  "price": 30,
+  "countInStock": 11,
+  "reviews": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2024-07-23T16:06:56.083Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-23T16:06:56.083Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "669fd5203878a5949c0f7088"
+  },
+  "user": {
+    "$oid": "669fd5203878a5949c0f707e"
+  },
+  "name": "Xtreme Whey",
+  "image": "/images/xtreme-whey.png",
+  "brand": "Xtreme",
+  "category": "Protein",
+  "description": "High-performance whey protein blend for serious athletes",
+  "rating": 4.7,
+  "numReviews": 7,
+  "price": 45,
+  "countInStock": 6,
+  "reviews": [],
+  "__v": 0,
+  "createdAt": {
+    "$date": "2024-07-23T16:06:56.083Z"
+  },
+  "updatedAt": {
+    "$date": "2024-07-23T16:06:56.083Z"
+  }
+}]
