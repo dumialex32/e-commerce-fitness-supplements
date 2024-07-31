@@ -1,33 +1,36 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import Product from "../components/Product";
-import { ProductType } from "../types";
+import { useGetProductsQuery } from "../slices/productsApiSlice";
+import { IuseGetProductsQuery } from "../types/products/productQueryTypes";
+import { renderFetchBaseQueryError } from "../utils/errorHelpers";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
 
 const HomeScreen: React.FC = () => {
-  const [products, setProducts] = useState<ProductType[]>([]);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const { data } = await axios.get<ProductType[]>("/api/products");
-        setProducts(data);
-      } catch (err) {
-        console.error("There was a problem while fetching products:", err);
-      }
-    };
-
-    fetchProducts();
-  }, []);
+  const {
+    data: products,
+    isLoading,
+    error,
+  }: IuseGetProductsQuery = useGetProductsQuery();
+  console.log(products);
 
   return (
-    <div className="flex flex-col gap-4">
-      <h1 className="text-3xl">Latest Products</h1>
-      <ul className="flex flex-wrap">
-        {products.map((product) => (
-          <Product key={product.id} product={product} />
-        ))}
-      </ul>
-    </div>
+    <>
+      {isLoading ? (
+        <Loader size="xl" />
+      ) : renderFetchBaseQueryError(error) ? (
+        <Message>{renderFetchBaseQueryError(error)}</Message>
+      ) : (
+        <div className="flex flex-col gap-4">
+          <h1 className="text-3xl">Latest Products</h1>
+          <ul className="flex flex-wrap">
+            {products.map((product) => (
+              <Product key={product._id} product={product} />
+            ))}
+          </ul>
+        </div>
+      )}
+    </>
   );
 };
 

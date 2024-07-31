@@ -1,4 +1,6 @@
-export interface IProductDataTypes {
+import { Types } from "mongoose";
+
+export interface IProductData {
   name: string;
   image: string;
   description: string;
@@ -8,4 +10,8 @@ export interface IProductDataTypes {
   countInStock: number;
   rating: number;
   numReviews: number;
+}
+
+export interface IProductWithUser extends IProductData {
+  user: Types.ObjectId;
 }

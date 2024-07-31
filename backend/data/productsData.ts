@@ -1,6 +1,6 @@
-import { IProductDataTypes } from "../types/dataTypes/productDataTypes";
+import { IProductData } from "../types/dataTypes/productDataTypes";
 
-const products: IProductDataTypes[] = [
+const products: IProductData[] = [
   {
     name: "Beast workout",
     image: "/images/beast-preworkout.png",
@@ -77,17 +77,6 @@ const products: IProductDataTypes[] = [
     countInStock: 6,
     rating: 4.7,
     numReviews: 7,
-  },
-  {
-    name: "Placeholder Image",
-    image: "/images/placeholder-300x248.jpg",
-    description: "Placeholder description for image purposes",
-    brand: "Unknown",
-    category: "Unknown",
-    price: 0.0,
-    countInStock: 0,
-    rating: 0.0,
-    numReviews: 0,
   },
 ];
 

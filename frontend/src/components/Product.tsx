@@ -1,14 +1,14 @@
-import { ProductType } from "../products";
-import { formatPrice } from "../helpers/helpers";
+import { IProduct } from "../types/products/productTypes";
+import { formatPrice } from "../utils/formatters";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
 
-const Product = ({ product }: { product: ProductType }) => {
+const Product = ({ product }: { product: IProduct }) => {
   return (
     <li className="w-full md:w-1/2 lg:w-1/6 p-2">
       <div className="card bg-base-100 shadow-xl">
         <figure>
-          <Link to={`product/${product.id}`}>
+          <Link to={`product/${product._id}`}>
             <img src={product.image} alt={product.name} />
           </Link>
         </figure>
