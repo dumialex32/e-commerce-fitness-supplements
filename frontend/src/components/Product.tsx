@@ -1,5 +1,5 @@
 import { IProduct } from "../types/products/productTypes";
-import { formatPrice } from "../utils/formatters";
+import { formatPriceCurrency } from "../utils/formatters";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
 
@@ -17,7 +17,9 @@ const Product = ({ product }: { product: IProduct }) => {
           <p className="whitespace-nowrap overflow-hidden text-ellipsis">
             {product.description}
           </p>
-          <p className="text-xl font-bold">{formatPrice(product.price)}</p>
+          <p className="text-xl font-bold">
+            {formatPriceCurrency(product.price)}
+          </p>
           <Rating
             value={product.rating}
             reviews={product.numReviews}

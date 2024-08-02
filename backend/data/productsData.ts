@@ -41,7 +41,7 @@ const products: IProductData[] = [
     brand: "Gold",
     category: "Protein",
     price: 49.0,
-    countInStock: 7,
+    countInStock: 0,
     rating: 4.8,
     numReviews: 10,
   },

@@ -2,15 +2,22 @@ import { useNavigate, useParams } from "react-router-dom";
 import Rating from "../components/Rating";
 import { formatPriceCurrency } from "../utils/formatters";
 import { useGetProductDetailsQuery } from "../slices/productsApiSlice";
-
 import { IuseGetProductDetailsQuery } from "../types/products/productQueryTypes";
 import { renderFetchBaseQueryError } from "../utils/errorHelpers";
 import Loading from "../components/Loader";
 import Message from "../components/Message";
+import { useState } from "react";
+import { MAX_ORDER_PER_ITEM } from "../constants";
+import { addToCart } from "../slices/cartSlice";
+import { ICartItem } from "../types/cart/cartItemTypes";
+import { useDispatch } from "react-redux";
 
 const ProductScreen: React.FC = () => {
   const { id: productId } = useParams() as { id: string };
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [qty, setQty] = useState<number>(1);
 
   const {
     data: product,
@@ -30,6 +37,17 @@ const ProductScreen: React.FC = () => {
     }
 
     return { text: "In Stock", color: "text-green-400" };
+  };
+
+  const handleSelectQty = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setQty(parseInt(e.target.value));
+  };
+
+  const handleAddToCart = (): void => {
+    const cartItem: ICartItem = { ...product, qty: qty };
+
+    dispatch(addToCart(cartItem));
+    navigate("/cart");
   };
 
   return (
@@ -67,26 +85,59 @@ const ProductScreen: React.FC = () => {
               <div className="divider"></div>
               <p className="text-sm px-3">{product.description}</p>
             </div>
-            <div className="card bg-base-100 border-2 max-h-44">
+            <div className="card bg-base-100 border-2">
               <div className="card-body divide-y-2">
                 <h2 className="card-title">
                   Price: <span>{formatPriceCurrency(product.price)}</span>
                 </h2>
-                <p>
-                  <span className="text-gray-400">Status: </span>
-                  <span
-                    className={`${
-                      getItemStockInfo(product.countInStock).color
-                    } font-semibold`}
-                  >
-                    {getItemStockInfo(product.countInStock).text}
-                  </span>
-                </p>
+                <div>
+                  <p className="py-2.5">
+                    <span className="text-gray-400 py-8">Status: </span>
+                    <span
+                      className={`${
+                        getItemStockInfo(product.countInStock).color
+                      } font-semibold`}
+                    >
+                      {getItemStockInfo(product.countInStock).text}
+                    </span>
+                  </p>
+                </div>
+                {product.countInStock > 0 && (
+                  <div className="relative py-2.5">
+                    <div className="border border-gray-300 rounded-md px-3 py-2">
+                      <span>Quantity: {qty}</span>
+                      <select
+                        className="absolute inset-0 opacity-0 cursor-pointer"
+                        value={qty}
+                        onChange={handleSelectQty}
+                      >
+                        <option value="" disabled hidden>
+                          Quantity
+                        </option>
+                        {Array.from(
+                          {
+                            length:
+                              product.countInStock >= MAX_ORDER_PER_ITEM
+                                ? MAX_ORDER_PER_ITEM
+                                : product.countInStock,
+                          },
+                          (_, i) => (
+                            <option key={i + 1} value={i + 1}>
+                              {i + 1}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </div>
+                  </div>
+                )}
+
                 <button
                   className="btn btn-primary"
                   disabled={product.countInStock === 0}
+                  onClick={handleAddToCart}
                 >
-                  Buy Now
+                  Add to cart
                 </button>
               </div>
             </div>

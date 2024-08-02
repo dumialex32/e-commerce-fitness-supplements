@@ -4,10 +4,10 @@ export interface ICartItem extends IProduct {
   qty: number;
 }
 
-export interface ICartSliceState {
+export interface ICartInitialState {
   cartItems: ICartItem[];
   itemsPrice: number;
-  shippingPrice: number;
   taxPrice: number;
+  shippingPrice: number;
   totalPrice: number;
 }
