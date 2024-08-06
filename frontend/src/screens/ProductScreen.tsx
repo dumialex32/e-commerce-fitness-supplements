@@ -7,11 +7,12 @@ import { getItemStockInfo } from "../utils/productUtils";
 import useCart from "../hooks/useCart";
 import { useProduct } from "../hooks/useProduct";
 import useAppNavigate from "../hooks/useNavigate";
-import ProductQty from "../components/ProductQty";
+import { MAX_ORDER_PER_ITEM } from "../constants";
+// import ProductQty from "../components/ProductQty";
 
 const ProductScreen: React.FC = () => {
   const { product, isLoading, error } = useProduct();
-  const { handleAddToCart } = useCart();
+  const { handleAddToCart, handleSelectQty, qty } = useCart();
   const { moveBack } = useAppNavigate();
 
   return (
@@ -66,7 +67,35 @@ const ProductScreen: React.FC = () => {
                     </span>
                   </p>
                 </div>
-                {product.countInStock > 0 && <ProductQty product={product} />}
+                <div className="py-2.5">
+                  {product.countInStock >= 1 && (
+                    <div className="border border-gray-300 rounded-md px-3 py-2 relative">
+                      <span>Quantity: {qty}</span>
+                      <select
+                        className="absolute inset-0 opacity-0 cursor-pointer"
+                        value={qty}
+                        onChange={handleSelectQty}
+                      >
+                        <option value="" disabled hidden>
+                          Quantity
+                        </option>
+                        {Array.from(
+                          {
+                            length:
+                              product.countInStock >= MAX_ORDER_PER_ITEM
+                                ? MAX_ORDER_PER_ITEM
+                                : product.countInStock,
+                          },
+                          (_, i) => (
+                            <option key={i + 1} value={i + 1}>
+                              {i + 1}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </div>
+                  )}
+                </div>
 
                 <button
                   className="btn btn-primary"

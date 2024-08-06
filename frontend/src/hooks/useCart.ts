@@ -4,10 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { ICartItem } from "../types/cart/cartItemTypes";
 import { addToCart } from "../slices/cartSlice";
 import { IProduct } from "../types/products/productTypes";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 export const useCart = () => {
   const [qty, setQty] = useState<number>(1);
-
+  const { cartItems } = useSelector((state: RootState) => state.cart);
+  console.log(qty);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -16,13 +19,19 @@ export const useCart = () => {
   };
 
   const handleAddToCart = (product: IProduct): void => {
-    const cartItem: ICartItem = { ...product, qty: qty };
+    console.log(product, qty);
+    const cartItem: ICartItem = { ...product, qty };
 
     dispatch(addToCart(cartItem));
     navigate("/cart");
   };
 
-  return { qty, handleSelectQty, handleAddToCart };
+  const totalCartItems: number = cartItems.reduce(
+    (acc, item) => (acc = acc + item.qty),
+    0
+  );
+
+  return { qty, handleSelectQty, handleAddToCart, totalCartItems };
 };
 
 export default useCart;

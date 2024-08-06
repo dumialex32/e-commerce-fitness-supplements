@@ -15,7 +15,3 @@ export const FREE_SHIPPING_THRESHOLD: number = 65;
 
 // Order constants
 export const MAX_ORDER_PER_ITEM: number = 9;
-
-// Styling
-
-export const gray500 = "gray-500";
