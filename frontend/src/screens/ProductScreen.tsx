@@ -1,58 +1,22 @@
-import { useNavigate, useParams } from "react-router-dom";
-import Rating from "../components/Rating";
-import { formatPriceCurrency } from "../utils/formatters";
-import { useGetProductDetailsQuery } from "../slices/productsApiSlice";
-import { IuseGetProductDetailsQuery } from "../types/products/productQueryTypes";
-import { renderFetchBaseQueryError } from "../utils/errorHelpers";
 import Loading from "../components/Loader";
 import Message from "../components/Message";
-import { useState } from "react";
-import { MAX_ORDER_PER_ITEM } from "../constants";
-import { addToCart } from "../slices/cartSlice";
-import { ICartItem } from "../types/cart/cartItemTypes";
-import { useDispatch } from "react-redux";
+import Rating from "../components/Rating";
+import { renderFetchBaseQueryError } from "../utils/errorHelpers";
+import { formatPriceCurrency } from "../utils/formatters";
+import { getItemStockInfo } from "../utils/productUtils";
+import useCart from "../hooks/useCart";
+import { useProduct } from "../hooks/useProduct";
+import useAppNavigate from "../hooks/useNavigate";
+import ProductQty from "../components/ProductQty";
 
 const ProductScreen: React.FC = () => {
-  const { id: productId } = useParams() as { id: string };
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const [qty, setQty] = useState<number>(1);
-
-  const {
-    data: product,
-    isLoading,
-    error,
-  }: IuseGetProductDetailsQuery = useGetProductDetailsQuery(productId);
-
-  const getItemStockInfo = (counterInStock: number) => {
-    if (counterInStock === 0) {
-      return { text: "Sold Out", color: "text-red-400" };
-    }
-    if (counterInStock > 0 && counterInStock <= 9) {
-      return {
-        text: `Only ${counterInStock} left`,
-        color: "text-blue-400",
-      };
-    }
-
-    return { text: "In Stock", color: "text-green-400" };
-  };
-
-  const handleSelectQty = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setQty(parseInt(e.target.value));
-  };
-
-  const handleAddToCart = (): void => {
-    const cartItem: ICartItem = { ...product, qty: qty };
-
-    dispatch(addToCart(cartItem));
-    navigate("/cart");
-  };
+  const { product, isLoading, error } = useProduct();
+  const { handleAddToCart } = useCart();
+  const { moveBack } = useAppNavigate();
 
   return (
     <>
-      <button className="btn btn-sm mb-8" onClick={() => navigate(-1)}>
+      <button className="btn btn-sm mb-8" onClick={moveBack}>
         Back
       </button>
       {isLoading ? (
@@ -102,40 +66,12 @@ const ProductScreen: React.FC = () => {
                     </span>
                   </p>
                 </div>
-                {product.countInStock > 0 && (
-                  <div className="relative py-2.5">
-                    <div className="border border-gray-300 rounded-md px-3 py-2">
-                      <span>Quantity: {qty}</span>
-                      <select
-                        className="absolute inset-0 opacity-0 cursor-pointer"
-                        value={qty}
-                        onChange={handleSelectQty}
-                      >
-                        <option value="" disabled hidden>
-                          Quantity
-                        </option>
-                        {Array.from(
-                          {
-                            length:
-                              product.countInStock >= MAX_ORDER_PER_ITEM
-                                ? MAX_ORDER_PER_ITEM
-                                : product.countInStock,
-                          },
-                          (_, i) => (
-                            <option key={i + 1} value={i + 1}>
-                              {i + 1}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    </div>
-                  </div>
-                )}
+                {product.countInStock > 0 && <ProductQty product={product} />}
 
                 <button
                   className="btn btn-primary"
                   disabled={product.countInStock === 0}
-                  onClick={handleAddToCart}
+                  onClick={() => handleAddToCart(product)}
                 >
                   Add to cart
                 </button>

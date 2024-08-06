@@ -27,7 +27,7 @@ const Product = ({ product }: { product: IProduct }) => {
             direction="vertical"
           />
           <div className="card-actions justify-start">
-            <button className="btn btn-primary">Buy Now</button>
+            <button className="btn btn-primary text-white">Buy Now</button>
           </div>
         </div>
       </div>

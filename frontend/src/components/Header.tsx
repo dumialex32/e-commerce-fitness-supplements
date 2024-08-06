@@ -1,6 +1,14 @@
-import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { Link, NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 const Header: React.FC = () => {
+  const inCartProducts: number = useSelector(
+    (state: RootState) => state.cart.cartItems.length
+  );
+
   return (
     <header>
       <div className="navbar bg-base-200 px-12">
@@ -9,7 +17,16 @@ const Header: React.FC = () => {
             <img src="images/logo.png" className="h-16" />
           </Link>
         </div>
-        <div className="flex-none gap-2">
+        <div className="flex-none gap-6 ">
+          <NavLink to={"/cart"} className="btn btn-ghost relative">
+            <FontAwesomeIcon icon={faShoppingCart} color="blue" size={"2xl"} />
+            <div className="badge bg-orange-500 badge-lg absolute -top-1 -right-3 text-white">
+              {inCartProducts}
+            </div>
+            {/* <div className="absolute -top-1 right-1 flex items-center justify-center w-5 h-5 rounded-full text-white bg-orange-400">
+              {productsNum}
+            </div> */}
+          </NavLink>
           <div className="form-control">
             <input
               type="text"
