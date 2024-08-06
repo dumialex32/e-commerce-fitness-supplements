@@ -10,7 +10,7 @@ import { RootState } from "../store";
 export const useCart = () => {
   const [qty, setQty] = useState<number>(1);
   const { cartItems } = useSelector((state: RootState) => state.cart);
-  console.log(qty);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -19,11 +19,19 @@ export const useCart = () => {
   };
 
   const handleAddToCart = (product: IProduct): void => {
-    console.log(product, qty);
     const cartItem: ICartItem = { ...product, qty };
 
     dispatch(addToCart(cartItem));
     navigate("/cart");
+  };
+
+  const handleChangeItemQty = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    item: ICartItem
+  ) => {
+    handleSelectQty(e);
+    const newItem = { ...item, qty: +e.target.value };
+    dispatch(addToCart(newItem));
   };
 
   const totalCartItems: number = cartItems.reduce(
@@ -31,7 +39,19 @@ export const useCart = () => {
     0
   );
 
-  return { qty, handleSelectQty, handleAddToCart, totalCartItems };
+  const totalCartItemsPrice: number = cartItems.reduce(
+    (acc, item) => (acc = acc + item.price * item.qty),
+    0
+  );
+
+  return {
+    qty,
+    handleSelectQty,
+    handleAddToCart,
+    handleChangeItemQty,
+    totalCartItems,
+    totalCartItemsPrice,
+  };
 };
 
 export default useCart;

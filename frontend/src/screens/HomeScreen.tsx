@@ -12,7 +12,6 @@ const HomeScreen: React.FC = () => {
     isLoading,
     error,
   }: IuseGetProductsQuery = useGetProductsQuery();
-  console.log(products);
 
   return (
     <>

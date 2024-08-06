@@ -12,14 +12,21 @@ import { MAX_ORDER_PER_ITEM } from "../constants";
 
 const ProductScreen: React.FC = () => {
   const { product, isLoading, error } = useProduct();
+
   const { handleAddToCart, handleSelectQty, qty } = useCart();
-  const { moveBack } = useAppNavigate();
+
+  const { moveBack, moveTo } = useAppNavigate();
 
   return (
     <>
-      <button className="btn btn-sm mb-8" onClick={moveBack}>
-        Back
-      </button>
+      <div className="flex mb-8 justify-between">
+        <button className="btn" onClick={() => moveBack()}>
+          Back
+        </button>
+        <button className="btn btn-primary" onClick={() => moveTo("/cart")}>
+          Go to cart
+        </button>
+      </div>
       {isLoading ? (
         <Loading size="lg" />
       ) : renderFetchBaseQueryError(error) ? (
