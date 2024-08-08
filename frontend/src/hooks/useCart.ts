@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ICartItem } from "../types/cart/cartItemTypes";
-import { addToCart } from "../slices/cartSlice";
+import { addToCart, removeCartItem } from "../slices/cartSlice";
 import { IProduct } from "../types/products/productTypes";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
@@ -14,10 +14,7 @@ export const useCart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSelectQty = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setQty(parseInt(e.target.value));
-  };
-
+  // add item to cart
   const handleAddToCart = (product: IProduct): void => {
     const cartItem: ICartItem = { ...product, qty };
 
@@ -25,6 +22,17 @@ export const useCart = () => {
     navigate("/cart");
   };
 
+  // remove item from cart
+  const handleRemoveCartItem = (itemId: string): void => {
+    dispatch(removeCartItem(itemId));
+  };
+
+  // set item quantity
+  const handleSelectQty = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setQty(parseInt(e.target.value));
+  };
+
+  // change cart item quantity
   const handleChangeItemQty = (
     e: React.ChangeEvent<HTMLSelectElement>,
     item: ICartItem
@@ -34,11 +42,13 @@ export const useCart = () => {
     dispatch(addToCart(newItem));
   };
 
+  // calculate total cart items
   const totalCartItems: number = cartItems.reduce(
     (acc, item) => (acc = acc + item.qty),
     0
   );
 
+  // calculate total cart items price
   const totalCartItemsPrice: number = cartItems.reduce(
     (acc, item) => (acc = acc + item.price * item.qty),
     0
@@ -51,6 +61,7 @@ export const useCart = () => {
     handleChangeItemQty,
     totalCartItems,
     totalCartItemsPrice,
+    handleRemoveCartItem,
   };
 };
 

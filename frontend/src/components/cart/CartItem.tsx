@@ -7,7 +7,7 @@ import useCart from "../../hooks/useCart";
 import { MAX_ORDER_PER_ITEM } from "../../constants";
 
 const CartItem: React.FC<{ item: ICartItem }> = ({ item }) => {
-  const { handleChangeItemQty } = useCart();
+  const { handleChangeItemQty, handleRemoveCartItem } = useCart();
 
   return (
     <li className="grid grid-cols-[2fr_1fr_2fr] gap-14 p-4">
@@ -50,7 +50,10 @@ const CartItem: React.FC<{ item: ICartItem }> = ({ item }) => {
               )}
             </select>
           </div>
-          <button className="btn btn-ghost">
+          <button
+            className="btn btn-ghost"
+            onClick={() => handleRemoveCartItem(item._id)}
+          >
             <FontAwesomeIcon icon={faTrash} size="xl" color="gray" />
           </button>
         </div>

@@ -34,10 +34,19 @@ const cartSlice = createSlice({
 
       return updateCart(state);
     },
+    removeCartItem: (state, action: { payload: string }) => {
+      const itemId: string = action.payload;
+
+      // remove the item from cart state
+      state.cartItems = state.cartItems.filter((x) => x._id !== itemId);
+
+      // update local storage cart item with the new state
+      localStorage.setItem("cart", JSON.stringify(state));
+    },
   },
 });
 
 // action reducers
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeCartItem } = cartSlice.actions;
 
 export default cartSlice.reducer; // exported in store.ts as cartSliceReducer

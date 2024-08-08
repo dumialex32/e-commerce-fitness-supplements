@@ -1,9 +1,11 @@
-import { IProduct } from "../types/products/productTypes";
-import { formatPriceCurrency } from "../utils/formatters";
+import { IProduct } from "../../types/products/productTypes";
+import { formatPriceCurrency } from "../../utils/formatters";
 import { Link } from "react-router-dom";
-import Rating from "./Rating";
+import Rating from "../Rating";
+import useAppNavigate from "../../hooks/useNavigate";
 
-const Product = ({ product }: { product: IProduct }) => {
+const ProductCard = ({ product }: { product: IProduct }) => {
+  const { moveTo } = useAppNavigate();
   return (
     <li className="w-full md:w-1/2 lg:w-1/6 p-2">
       <div className="card bg-base-100 shadow-xl">
@@ -27,7 +29,12 @@ const Product = ({ product }: { product: IProduct }) => {
             direction="vertical"
           />
           <div className="card-actions justify-start">
-            <button className="btn btn-primary text-white">Buy Now</button>
+            <button
+              className="btn btn-primary text-white"
+              onClick={() => moveTo(`/product/${product._id}`)}
+            >
+              Buy Now
+            </button>
           </div>
         </div>
       </div>
@@ -35,4 +42,4 @@ const Product = ({ product }: { product: IProduct }) => {
   );
 };
 
-export default Product;
+export default ProductCard;
