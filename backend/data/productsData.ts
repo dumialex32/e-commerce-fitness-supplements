@@ -1,4 +1,4 @@
-import { IProductData } from "../types/dataTypes/productDataTypes";
+import { IProductData } from "../types/data/productDataTypes";
 
 const products: IProductData[] = [
   {

@@ -2,7 +2,7 @@ import useCart from "../../hooks/useCart";
 import { formatPriceCurrency } from "../../utils/formatters";
 
 const CartOverviewCard: React.FC = () => {
-  const { totalCartItems, totalCartItemsPrice } = useCart();
+  const { totalCartItems, totalCartItemsPrice, handleCheckout } = useCart();
   return (
     <div className="card bg-base-100 w-96 shadow-xl h-80">
       <div className="card-body">
@@ -12,7 +12,9 @@ const CartOverviewCard: React.FC = () => {
         </p>
         <div className="divider m-0 mb-8"></div>
         <div className="card-actions justify-center">
-          <button className="btn btn-primary">Proceed to checkout</button>
+          <button className="btn btn-primary" onClick={handleCheckout}>
+            Proceed to checkout
+          </button>
         </div>
       </div>
     </div>

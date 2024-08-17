@@ -1,11 +1,11 @@
 import Product from "./models/productModel";
 import User from "./models/userModel";
 import Order from "./models/orderModel";
-import { IUserSchema } from "./types/databaseTypes/userModelTypes";
+import { IUserSchema } from "./types/models/userModelTypes";
 import users from "./data/usersData";
 import { Types } from "mongoose";
 import products from "./data/productsData";
-import { IProductWithUser } from "./types/dataTypes/productDataTypes";
+import { IProductWithUser } from "./types/data/productDataTypes";
 import connectDB from "./config/db";
 import dotenv from "dotenv";
 

@@ -1,5 +1,5 @@
 import bcryptjs from "bcryptjs";
-import { IUser } from "../types/dataTypes/userDataTypes";
+import { IUser } from "../types/data/userDataTypes";
 
 const users: IUser[] = [
   {

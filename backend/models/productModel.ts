@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import {
   IReviewSchema,
   IProductSchema,
-} from "../types/databaseTypes/productModelTypes";
+} from "../types/models/productModelTypes";
 
 const reviewSchema = new mongoose.Schema<IReviewSchema>(
   {

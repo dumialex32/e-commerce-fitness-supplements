@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import { IUserSchema } from "../types/databaseTypes/userModelTypes";
+import { IUserSchema } from "../types/models/userModelTypes";
 
 const userSchema = new mongoose.Schema<IUserSchema>(
   {

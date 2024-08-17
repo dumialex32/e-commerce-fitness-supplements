@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import { IOrderSchema } from "../types/databaseTypes/orderModelTypes";
+import { IOrderSchema } from "../types/models/orderModelTypes";
 
 const orderSchema = new mongoose.Schema<IOrderSchema>(
   {

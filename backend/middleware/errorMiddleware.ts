@@ -25,7 +25,7 @@ const errorHandler = (
     err.kind === "ObjectId"
   ) {
     statusCode = 404;
-    message = "Resources not found";
+    message = "Resource not found";
   }
 
   res.status(statusCode).json({

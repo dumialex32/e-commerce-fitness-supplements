@@ -32,6 +32,10 @@ export const useCart = () => {
     setQty(parseInt(e.target.value));
   };
 
+  const handleCheckout = () => {
+    navigate("/login?redirect=/shipping");
+  };
+
   // change cart item quantity
   const handleChangeItemQty = (
     e: React.ChangeEvent<HTMLSelectElement>,
@@ -62,6 +66,7 @@ export const useCart = () => {
     totalCartItems,
     totalCartItemsPrice,
     handleRemoveCartItem,
+    handleCheckout,
   };
 };
 
