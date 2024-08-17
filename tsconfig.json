@@ -6,7 +6,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["./node_modules/@types", "./backend/types"]
+    "typeRoots": ["./node_modules/@types", "./types/express"]
   },
   "include": ["backend/**/*.ts"]
 }

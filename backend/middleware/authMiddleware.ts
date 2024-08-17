@@ -1,14 +1,15 @@
 import asyncHandler from "./asyncHandler";
 import User from "../models/userModel";
-import { Request, NextFunction, Response } from "express";
+import { NextFunction, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { ICustomRequest } from "../types/express/middlewareTypes";
 
-interface IDecodedToken extends JwtPayload {
-  userId?: string;
+interface CustomJwtPayload extends JwtPayload {
+  userId: string;
 }
 
 export const protect = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: ICustomRequest, res: Response, next: NextFunction) => {
     const token = req.cookies.jwt;
 
     if (token) {
@@ -20,7 +21,7 @@ export const protect = asyncHandler(
         const decodedToken = jwt.verify(
           token,
           process.env.JWT_SECRET
-        ) as IDecodedToken;
+        ) as CustomJwtPayload;
 
         if (decodedToken.userId) {
           const user = await User.findById(decodedToken.userId).select(
@@ -28,7 +29,9 @@ export const protect = asyncHandler(
           );
 
           if (user) {
+            console.log(req);
             req.user = user;
+
             next();
           } else {
             res.status(401);
@@ -50,11 +53,11 @@ export const protect = asyncHandler(
   }
 );
 
-export const admin = (req: Request, res: Response, next: NextFunction) => {
-  if (req.user && req.user.isAdmin) {
-    next();
-  } else {
-    res.status(401);
-    throw new Error("Not authorized as admin");
-  }
-};
+// export const admin = (req: Request, res: Response, next: NextFunction) => {
+//   if (req.user && req.user.isAdmin) {
+//     next();
+//   } else {
+//     res.status(401);
+//     throw new Error("Not authorized as admin");
+//   }
+// };

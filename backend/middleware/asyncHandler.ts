@@ -1,7 +1,9 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
+
+import { ICustomRequest } from "../types/express/middlewareTypes";
 
 type AsyncRequestHandler = (
-  req: Request,
+  req: ICustomRequest,
   res: Response,
   next: NextFunction
 ) => Promise<unknown>;
@@ -9,8 +11,8 @@ type AsyncRequestHandler = (
 const asyncHandler =
   (
     fn: AsyncRequestHandler
-  ): ((req: Request, res: Response, next: NextFunction) => void) =>
-  (req: Request, res: Response, next: NextFunction): void => {
+  ): ((req: ICustomRequest, res: Response, next: NextFunction) => void) =>
+  (req: ICustomRequest, res: Response, next: NextFunction): void => {
     Promise.resolve(fn(req, res, next)).catch(next);
   };
 
