@@ -8,29 +8,25 @@ interface CustomJwtPayload extends JwtPayload {
 }
 
 export const protect = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const token = req.cookies.jwt;
 
     if (token) {
       try {
-        if (!process.env.JWT_SECRET) {
-          throw new Error("JWT_SECRET environment variable not set");
-        }
-
+        // verify token
         const decodedToken = jwt.verify(
           token,
-          process.env.JWT_SECRET
+          process.env.JWT_SECRET as string
         ) as CustomJwtPayload;
 
         if (decodedToken.userId) {
           const user = await User.findById(decodedToken.userId).select(
             "-password"
           );
+          console.log(user);
 
           if (user) {
-            console.log(req);
             req.user = user;
-
             next();
           } else {
             res.status(401);
@@ -38,25 +34,25 @@ export const protect = asyncHandler(
           }
         } else {
           res.status(401);
-          throw new Error("Not authorized, token is invalid");
+          throw new Error("Not authorized, invalid token");
         }
       } catch (error) {
         console.error(error);
-        res.status(401);
-        throw new Error("Not authorized, token verification failed");
       }
     } else {
       res.status(401);
-      throw new Error("Not authorized, no token");
+      throw new Error("Not authorized. Missing token");
     }
   }
 );
 
-export const admin = (req: Request, res: Response, next: NextFunction) => {
-  if (req.user && req.user.isAdmin) {
-    next();
-  } else {
-    res.status(401);
-    throw new Error("Not authorized as admin");
+export const admin = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    if (req.user && req.user.isAdmin) {
+      next();
+    } else {
+      res.status(401);
+      throw new Error("Not authorized as admin");
+    }
   }
-};
+);

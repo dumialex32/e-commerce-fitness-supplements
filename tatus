@@ -1,0 +1,158 @@
+[33mcommit 4b394d0b01f8850b5e3cbe1d0e429073bf832ee4[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mimplement-backend-auth[m[33m, [m[1;31morigin/implement-backend-auth[m[33m)[m
+Author: dumialex32 <dumitrasalexandru26@gmail.com>
+Date:   Sun Aug 18 16:28:07 2024 +0200
+
+    Add 'user' custom property to 'Request' interface in Express
+
+[33mcommit 10f059265616edcd65d7b2b421e5ecc3c5a70988[m
+Author: dumialex32 <dumitrasalexandru26@gmail.com>
+Date:   Sun Aug 18 00:48:27 2024 +0200
+
+    Fixed error TS2339: Property 'user' does not exist on type 'Request'
+
+[33mcommit a463b87cd393f777f8918b151deb6dd2bb2203bb[m[33m ([m[1;32mmain[m[33m)[m
+Author: dumialex32 <dumitrasalexandru26@gmail.com>
+Date:   Sat Aug 17 16:36:11 2024 +0200
+
+    Added user controller and authentication middleware
+
+[33mcommit 53a71b7c00a40fc153202047cb8ae7eaea015efc[m
+Author: dumialex32 <dumitrasalexandru26@gmail.com>
+Date:   Thu Aug 8 16:58:23 2024 +0200
+
+    feat(cart): add remove product feature
+    
+    - Implement functionality to remove items from the cart.
+    - Update cart state and UI to reflect the removal.
+    
+    refactor: optimize product and cart components
+    
+    - Refactor and optimize Product and Cart components for better performance and readability.
+    - Rename and reorganize files for clarity (e.g., ProductCard, CartItemList).
+    
+    feat(navigation): create compound component for navigation buttons
+    
+    - Create NavigationButtons component with NavigateBack and NavigateTo subcomponents.
+    - Utilize context for navigation logic to streamline navigation functionality.
+    
+    delete: remove obsolete ProductQty component
+    
+    - Removed unused ProductQty component to clean up the codebase.
+
+[33mcommit 144175e6545c8a3aba9400cc85cc9526a771e116[m
+Author: dumialex32 <dumitrasalexandru26@gmail.com>
+Date:   Tue Aug 6 23:50:53 2024 +0200
+
+    Refactor CartScreen component
+    
+    Implement render props pattern in CartList component
+    
+    Consolidate CartOverview UI and logic into a single component
+    
+    Enhance modularity and readabiliuty of cart-related components
+
+[33mcommit 35996b5be806280fcfcf71c6169672d29ce6bc52[m
+Author: dumialex32 <dumitrasalexandru26@gmail.com>
+Date:   Tue Aug 6 16:23:04 2024 +0200
+
+    Fixed an issue where the quantity selected was not being used when adding a product to the cart.
+
+[33mcommit 705383725e2ac7e37e11ef407a4495881f50bece[m
+Author: dumialex32 <dumitrasalexandru26@gmail.com>
+Date:   Tue Aug 6 02:20:32 2024 +0200
+
+    Refactor and create custom hooks for cart, product, and navigation
+    
+    Refactored code to create custom hooks for cart, product, and navigation functionalities.
+    
+    Added initial implementation for cart route and cart screen (work in progress).
+
+[33mcommit fd228b116fbeb28ff4256dbfd90a8fa409412801[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: dumialex32 <dumitrasalexandru26@gmail.com>
+Date:   Fri Aug 2 02:28:06 2024 +0200
+
+    Created initial README file with project overview and showcase objectives
+
+[33mcommit 2b70f69f7337fa81fa8044853ed8842f7e93c333[m
+Author: dumialex32 <dumitrasalexandru26@gmail.com>
+Date:   Fri Aug 2 02:03:24 2024 +0200
+
+    Add quantity selector and cart functionality to ProductScreen
+    
+    - Added quantity selector dropdown menu to allow users to choose the product quantity
+    
+    - Implemented handleSelectQty handler to update product quantity based on user selection
+    
+    - Added handleAddToCart to dispatch the selected product and quantity to the cart and navigate to cart page
+    
+    - Updated UI to include the product quantity based on product availability
+
+[33mcommit cf025bd5218253f7c16e8a51e6c07ff18a54e0ee[m
+Author: dumialex32 <dumitrasalexandru26@gmail.com>
+Date:   Wed Jul 31 19:23:31 2024 +0200
+
+    - Implement cartSlice with addToCard action
+    
+    - Added cartSlice to manage cart state
+    
+    - Implemented addToCart reducer action to handle adding items to the cart
+    
+    - Added calculations for items price, shipping price, tax and total price
+    
+    - Included local storage integration to persist cart stat
+    
+    - Added types for cart initial state
+
+[33mcommit 32b416837741058cd2484e4e8f38502f5a8f2c17[m
+Author: dumialex32 <dumitrasalexandru26@gmail.com>
+Date:   Wed Jul 31 14:51:21 2024 +0200
+
+    Add express product routes and product controllers;
+    
+    Add custom middleware for async handling and error handling;
+    
+    Implement frontend redux store and slices for products
+
+[33mcommit 9601eae71ee92cbeee4ca877ee31f8d867850424[m
+Author: dumialex32 <dumitrasalexandru26@gmail.com>
+Date:   Mon Jul 22 18:01:06 2024 +0200
+
+    Connect app to MongoDB with Mongoose; add database seeder and models
+    
+    Integrated Mongoose for MongoDB connection and data modeling.
+    
+    Created model schemas for database entities: User, Product, and Order.
+    
+    Implemented seeder script for populating and clearing the database based on node argv.
+    
+    Added 'data:import' and 'data:destroy' scripts for managing database state.
+
+[33mcommit f1d98c96457c354ec181cbe49331b30d34d256f8[m
+Author: dumialex32 <dumitrasalexandru26@gmail.com>
+Date:   Sun Jul 14 23:42:31 2024 +0200
+
+    initialize backend
+
+[33mcommit 14c9ff00ad9ccad8109ba68168c5ae6da96004c5[m
+Author: dumialex32 <dumitrasalexandru26@gmail.com>
+Date:   Sun Jul 14 20:51:26 2024 +0200
+
+    Initialize backend
+
+[33mcommit 92f7444d467223b33ebfa3c755215d5c5d84a002[m
+Author: dumialex32 <dumitrasalexandru26@gmail.com>
+Date:   Fri Jul 12 17:51:10 2024 +0200
+
+    Fix star rating display issue
+
+[33mcommit cb05969f0c6adb639cc7dcfebdbc2ab904b8ab55[m
+Author: dumialex32 <dumitrasalexandru26@gmail.com>
+Date:   Thu Jul 11 20:37:07 2024 +0200
+
+    add initial front-end components and app routing
+
+[33mcommit 2a7359b2a4c4a7930cbd76e28208a4dfb0913974[m
+Author: dumialex32 <dumitrasalexandru26@gmail.com>
+Date:   Fri Jul 5 19:15:45 2024 +0200
+
+    First commit

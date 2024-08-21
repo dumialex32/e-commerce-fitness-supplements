@@ -3,7 +3,9 @@ import asyncHandler from "../middleware/asyncHandler";
 import User from "../models/userModel";
 import { IUserSchema } from "../types/models/userModelTypes";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+
+import { createToken } from "../utils/tokenUtils";
+import { hashPassword } from "../utils/hashUtils";
 
 /**
  * @desc: Auth user and get token
@@ -11,50 +13,38 @@ import jwt from "jsonwebtoken";
  * @access: Public
  */
 
-const authUser = asyncHandler(async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+const authUser = asyncHandler(
+  async (req: Request, res: Response): Promise<void> => {
+    const email: string = req.body.email;
+    const enteredPassword: string = req.body.password;
+    const user: IUserSchema | null = await User.findOne({ email });
 
-  const user: IUserSchema | null = await User.findOne({ email });
-
-  if (user && password) {
-    const matchPass: boolean = await bcrypt.compare(password, user.password);
-
-    if (matchPass) {
-      if (!process.env.JWT_SECRET) {
-        throw new Error("JWT_SECRET environment variable not set");
-      }
-
-      // create token
-      const token = jwt.sign(
-        {
-          userId: user._id,
-        },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: "30d",
-        }
+    if (user && enteredPassword) {
+      const matchPassword: boolean = await bcrypt.compare(
+        enteredPassword,
+        user.password
       );
 
-      // set jwt as http-only
-      res.cookie("jwt", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV !== "development",
-        sameSite: "strict",
-        maxAge: 30 * 24 * 60 * 60 * 1000, // (30 days)
-      });
+      if (matchPassword) {
+        //generate a JWT token for the user and set it as an HTTP-only cookie
+        createToken(res, user._id);
 
-      res.json({
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        isAdmin: user.isAdmin,
-      });
+        res.status(200).json({
+          userId: user._id,
+          name: user.name,
+          email: user.email,
+          isAdmin: user.isAdmin,
+        });
+      } else {
+        res.status(401);
+        throw new Error("Wrong password");
+      }
     } else {
-      res.status(401); // unauthorized code
-      throw new Error("Wrong username or password");
+      res.status(401);
+      throw new Error("Wrong email or password");
     }
   }
-});
+);
 
 /**
  * @desc: Register user
@@ -64,7 +54,40 @@ const authUser = asyncHandler(async (req: Request, res: Response) => {
 
 const registerUser = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
-    res.send("register user");
+    const {
+      name,
+      email,
+      password,
+    }: { name: string; email: string; password: string } = req.body;
+
+    const userExist: IUserSchema | null = await User.findOne({ email });
+
+    if (userExist) {
+      res.status(400);
+      throw new Error("User already exist");
+    }
+    // hash the input password
+    const hashedPassword: string = await hashPassword(password);
+
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    createToken(res, newUser._id);
+
+    if (newUser) {
+      res.status(201).json({
+        _id: newUser._id,
+        name: newUser.name,
+        password: newUser.email,
+        isAdmin: newUser.isAdmin,
+      });
+    } else {
+      res.status(400);
+      throw new Error("Invalid user data");
+    }
   }
 );
 
@@ -76,7 +99,12 @@ const registerUser = asyncHandler(
 
 const logoutUser = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
-    res.send("logout user");
+    res.cookie("tkn", "", {
+      httpOnly: true,
+      expires: new Date(0),
+    });
+
+    res.status(200).json({ message: "Logged out successfully" });
   }
 );
 
@@ -88,7 +116,19 @@ const logoutUser = asyncHandler(
 
 const getUserProfile = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
-    res.send("get user profile");
+    const user = await User.findById(req.user._id);
+    console.log(user);
+    if (user) {
+      res.status(200).json({
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      });
+    } else {
+      res.status(400);
+      throw new Error("Not authorized");
+    }
   }
 );
 
@@ -100,7 +140,27 @@ const getUserProfile = asyncHandler(
 
 const updateUserProfile = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
-    res.send("update user profile");
+    const user = await User.findById(req.user._id);
+
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+
+      if (req.body.password) {
+        const hashedPassword = await hashPassword(req.body.password);
+        user.password = hashedPassword;
+      }
+      const updatedUser = await user.save();
+
+      res.status(200).json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+      });
+    } else {
+      res.status(400).json({ message: "User not found" });
+    }
   }
 );
 
