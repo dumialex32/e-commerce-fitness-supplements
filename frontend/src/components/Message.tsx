@@ -15,13 +15,23 @@ interface IMessage {
 }
 
 const Message: React.FC<IMessage> = ({ children, type }) => {
+  const alertClass =
+    type === "error"
+      ? "alert-error"
+      : type === "success"
+      ? "alert-success"
+      : type === "info"
+      ? "alert-info"
+      : "";
+
+  console.log(type);
   return (
-    <div role="alert" className={`alert alert-${type}`}>
+    <div role="alert" className={`alert ${alertClass}`}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
-        className="stroke-info h-6 w-6 shrink-0"
+        className="h-6 w-6 shrink-0 stroke-current"
       >
         <path
           strokeLinecap="round"

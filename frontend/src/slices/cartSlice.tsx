@@ -2,18 +2,15 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICartInitialState } from "../types/cart/cartItemTypes";
 import { ICartItem } from "../types/cart/cartItemTypes";
 import { updateCart } from "../utils/cartUtils";
+import { getLocalStorageItem } from "../utils/localStorageUtils";
 
-const savedCart: string | null = localStorage.getItem("cart");
-
-const initialState: ICartInitialState = savedCart
-  ? JSON.parse(savedCart)
-  : {
-      cartItems: [],
-      itemsPrice: 0,
-      taxPrice: 0,
-      shippingPrice: 0,
-      totalPrice: 0,
-    };
+const initialState: ICartInitialState = getLocalStorageItem("cart") || {
+  cartItems: [],
+  itemsPrice: 0,
+  taxPrice: 0,
+  shippingPrice: 0,
+  totalPrice: 0,
+};
 
 const cartSlice = createSlice({
   name: "cart",

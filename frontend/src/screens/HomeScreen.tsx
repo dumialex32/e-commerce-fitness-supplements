@@ -1,4 +1,3 @@
-import React from "react";
 import Product from "../components/Product/ProductCard";
 import { useGetProductsQuery } from "../slices/productsApiSlice";
 import { IuseGetProductsQuery } from "../types/products/productQueryTypes";

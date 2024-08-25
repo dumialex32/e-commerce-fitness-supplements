@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 
 import { createToken } from "../utils/tokenUtils";
 import { hashPassword } from "../utils/hashUtils";
+import { IAuthResponse } from "../types/users/authTypes";
 
 /**
  * @desc: Auth user and get token
@@ -34,7 +35,7 @@ const authUser = asyncHandler(
           name: user.name,
           email: user.email,
           isAdmin: user.isAdmin,
-        });
+        } as IAuthResponse);
       } else {
         res.status(401);
         throw new Error("Wrong password");
