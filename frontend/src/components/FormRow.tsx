@@ -15,14 +15,26 @@ const getFormIcon: {
   Email: faEnvelope,
 };
 
+const formRowDirection = {
+  vertical: "grid grid-cols-[6rem,1fr] gap-5 items-center",
+  horizontal: "grid grid-rows-2 gap-1 items-end",
+};
+
 const FormRow: React.FC<{
   children: ReactNode;
   labelWithIcon?: "Password" | "Email";
   label?: string | undefined;
   error: string;
-}> = ({ children, labelWithIcon, label, error = "" }) => {
+  direction?: "vertical" | "horizontal";
+}> = ({
+  children,
+  labelWithIcon,
+  label,
+  error = "",
+  direction = "vertical",
+}) => {
   return (
-    <div className="grid grid-cols-[6rem,1fr] gap-5 items-center">
+    <div className={`${formRowDirection[direction]}`}>
       <div>
         <label
           className="flex items-center gap-2 self-start"
@@ -46,7 +58,7 @@ const FormRow: React.FC<{
               children.props.className || ""
             } py-2 px-3 border rounded-md w-full`,
           })}
-        {error && (
+        {error ? (
           <div className="absolute">
             <div className="flex items-center gap-1">
               <FontAwesomeIcon
@@ -56,7 +68,7 @@ const FormRow: React.FC<{
               <p className="flex text-sm text-red-500">{error}</p>
             </div>
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );

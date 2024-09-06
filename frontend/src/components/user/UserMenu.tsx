@@ -10,7 +10,7 @@ const UserMenu: React.FC = () => {
       <div
         tabIndex={0}
         role="button"
-        className="btn btn-ghost btn-circle avatar flex items-center"
+        className="btn btn-ghost btn-circle avatar"
       >
         <UserBadge isUserLoggedIn={isUserLoggedIn} userInitial={userInitial} />
       </div>

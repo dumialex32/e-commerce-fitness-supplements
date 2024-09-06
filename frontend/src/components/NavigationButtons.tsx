@@ -1,7 +1,7 @@
 import { createContext, FC, ReactNode } from "react";
 import useAppNavigate from "../hooks/useNavigate";
 
-import useNavigationButtonsContext from "../hooks/useNavigateButtons";
+import useNavigationButtonsContext from "../hooks/contextApiHooks/useNavigateButtons";
 import {
   INavigationButtons,
   INavigationButtonsContext,

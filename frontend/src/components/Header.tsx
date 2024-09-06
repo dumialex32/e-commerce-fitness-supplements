@@ -8,7 +8,9 @@ const Header: React.FC = () => {
   return (
     <header>
       <div className="navbar bg-base-200 px-12">
-        <Logo />
+        <div className="flex-1">
+          <Logo />
+        </div>
 
         <HeaderControls>
           <CartBadge />

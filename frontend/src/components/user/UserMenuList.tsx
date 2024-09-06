@@ -1,8 +1,27 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useLogoutMutation } from "../../slices/usersApiSlice";
+import { useDispatch } from "react-redux";
+import { logout } from "../../slices/authSlice";
 
 const UserMenuList: React.FC<{ isUserLoggedIn: boolean }> = ({
   isUserLoggedIn,
 }) => {
+  const [logoutApiCall, { isLoading }] = useLogoutMutation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleUserLogout = async () => {
+    try {
+      const res = await logoutApiCall().unwrap();
+      console.log(res);
+      dispatch(logout());
+      useNavigate;
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <ul
       tabIndex={0}
@@ -16,13 +35,13 @@ const UserMenuList: React.FC<{ isUserLoggedIn: boolean }> = ({
             </Link>
           </li>
           <li>
-            <button>Logout</button>
+            <button onClick={handleUserLogout}>Logout</button>
           </li>
         </ul>
       ) : (
         <ul>
-          <li>
-            <Link to={"/login"}>Login</Link>
+          <li className="font-semibold">
+            <Link to={"/login"}>Login / Sign up</Link>
           </li>
         </ul>
       )}

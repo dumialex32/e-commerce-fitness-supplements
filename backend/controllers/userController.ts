@@ -100,7 +100,7 @@ const registerUser = asyncHandler(
 
 const logoutUser = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
-    res.cookie("tkn", "", {
+    res.cookie("jwt", "", {
       httpOnly: true,
       expires: new Date(0),
     });

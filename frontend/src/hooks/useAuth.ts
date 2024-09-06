@@ -2,14 +2,43 @@ import { isEmpty } from "lodash";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { IUserInfo } from "../types/user/authSliceTypes";
+import { FormEvent, useState } from "react";
+import { useLoginMutation } from "../slices/usersApiSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setCredentials } from "../slices/authSlice";
 
-interface IUseAuth {
-  userInfo: IUserInfo | null;
-  isUserLoggedIn: boolean;
-  userInitial: string | null;
-}
+const useAuth = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
-const useAuth = (): IUseAuth => {
+  const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
+
+  const handleAuthSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!email || !password) return;
+
+    try {
+      setError(null);
+      const userInfo: IUserInfo = await login({ email, password }).unwrap();
+      console.log(userInfo);
+      if (userInfo && !isEmpty(userInfo)) {
+        dispatch(setCredentials(userInfo));
+        navigate("/");
+      }
+    } catch (error: any) {
+      if (error.status === 401) {
+        console.error(error);
+        setError(error?.data.message);
+      } else {
+        setError("An unknown error occured. Please try again");
+      }
+    }
+  };
+
   // get user info
   const userInfo: IUserInfo | null = useSelector(
     (state: RootState) => state.auth.userInfo
@@ -23,6 +52,17 @@ const useAuth = (): IUseAuth => {
     userInfo && isUserLoggedIn ? userInfo.name.slice(0, 1) : null;
   console.log(userInitial);
 
-  return { userInfo, isUserLoggedIn, userInitial };
+  return {
+    email,
+    password,
+    error,
+    isLoading,
+    userInfo,
+    isUserLoggedIn,
+    userInitial,
+    handleAuthSubmit,
+    setPassword,
+    setEmail,
+  };
 };
 export default useAuth;
