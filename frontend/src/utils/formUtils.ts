@@ -29,15 +29,25 @@ export const validateEmail = (email: string) => {
   return "";
 };
 
-export const validatePassword = (password: string) => {
+export const validatePassword = (
+  password: string,
+  confirmPassword?: string
+) => {
   const minLenght: number = 6;
   const maxLenght: number = 18;
   const passwordRegex: RegExp = /\d/;
-  if (password.length < minLenght || password.length > maxLenght) {
-    return "Password length must be between six and 18 characters long";
+
+  if (password && !confirmPassword) {
+    if (password.length < minLenght || password.length > maxLenght) {
+      return "Password length must be between six and 18 characters long";
+    }
+    if (!passwordRegex.test(password)) {
+      return "Password must contain at least one number";
+    }
   }
-  if (!passwordRegex.test(password)) {
-    return "Password must contain at least one number";
+
+  if (password && confirmPassword) {
+    if (password !== confirmPassword) return "Password does not match";
   }
 
   return "";

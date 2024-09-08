@@ -1,20 +1,21 @@
-import FormRow from "./FormRow";
-import useRegisterForm from "../hooks/reducerHooks/useRegisterFormReducer";
+import FormRow from "../FormRow";
+import useRegisterForm from "../../hooks/reducerHooks/useRegisterFormReducer";
 import { Link } from "react-router-dom";
-import ButtonLoader from "./ButtonLoader";
+import ButtonLoader from "../ButtonLoader";
 import { ToastContainer } from "react-toastify";
-import LoginForm from "./auth/LoginForm";
-import Form from "./Form";
+import LoginForm from "./LoginForm";
+import Form from "../Form";
 import { useEffect } from "react";
-import useAuth from "../hooks/useAuth";
-import useAppNavigate from "../hooks/useAppNavigate";
-import useRedirectParam from "../hooks/useRedirectParam";
+import useAuth from "../../hooks/useAuth";
+import useAppNavigate from "../../hooks/useAppNavigate";
+import useRedirectParam from "../../hooks/useRedirectParam";
 
 const RegisterForm: React.FC = () => {
   const {
     name,
     email,
     password,
+    confirmPassword,
     errors,
     isFormInvalid,
     isLoading,
@@ -23,6 +24,7 @@ const RegisterForm: React.FC = () => {
     setName,
     setEmail,
     setPassword,
+    setConfirmPassword,
   } = useRegisterForm();
 
   const { isUserLoggedIn } = useAuth();
@@ -75,6 +77,21 @@ const RegisterForm: React.FC = () => {
               id="password"
               placeholder="Enter your password"
               onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </FormRow>
+
+          <FormRow
+            direction="horizontal"
+            label="Confirm Password"
+            error={errors.confirmPassword}
+          >
+            <input
+              type="password"
+              id="password"
+              placeholder="Confirm your password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
           </FormRow>

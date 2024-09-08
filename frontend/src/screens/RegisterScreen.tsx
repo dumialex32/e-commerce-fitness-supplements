@@ -1,5 +1,5 @@
 import Logo from "../components/Logo";
-import RegisterForm from "../components/RegisterForm";
+import RegisterForm from "../components/auth/RegisterForm";
 
 const RegisterScreen: React.FC = () => {
   return (

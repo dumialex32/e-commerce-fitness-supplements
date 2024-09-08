@@ -33,6 +33,7 @@ const FormRow: React.FC<{
   error = "",
   direction = "vertical",
 }) => {
+  console.log(error);
   return (
     <div className={`${formRowDirection[direction]}`}>
       <div>

@@ -16,7 +16,7 @@ import CartScreen from "./screens/CartScreen.tsx";
 import AuthScreen from "./screens/AuthScreen.tsx";
 import RegisterScreen from "./screens/RegisterScreen.tsx";
 import ShippingScreen from "./screens/ShippingScreen.tsx";
-import ProtectedRoute from "./types/components/ProtectedRoute.tsx";
+import ProtectedRoute from "./components/auth/ProtectedRoute.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
