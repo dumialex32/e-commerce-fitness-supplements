@@ -15,6 +15,8 @@ import store from "./store.ts";
 import CartScreen from "./screens/CartScreen.tsx";
 import AuthScreen from "./screens/AuthScreen.tsx";
 import RegisterScreen from "./screens/RegisterScreen.tsx";
+import ShippingScreen from "./screens/ShippingScreen.tsx";
+import ProtectedRoute from "./types/components/ProtectedRoute.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +26,9 @@ const router = createBrowserRouter(
         <Route path="product/:id" element={<ProductScreen />} />
         <Route path="/cart" element={<CartScreen />} />
         <Route path="/login" element={<AuthScreen />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/shipping" element={<ShippingScreen />} />
+        </Route>
       </Route>
       <Route path="/register" element={<RegisterScreen />}></Route>
     </>

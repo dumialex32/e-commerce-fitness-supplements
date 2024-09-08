@@ -3,6 +3,9 @@ import Message from "../Message";
 import ButtonLoader from "../ButtonLoader";
 import useAuth from "../../hooks/useAuth";
 import Form from "../Form";
+import useRedirectParam from "../../hooks/useRedirectParam";
+import { useEffect } from "react";
+import useAppNavigate from "../../hooks/useAppNavigate";
 
 const LoginForm: React.FC = () => {
   const {
@@ -10,17 +13,29 @@ const LoginForm: React.FC = () => {
     password,
     error,
     isLoading,
+    isUserLoggedIn,
     handleAuthSubmit,
     setEmail,
     setPassword,
   } = useAuth();
 
+  const { redirect } = useRedirectParam();
+  const { moveTo } = useAppNavigate();
+
+  useEffect(() => {
+    if (isUserLoggedIn) {
+      moveTo(redirect);
+    }
+  }, [isUserLoggedIn, moveTo, redirect]);
+
   return (
     <Form onSubmit={handleAuthSubmit}>
       <div className="mb-11 text-center">
-        <h1 className="text-4xl mb-2">Login to your account</h1>
+        <h1 className="text-4xl mb-2 text-primary font-semibold">
+          Login to your account
+        </h1>
         <p className="text-gray-500">
-          If you are already a user, please insert the email and your password
+          If you are already a user, please enter your email and password.
         </p>
       </div>
       <FormRow labelWithIcon={"Email"} error={""}>

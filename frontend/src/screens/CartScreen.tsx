@@ -22,7 +22,9 @@ const CartScreen: React.FC = () => {
       </div>
       <h1 className="text-3xl color mb-6 text-gray-600">Shopping cart</h1>
       {cartItems.length === 0 ? (
-        <Message type="info">Your cart is empty</Message>
+        <div className="">
+          <Message type="info">Your cart is empty</Message>
+        </div>
       ) : (
         <div>
           <div className="grid grid-cols-[auto_1fr] gap-2">

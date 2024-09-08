@@ -1,6 +1,6 @@
 import { To, useNavigate } from "react-router-dom";
 
-interface NavigateState {
+export interface NavigateState {
   [key: string]: any;
 }
 

@@ -24,7 +24,7 @@ const useAuth = () => {
     try {
       setError(null);
       const userInfo: IUserInfo = await login({ email, password }).unwrap();
-      console.log(userInfo);
+
       if (userInfo && !isEmpty(userInfo)) {
         dispatch(setCredentials(userInfo));
         navigate("/");
@@ -50,7 +50,6 @@ const useAuth = () => {
   // get the user's name first letter
   const userInitial: string | null =
     userInfo && isUserLoggedIn ? userInfo.name.slice(0, 1) : null;
-  console.log(userInitial);
 
   return {
     email,

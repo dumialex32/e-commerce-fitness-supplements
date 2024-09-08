@@ -2,7 +2,7 @@ import { IProduct } from "../../types/products/productTypes";
 import { formatPriceCurrency } from "../../utils/formatters";
 import { Link } from "react-router-dom";
 import Rating from "../Rating";
-import useAppNavigate from "../../hooks/useNavigate";
+import useAppNavigate from "../../hooks/useAppNavigate";
 
 const ProductCard = ({ product }: { product: IProduct }) => {
   const { moveTo } = useAppNavigate();

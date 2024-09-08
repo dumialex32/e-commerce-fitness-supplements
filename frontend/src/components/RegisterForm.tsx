@@ -5,6 +5,10 @@ import ButtonLoader from "./ButtonLoader";
 import { ToastContainer } from "react-toastify";
 import LoginForm from "./auth/LoginForm";
 import Form from "./Form";
+import { useEffect } from "react";
+import useAuth from "../hooks/useAuth";
+import useAppNavigate from "../hooks/useAppNavigate";
+import useRedirectParam from "../hooks/useRedirectParam";
 
 const RegisterForm: React.FC = () => {
   const {
@@ -14,15 +18,20 @@ const RegisterForm: React.FC = () => {
     errors,
     isFormInvalid,
     isLoading,
+    isRegistrationSuccess,
     handleRegisterSubmit,
     setName,
     setEmail,
     setPassword,
-    isRegistrationSuccess,
   } = useRegisterForm();
 
-  console.log(isRegistrationSuccess);
-  console.log(errors);
+  const { isUserLoggedIn } = useAuth();
+  const { moveTo } = useAppNavigate();
+  const { redirect } = useRedirectParam();
+
+  useEffect(() => {
+    if (isUserLoggedIn) moveTo(redirect);
+  }, [isUserLoggedIn, redirect, moveTo]);
 
   return (
     <>
@@ -31,6 +40,10 @@ const RegisterForm: React.FC = () => {
         <LoginForm />
       ) : (
         <Form onSubmit={(e) => handleRegisterSubmit(e)}>
+          <div className="text-center text-primary font-semibold text-2xl">
+            Register your account
+          </div>
+
           <FormRow direction="horizontal" label="Name" error={errors.name}>
             <input
               type="text"

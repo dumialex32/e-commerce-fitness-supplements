@@ -6,6 +6,9 @@ import {
   validatePassword,
 } from "../../utils/formUtils";
 import { Bounce, toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 interface IinitialState {
   name: string;
@@ -74,6 +77,7 @@ const useRegisterForm = () => {
   const [{ name, email, password, errors, isRegistrationSuccess }, dispatch] =
     useReducer(reducer, initialState);
 
+  // retrieve the register mutation hook and the loading state from userApiSlice
   const [register, { isLoading }] = useRegisterMutation();
 
   const isFormInvalid =
@@ -90,13 +94,12 @@ const useRegisterForm = () => {
     e.preventDefault();
 
     const userData = { name, email, password };
-    console.log(userData);
 
     try {
       const res = await register(userData).unwrap();
-      console.log(res);
+
       setRegistrationSuccess();
-      console.log("success");
+
       toast.success("Registration successfully done", {
         position: "bottom-center",
         autoClose: 5000,
@@ -113,6 +116,17 @@ const useRegisterForm = () => {
         dispatch({
           type: "SET_ERRORS",
           payload: { registrationError: err.data.message },
+        });
+        toast.error(err.data.message, {
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
         });
       }
     }
