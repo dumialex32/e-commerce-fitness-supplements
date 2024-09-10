@@ -24,7 +24,6 @@ const Message: React.FC<IMessage> = ({ children, type }) => {
       ? "alert-info"
       : "";
 
-  console.log(type);
   return (
     <div role="alert" className={`alert ${alertClass}`}>
       <svg

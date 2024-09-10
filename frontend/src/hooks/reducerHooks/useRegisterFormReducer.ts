@@ -5,7 +5,9 @@ import {
   validateName,
   validatePassword,
 } from "../../utils/formUtils";
-import { Bounce, toast } from "react-toastify";
+import { setCredentials } from "../../slices/authSlice";
+import { useDispatch } from "react-redux";
+import { createToast } from "../../utils/toastUtils";
 
 interface IinitialState {
   name: string;
@@ -87,10 +89,14 @@ const useRegisterForm = () => {
   // retrieve the register mutation hook and the loading state from userApiSlice
   const [register, { isLoading }] = useRegisterMutation();
 
+  const reduxDispatch = useDispatch(); // renamed to reduxDispatch since we have another dispatch from useReducer
+
   const isFormInvalid =
     !name ||
     !email ||
     !password ||
+    !confirmPassword ||
+    password !== confirmPassword ||
     errors.name ||
     errors.email ||
     errors.password
@@ -104,36 +110,18 @@ const useRegisterForm = () => {
 
     try {
       const res = await register(userData).unwrap();
-
       setRegistrationSuccess();
-
-      toast.success("Registration successfully done", {
-        position: "bottom-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
+      createToast("Register successfully done.", {
+        type: "success",
+        orientation: "bottom-center",
       });
+      setTimeout(() => reduxDispatch(setCredentials(res)), 3000);
     } catch (err: any) {
+      console.log(err);
       if (err.status === 400 && err.data.message) {
         dispatch({
           type: "SET_ERRORS",
           payload: { registrationError: err.data.message },
-        });
-        toast.error(err.data.message, {
-          position: "bottom-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
         });
       }
     }

@@ -65,7 +65,7 @@ const registerUser = asyncHandler(
 
     if (userExist) {
       res.status(400);
-      throw new Error("User already exist");
+      throw new Error("This email is already registered.");
     }
     // hash the input password
     const hashedPassword: string = await hashPassword(password);

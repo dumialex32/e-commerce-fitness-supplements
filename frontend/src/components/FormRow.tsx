@@ -33,7 +33,6 @@ const FormRow: React.FC<{
   error = "",
   direction = "vertical",
 }) => {
-  console.log(error);
   return (
     <div className={`${formRowDirection[direction]}`}>
       <div>
@@ -66,7 +65,7 @@ const FormRow: React.FC<{
                 icon={faCircleExclamation}
                 className="text-red-700"
               />
-              <p className="flex text-sm text-red-500">{error}</p>
+              <p className="flex text-sm leading-3 text-red-500">{error}</p>
             </div>
           </div>
         ) : null}

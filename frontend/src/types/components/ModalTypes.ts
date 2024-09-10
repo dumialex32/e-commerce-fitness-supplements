@@ -1,12 +1,24 @@
 import { Dispatch, FC, ReactElement, ReactNode, SetStateAction } from "react";
 
-export interface IModal extends FC<{ children: ReactNode }> {
-  Open: FC<{ children: ReactElement; name: string }>;
-  Window: FC<{
-    children: ReactElement;
-    name: string;
-    positionY: TModalWindowYPosition;
-  }>;
+export interface IModalWindowProps {
+  children: ReactElement;
+  name: string;
+  positionY: TModalWindowYPosition;
+}
+
+export interface IModalOpenProps {
+  children: ReactElement;
+  name: string;
+}
+
+export interface IModalProps {
+  children: ReactNode;
+  name?: string;
+}
+
+export interface IModal extends FC<IModalProps> {
+  Open: FC<IModalOpenProps>;
+  Window: FC<IModalWindowProps>;
 }
 
 export interface IModalContext {

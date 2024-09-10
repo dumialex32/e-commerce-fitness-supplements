@@ -3,12 +3,14 @@ import useRegisterForm from "../../hooks/reducerHooks/useRegisterFormReducer";
 import { Link } from "react-router-dom";
 import ButtonLoader from "../ButtonLoader";
 import { ToastContainer } from "react-toastify";
-import LoginForm from "./LoginForm";
 import Form from "../Form";
 import { useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 import useAppNavigate from "../../hooks/useAppNavigate";
 import useRedirectParam from "../../hooks/useRedirectParam";
+import Modal from "../Modal";
+import RegistrationSuccess from "./RegistrationSuccess";
+import Message from "../Message";
 
 const RegisterForm: React.FC = () => {
   const {
@@ -39,7 +41,11 @@ const RegisterForm: React.FC = () => {
     <>
       <ToastContainer />
       {isRegistrationSuccess ? (
-        <LoginForm />
+        <Modal name="registrationSuccess">
+          <Modal.Window name="registrationSuccess" positionY="center">
+            <RegistrationSuccess name={name} />
+          </Modal.Window>
+        </Modal>
       ) : (
         <Form onSubmit={(e) => handleRegisterSubmit(e)}>
           <div className="text-center text-primary font-semibold text-2xl">
@@ -115,6 +121,9 @@ const RegisterForm: React.FC = () => {
               </Link>
             </p>
           </div>
+          {errors.registrationError && (
+            <Message type="error">{errors.registrationError}</Message>
+          )}
         </Form>
       )}
     </>
