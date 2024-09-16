@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IAuthSlice } from "../types/user/authSliceTypes";
+import { IAuthSlice } from "../types/userTypes/authSliceTypes";
 import {
   getLocalStorageItem,
   setLocalStorageItem,

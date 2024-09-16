@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { ICartItem } from "../../types/cart/cartItemTypes";
+import { ICartItem } from "./cartItemTypes";
 
 export interface ICartListProps {
   cartItems: ICartItem[];

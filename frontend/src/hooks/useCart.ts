@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { ICartItem } from "../types/cart/cartItemTypes";
+import { ICartItem } from "../types/cartTypes/cartItemTypes";
 import { addToCart, removeCartItem } from "../slices/cartSlice";
-import { IProduct } from "../types/products/productTypes";
+import { IProduct } from "../types/productsTypes/productTypes";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 

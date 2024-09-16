@@ -1,6 +1,6 @@
 import Product from "../components/Product/ProductCard";
 import { useGetProductsQuery } from "../slices/productsApiSlice";
-import { IuseGetProductsQuery } from "../types/products/productQueryTypes";
+import { IuseGetProductsQuery } from "../types/productsTypes/productQueryTypes";
 import { renderFetchBaseQueryError } from "../utils/errorHelpers";
 import Message from "../components/Message";
 import Loader from "../components/Loader";

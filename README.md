@@ -40,3 +40,63 @@ By completing this project, I aim to demonstrate practical experience in the fol
 - **Error Handling**: Developing custom middleware for comprehensive error handling to manage and report errors effectively throughout the application.
 - **Payment Integration**: Integrating with PayPal and handling credit card payments to provide a secure and seamless checkout process for users.
 - **Project Deployment**: Preparing and deploying the application to production environments, ensuring performance, security, and scalability.
+
+### INSTALL GUIDE
+
+1. **Clone or download the repository**
+
+- Clone the repository using:
+
+```bash
+git clone https://github.com/dumialex32/e-commerce-fitness-supplements.git
+```
+
+-Download the ZIP file and extract it to your desired location.
+
+2. **Install backend dependencies**
+
+```bash
+cd frontend
+npm install
+```
+
+3. **Install frontend dependencies**
+
+```bash
+cd frontend
+npm install
+```
+
+4. **Environment variables setup**
+
+- Create a .env file in the root directory using the provided .env.example file as a template, replacing the placeholder values with your actual values.
+
+- Ensure the following variables are set:
+  NODE_ENV=development
+  PORT=<your_backend_port>
+  MONGO_URI=<your_mongodb_connection_uri>
+  JWT_SECRET=<your_jwt_secret>
+
+5. **Database setup**
+
+- Make sure you have MongoDB installed and running on your machine or hosted online.
+- If you need to seed the database with initial dummy data use:
+
+```bash
+npm run data:import
+```
+
+- If you need to clear the database data, use:
+
+```bash
+npm run data:destroy
+```
+
+6. **Start the development server**
+
+- Ensure you're at the root of your project.
+- Run the following command to start both the backend and frontend simultaneously:
+
+```bash
+npm run dev
+```

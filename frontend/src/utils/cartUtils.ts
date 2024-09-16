@@ -1,6 +1,7 @@
 import { FREE_SHIPPING_THRESHOLD, STANDARD_SHIPPING_PRICE } from "../constants";
-import { ICartInitialState } from "../types/cart/cartItemTypes";
+import { ICartInitialState } from "../types/cartTypes/cartItemTypes";
 import { addDecimals } from "./formatters";
+import { setLocalStorageItem } from "./localStorageUtils";
 
 export const updateCart = (state: ICartInitialState): ICartInitialState => {
   // calc items price
@@ -25,7 +26,7 @@ export const updateCart = (state: ICartInitialState): ICartInitialState => {
   );
 
   // save the current state of cart in local storage
-  localStorage.setItem("cart", JSON.stringify(state));
+  setLocalStorageItem("cart", state);
 
   return state;
 };

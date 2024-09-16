@@ -1,4 +1,4 @@
-import { ICartListProps } from "../../types/cart/cartListTypes";
+import { ICartListProps } from "../../types/cartTypes/cartListTypes";
 
 const CartList: React.FC<ICartListProps> = ({ cartItems, render }) => {
   return (

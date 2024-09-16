@@ -6,7 +6,7 @@ const Form: React.FC<{
 }> = ({ children, onSubmit }) => {
   return (
     <form
-      className="flex flex-col gap-2 border-2 p-11 rounded-md"
+      className="flex flex-col border-2 p-11 rounded-md"
       onSubmit={onSubmit}
     >
       {children}

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { NavigationButtonsContext } from "../../components/NavigationButtons";
+import { NavigationButtonsContext } from "../components/NavigationButtons";
 
 const useNavigationButtonsContext = () => {
   const context = useContext(NavigationButtonsContext);

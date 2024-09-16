@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ICartInitialState } from "../types/cart/cartItemTypes";
-import { ICartItem } from "../types/cart/cartItemTypes";
+import {
+  ICartInitialState,
+  IShippingAddress,
+} from "../types/cartTypes/cartItemTypes";
+import { ICartItem } from "../types/cartTypes/cartItemTypes";
 import { updateCart } from "../utils/cartUtils";
 import { getLocalStorageItem } from "../utils/localStorageUtils";
 
@@ -9,6 +12,12 @@ const initialState: ICartInitialState = getLocalStorageItem("cart") || {
   itemsPrice: 0,
   taxPrice: 0,
   shippingPrice: 0,
+  shippingAddress: {
+    address: "",
+    city: "",
+    postalCode: "",
+    country: "",
+  },
   totalPrice: 0,
 };
 
@@ -31,6 +40,7 @@ const cartSlice = createSlice({
 
       return updateCart(state);
     },
+
     removeCartItem: (state, action: { payload: string }) => {
       const itemId: string = action.payload;
 
@@ -40,10 +50,17 @@ const cartSlice = createSlice({
       // update local storage cart item with the new state
       localStorage.setItem("cart", JSON.stringify(state));
     },
+
+    storeShippingAddress: (state, action) => {
+      const shippingAddress: IShippingAddress = action.payload;
+      state.shippingAddress = shippingAddress;
+      updateCart(state);
+    },
   },
 });
 
 // action reducers
-export const { addToCart, removeCartItem } = cartSlice.actions;
+export const { addToCart, removeCartItem, storeShippingAddress } =
+  cartSlice.actions;
 
 export default cartSlice.reducer; // exported in store.ts as cartSliceReducer

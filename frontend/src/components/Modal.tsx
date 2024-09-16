@@ -12,8 +12,8 @@ import {
   IModalContext,
   IModalWindowProps,
   TModalWindowYPosition,
-} from "../types/components/ModalTypes";
-import useModal from "../hooks/contextApiHooks/useModal";
+} from "../types/componentsTypes/ModalTypes";
+import useModal from "../hooks/useModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 

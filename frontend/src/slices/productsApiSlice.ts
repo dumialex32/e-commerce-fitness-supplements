@@ -1,6 +1,6 @@
 import { PRODUCTS_URL } from "../constants";
 import apiSlice from "./apiSlice";
-import { IProduct } from "../types/products/productTypes";
+import { IProduct } from "../types/productsTypes/productTypes";
 
 // Define the API slice with endpoints and types
 const productApiSlice = apiSlice.injectEndpoints({

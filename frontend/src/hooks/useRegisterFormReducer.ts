@@ -1,60 +1,37 @@
 import { useReducer } from "react";
-import { useRegisterMutation } from "../../slices/usersApiSlice";
+import { useRegisterMutation } from "../slices/usersApiSlice";
 import {
   validateEmail,
   validateName,
   validatePassword,
-} from "../../utils/formUtils";
-import { setCredentials } from "../../slices/authSlice";
+} from "../utils/formUtils/registerFormUtils";
+import { setCredentials } from "../slices/authSlice";
 import { useDispatch } from "react-redux";
-import { createToast } from "../../utils/toastUtils";
+import { createToast } from "../utils/toastUtils";
+import {
+  ActionType,
+  IinitialState,
+} from "../types/authTypes/registerFormReducerTypes";
+import { checkFormInputs } from "../utils/utils";
 
-interface IinitialState {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  errors: {
-    name: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-    registrationError: string;
-  };
-  isRegistrationSuccess: boolean;
-}
-
-type TactionType =
-  | "SET_NAME"
-  | "SET_EMAIL"
-  | "SET_PASSWORD"
-  | "SET_ERRORS"
-  | "SET_CONFIRM_PASSWORD"
-  | "SET_REGISTRATION_SUCCESS";
-
-interface Iaction {
-  type: TactionType;
-  payload?: string | { [key: string]: string };
-}
-
-const reducer = (state: IinitialState, action: Iaction) => {
+const reducer = (state: IinitialState, action: ActionType) => {
   switch (action.type) {
     case "SET_NAME":
-      return { ...state, name: action.payload as string };
+      return { ...state, name: action.payload };
 
     case "SET_EMAIL":
-      return { ...state, email: action.payload as string };
+      return { ...state, email: action.payload };
 
     case "SET_PASSWORD":
-      return { ...state, password: action.payload as string };
+      return { ...state, password: action.payload };
 
     case "SET_CONFIRM_PASSWORD":
-      return { ...state, confirmPassword: action.payload as string };
+      return { ...state, confirmPassword: action.payload };
 
     case "SET_ERRORS":
       return {
         ...state,
-        errors: { ...state.errors, ...(action.payload as object) },
+        errors: { ...state.errors, ...action.payload },
       };
 
     case "SET_REGISTRATION_SUCCESS":
@@ -91,19 +68,12 @@ const useRegisterForm = () => {
 
   const reduxDispatch = useDispatch(); // renamed to reduxDispatch since we have another dispatch from useReducer
 
-  const isFormInvalid =
-    !name ||
-    !email ||
-    !password ||
-    !confirmPassword ||
-    password !== confirmPassword ||
-    errors.name ||
-    errors.email ||
-    errors.password
-      ? true
-      : false;
+  const isFormInvalid = checkFormInputs(
+    { name, email, password, confirmPassword },
+    errors
+  );
 
-  const handleRegisterSubmit = async (e: React.FormEvent) => {
+  const handleRegisterFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const userData = { name, email, password };
@@ -175,7 +145,7 @@ const useRegisterForm = () => {
     setPassword,
     setConfirmPassword,
     setEmail,
-    handleRegisterSubmit,
+    handleRegisterFormSubmit,
   };
 };
 

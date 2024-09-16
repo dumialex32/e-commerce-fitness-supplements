@@ -16,8 +16,8 @@ const getFormIcon: {
 };
 
 const formRowDirection = {
-  vertical: "grid grid-cols-[6rem,1fr] gap-5 items-center",
-  horizontal: "grid grid-rows-2 gap-1 items-end",
+  vertical: "grid grid-cols-[6rem,1fr] gap-5 items-center mb-6",
+  horizontal: "grid grid-rows-2 gap-1 items-end mb-3",
 };
 
 const FormRow: React.FC<{

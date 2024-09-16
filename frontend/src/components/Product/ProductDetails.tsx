@@ -1,4 +1,4 @@
-import { IProduct } from "../../types/products/productTypes";
+import { IProduct } from "../../types/productsTypes/productTypes";
 import { formatPriceCurrency } from "../../utils/formatters";
 import Rating from "../Rating";
 

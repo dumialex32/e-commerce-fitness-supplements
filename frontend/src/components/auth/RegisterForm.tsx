@@ -1,5 +1,5 @@
 import FormRow from "../FormRow";
-import useRegisterForm from "../../hooks/reducerHooks/useRegisterFormReducer";
+import useRegisterForm from "../../hooks/useRegisterFormReducer";
 import { Link } from "react-router-dom";
 import ButtonLoader from "../ButtonLoader";
 import { ToastContainer } from "react-toastify";
@@ -22,7 +22,7 @@ const RegisterForm: React.FC = () => {
     isFormInvalid,
     isLoading,
     isRegistrationSuccess,
-    handleRegisterSubmit,
+    handleRegisterFormSubmit,
     setName,
     setEmail,
     setPassword,
@@ -47,12 +47,16 @@ const RegisterForm: React.FC = () => {
           </Modal.Window>
         </Modal>
       ) : (
-        <Form onSubmit={(e) => handleRegisterSubmit(e)}>
+        <Form onSubmit={(e) => handleRegisterFormSubmit(e)}>
           <div className="text-center text-primary font-semibold text-2xl">
             Register your account
           </div>
 
-          <FormRow direction="horizontal" label="Name" error={errors.name}>
+          <FormRow
+            direction="horizontal"
+            label="Name"
+            error={errors.name || ""}
+          >
             <input
               type="text"
               value={name}
@@ -62,7 +66,11 @@ const RegisterForm: React.FC = () => {
               required
             />
           </FormRow>
-          <FormRow direction="horizontal" label="Email" error={errors.email}>
+          <FormRow
+            direction="horizontal"
+            label="Email"
+            error={errors.email || ""}
+          >
             <input
               type="text"
               value={email}
@@ -75,7 +83,7 @@ const RegisterForm: React.FC = () => {
           <FormRow
             direction="horizontal"
             label="Password"
-            error={errors.password}
+            error={errors.password || ""}
           >
             <input
               type="text"
@@ -90,7 +98,7 @@ const RegisterForm: React.FC = () => {
           <FormRow
             direction="horizontal"
             label="Confirm Password"
-            error={errors.confirmPassword}
+            error={errors.confirmPassword || ""}
           >
             <input
               type="password"
@@ -102,7 +110,7 @@ const RegisterForm: React.FC = () => {
             />
           </FormRow>
 
-          <div className="flex items-center gap-6 justify-center pt-4">
+          <div className="flex items-center gap-6 justify-center pt-4 mb-4">
             <div className="flex items-center gap-5">
               <button
                 className="btn btn-primary"

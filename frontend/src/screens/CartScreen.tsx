@@ -3,7 +3,7 @@ import { RootState } from "../store";
 import CartItem from "../components/cart/CartItem";
 import CartOverviewCard from "../components/cart/CartOverviewCard";
 import CartList from "../components/cart/CartItemList";
-import { ICartItem } from "../types/cart/cartItemTypes";
+import { ICartItem } from "../types/cartTypes/cartItemTypes";
 import Message from "../components/Message";
 import NavigationButtons from "../components/NavigationButtons";
 

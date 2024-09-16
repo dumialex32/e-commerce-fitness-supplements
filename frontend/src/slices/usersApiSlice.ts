@@ -1,6 +1,6 @@
 import { USERS_URL } from "../constants";
 import apiSlice from "./apiSlice";
-import { ILoginData, IUserInfo } from "../types/user/authSliceTypes";
+import { ILoginData, IUserInfo } from "../types/userTypes/authSliceTypes";
 
 const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

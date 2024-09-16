@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useGetProductDetailsQuery } from "../slices/productsApiSlice";
-import { IuseGetProductDetailsQuery } from "../types/products/productQueryTypes";
+import { IuseGetProductDetailsQuery } from "../types/productsTypes/productQueryTypes";
 
 export const useProduct = () => {
   const { id: productId } = useParams() as { id: string };

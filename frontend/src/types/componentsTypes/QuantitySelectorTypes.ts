@@ -1,4 +1,4 @@
-import { IProduct } from "../products/productTypes";
+import { IProduct } from "../productsTypes/productTypes";
 
 export interface IQuantitySelectorProps {
   product: IProduct;
