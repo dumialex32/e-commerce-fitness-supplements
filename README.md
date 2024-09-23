@@ -1,4 +1,4 @@
-# Supplements Shop - eCommerce Platform
+# Supplements Shop - eCommerce Platform (Work in Progress)
 
 Welcome to Supplements Shop, a comprehensive eCommerce platform built using the MERN stack (MongoDB, Express, React, Node.js), TypeScript and Redux Toolkit.
 
