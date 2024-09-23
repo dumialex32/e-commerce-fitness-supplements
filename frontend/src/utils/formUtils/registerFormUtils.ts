@@ -34,7 +34,7 @@ export const validatePassword = (
   confirmPassword?: string
 ) => {
   const minLenght: number = 6;
-  const maxLenght: number = 18;
+  const maxLenght: number = 12;
   const passwordRegex: RegExp = /\d/;
 
   if (password && !confirmPassword) {

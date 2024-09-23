@@ -7,6 +7,7 @@ import bcrypt from "bcryptjs";
 import { createToken } from "../utils/tokenUtils";
 import { hashPassword } from "../utils/hashUtils";
 import { IAuthResponse } from "../types/users/authTypes";
+import { validateInputs } from "../utils/validationUtils";
 
 /**
  * @desc: Auth user and get token
@@ -60,6 +61,8 @@ const registerUser = asyncHandler(
       email,
       password,
     }: { name: string; email: string; password: string } = req.body;
+
+    validateInputs(res, { ...req.body });
 
     const userExist: IUserSchema | null = await User.findOne({ email });
 
