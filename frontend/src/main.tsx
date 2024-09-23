@@ -17,6 +17,7 @@ import AuthScreen from "./screens/AuthScreen.tsx";
 import RegisterScreen from "./screens/RegisterScreen.tsx";
 import ShippingScreen from "./screens/ShippingScreen.tsx";
 import ProtectedRoute from "./components/auth/ProtectedRoute.tsx";
+import PaymentScreen from "./screens/PaymentScreen.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
         <Route path="/login" element={<AuthScreen />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/shipping" element={<ShippingScreen />} />
+          <Route path="/payment" element={<PaymentScreen />} />
         </Route>
       </Route>
       <Route path="/register" element={<RegisterScreen />}></Route>

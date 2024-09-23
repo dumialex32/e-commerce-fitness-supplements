@@ -10,12 +10,13 @@ import { getCitties } from "../api/cittiesApi";
 import { checkFormInputs } from "../utils/utils";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import { IShippingAddress } from "../types/cartTypes/cartItemTypes";
 
-const initialState: IinitialState = {
-  country: "",
-  city: "",
-  address: "",
-  postalCode: "",
+const init = (shippingAddress: IShippingAddress): IinitialState => ({
+  country: shippingAddress.country || "",
+  city: shippingAddress.city || "",
+  address: shippingAddress.address || "",
+  postalCode: shippingAddress.postalCode || "",
   errors: {
     country: "",
     city: "",
@@ -23,7 +24,7 @@ const initialState: IinitialState = {
     postalCode: "",
   },
   cities: [],
-};
+});
 
 const reducer = (state: IinitialState, action: ActionType) => {
   switch (action.type) {
@@ -54,11 +55,25 @@ const reducer = (state: IinitialState, action: ActionType) => {
 };
 
 const useShippingFormReducer = () => {
-  const [{ country, city, address, postalCode, errors, cities }, dispatch] =
-    useReducer(reducer, initialState);
-
   const { shippingAddress } = useSelector((state: RootState) => state.cart);
   console.log(shippingAddress);
+
+  const [{ country, city, address, postalCode, errors, cities }, dispatch] =
+    useReducer(reducer, shippingAddress, init);
+
+  // to do: fix call stack size exceeded by using react-window
+  const renderCityOptions = useMemo(
+    () =>
+      cities.map((city, i) => {
+        console.log("isRunning");
+        return (
+          <option key={i} value={city}>
+            {city}
+          </option>
+        );
+      }),
+    [cities]
+  );
 
   const { moveTo } = useAppNavigate();
 
@@ -74,7 +89,7 @@ const useShippingFormReducer = () => {
       try {
         if (country) {
           const citties = await getCitties(country);
-          console.log(citties);
+
           setCitties(citties);
         }
       } catch (err) {
@@ -88,7 +103,7 @@ const useShippingFormReducer = () => {
     e.preventDefault();
     const shippingAddress = { country, city, address, postalCode };
     reduxDispatch(storeShippingAddress(shippingAddress));
-    moveTo("/checkout");
+    moveTo("/payment");
   };
 
   const setCountry = (countryInput: string) => {
@@ -119,6 +134,7 @@ const useShippingFormReducer = () => {
     errors,
     cities,
     isFormInvalid,
+    renderCityOptions,
     setCountry,
     setCity,
     setAddress,

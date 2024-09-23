@@ -1,28 +1,34 @@
 import {
   faCircleExclamation,
+  faCreditCard,
   faEnvelope,
   faLock,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ReactNode, ReactElement } from "react";
+import { faPaypal } from "@fortawesome/free-brands-svg-icons";
 
 const getFormIcon: {
   Password: IconDefinition;
   Email: IconDefinition;
+  PayPal: IconDefinition;
+  CreditCard: IconDefinition;
 } = {
   Password: faLock,
   Email: faEnvelope,
+  PayPal: faPaypal,
+  CreditCard: faCreditCard,
 };
 
 const formRowDirection = {
-  vertical: "grid grid-cols-[6rem,1fr] gap-5 items-center mb-6",
+  vertical: "grid grid-cols-[6rem,1fr] gap-12 items-center mb-6",
   horizontal: "grid grid-rows-2 gap-1 items-end mb-3",
 };
 
 const FormRow: React.FC<{
   children: ReactNode;
-  labelWithIcon?: "Password" | "Email";
+  labelWithIcon?: "Password" | "Email" | "PayPal" | "CreditCard";
   label?: string | undefined;
   error: string;
   direction?: "vertical" | "horizontal";
@@ -36,19 +42,21 @@ const FormRow: React.FC<{
   return (
     <div className={`${formRowDirection[direction]}`}>
       <div>
-        <label
-          className="flex items-center gap-2 self-start"
-          htmlFor={`${React.isValidElement(children) && children.props.id}`}
-        >
-          {" "}
-          {labelWithIcon && (
+        {labelWithIcon ? (
+          <label
+            className="grid grid-cols-[1rem_1fr] gap-3 items-center"
+            htmlFor={`${React.isValidElement(children) && children.props.id}`}
+          >
             <FontAwesomeIcon
               icon={getFormIcon[labelWithIcon]}
               className="text-blue-700"
             />
-          )}
-          {label || labelWithIcon}
-        </label>
+
+            {labelWithIcon}
+          </label>
+        ) : (
+          <label className="flex items-center gap-2">{label}</label>
+        )}
       </div>
 
       <div className="relative">

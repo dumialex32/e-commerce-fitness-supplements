@@ -18,4 +18,5 @@ export interface ICartInitialState {
   shippingPrice: number;
   shippingAddress: IShippingAddress;
   totalPrice: number;
+  paymentMethod: string;
 }

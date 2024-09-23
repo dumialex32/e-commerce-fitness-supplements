@@ -18,6 +18,7 @@ const initialState: ICartInitialState = getLocalStorageItem("cart") || {
     postalCode: "",
     country: "",
   },
+  paymentMethod: "",
   totalPrice: 0,
 };
 
@@ -56,11 +57,21 @@ const cartSlice = createSlice({
       state.shippingAddress = shippingAddress;
       updateCart(state);
     },
+
+    storePaymentMethod: (state, action) => {
+      const payment = action.payload;
+      state.paymentMethod = payment;
+      updateCart(state);
+    },
   },
 });
 
 // action reducers
-export const { addToCart, removeCartItem, storeShippingAddress } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  removeCartItem,
+  storeShippingAddress,
+  storePaymentMethod,
+} = cartSlice.actions;
 
 export default cartSlice.reducer; // exported in store.ts as cartSliceReducer

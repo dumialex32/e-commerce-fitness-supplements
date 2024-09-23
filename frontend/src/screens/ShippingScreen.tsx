@@ -1,8 +1,8 @@
-import { useMemo } from "react";
 import Form from "../components/Form";
 import FormRow from "../components/FormRow";
 import useShippingFormReducer from "../hooks/useShippingFormReducer";
 import { countries } from "../utils/formUtils/shippingFormUtils";
+import CheckoutScreen from "./CheckoutScreen";
 
 const ShippingScreen: React.FC = () => {
   const {
@@ -13,6 +13,7 @@ const ShippingScreen: React.FC = () => {
     errors,
     isFormInvalid,
     cities,
+    renderCityOptions,
     setCountry,
     setCity,
     setAddress,
@@ -20,24 +21,8 @@ const ShippingScreen: React.FC = () => {
     handleShippingFormSubmit,
   } = useShippingFormReducer();
 
-  console.log(cities);
-
-  const renderCities = useMemo(
-    () =>
-      cities.map((city, i) => (
-        <option key={i} value={city}>
-          {city}
-        </option>
-      )),
-    [cities]
-  );
-
   return (
-    <div className="w-cm-64">
-      <div>
-        <h1 className="text-4xl mb-6">Shipping info</h1>
-      </div>
-
+    <CheckoutScreen step1 step2>
       <Form onSubmit={(e) => handleShippingFormSubmit(e)}>
         <FormRow label="Country" error={errors.country}>
           <select
@@ -56,7 +41,7 @@ const ShippingScreen: React.FC = () => {
         <FormRow label="City" error={errors.city}>
           {cities.length > 0 ? (
             <select value={city} onChange={(e) => setCity(e.target.value)}>
-              {renderCities}
+              {renderCityOptions}
             </select>
           ) : (
             <input
@@ -79,7 +64,7 @@ const ShippingScreen: React.FC = () => {
             required
           />
         </FormRow>
-        <FormRow label="Postal code" error={errors.postalCode}>
+        <FormRow label="Postal Code" error={errors.postalCode}>
           <input
             type="text"
             value={postalCode}
@@ -90,11 +75,15 @@ const ShippingScreen: React.FC = () => {
           />
         </FormRow>
 
-        <button className="btn btn-primary self-start" disabled={isFormInvalid}>
-          Next
+        <button
+          type="submit"
+          className="btn btn-primary self-start"
+          disabled={isFormInvalid}
+        >
+          Continue
         </button>
       </Form>
-    </div>
+    </CheckoutScreen>
   );
 };
 
