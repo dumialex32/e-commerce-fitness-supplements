@@ -6,7 +6,7 @@ const validateName = (name: string) => {
     return "Invalid name format";
   }
 
-  return null;
+  return undefined;
 };
 
 const validateEmail = (email: string) => {
@@ -15,7 +15,7 @@ const validateEmail = (email: string) => {
     return "Invalid email format";
   }
 
-  return null;
+  return undefined;
 };
 
 const validatePassword = (password: string) => {
@@ -23,7 +23,7 @@ const validatePassword = (password: string) => {
   if (password.length < 6 || password.length > 12 || !regex.test(password))
     return "Invalid password format";
 
-  return null;
+  return undefined;
 };
 
 export const validateInputs = (
@@ -37,7 +37,7 @@ export const validateInputs = (
   const passwordError = validatePassword(password);
 
   if (nameError || emailError || passwordError) {
-    res.status(400).json({ error: nameError || emailError || passwordError });
-    return;
+    res.status(400);
+    throw new Error(nameError || emailError || passwordError);
   }
 };

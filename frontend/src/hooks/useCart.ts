@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { ICartItem } from "../types/cartTypes/cartItemTypes";
+import { ICartInitialState, ICartItem } from "../types/cartTypes/cartItemTypes";
 import { addToCart, removeCartItem } from "../slices/cartSlice";
 import { IProduct } from "../types/productsTypes/productTypes";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import { isEmpty } from "lodash";
+import { hasEmptyValues } from "../utils/utils";
 
 export const useCart = () => {
-  const [qty, setQty] = useState<number>(1);
-  const { cartItems } = useSelector((state: RootState) => state.cart);
+  const cart: ICartInitialState = useSelector((state: RootState) => state.cart);
+  console.log(cart);
 
+  const [qty, setQty] = useState<number>(1);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -33,7 +36,13 @@ export const useCart = () => {
   };
 
   const handleCheckout = () => {
-    navigate("/login?redirect=/shipping");
+    navigate(
+      `/login?redirect=${
+        (hasEmptyValues(cart.shippingAddress) && "/shipping") ||
+        (!cart.paymentMethod && "/payment") ||
+        "/checkout"
+      }`
+    );
   };
 
   // change cart item quantity
@@ -47,24 +56,25 @@ export const useCart = () => {
   };
 
   // calculate total cart items
-  const totalCartItems: number = cartItems.reduce(
+  const totalCartItems: number = cart.cartItems.reduce(
     (acc, item) => (acc = acc + item.qty),
     0
   );
 
   // calculate total cart items price
-  const totalCartItemsPrice: number = cartItems.reduce(
+  const totalCartItemsPrice: number = cart.cartItems.reduce(
     (acc, item) => (acc = acc + item.price * item.qty),
     0
   );
 
   return {
     qty,
+    totalCartItems,
+    totalCartItemsPrice,
+    cart,
     handleSelectQty,
     handleAddToCart,
     handleChangeItemQty,
-    totalCartItems,
-    totalCartItemsPrice,
     handleRemoveCartItem,
     handleCheckout,
   };

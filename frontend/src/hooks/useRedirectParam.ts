@@ -1,10 +1,19 @@
 import { useLocation } from "react-router-dom";
+import useAppNavigate from "./useAppNavigate";
 
 const useRedirectParam = () => {
-  // get 'redirect' query parameter from the URL's search string
-  const { search } = useLocation();
+  const { moveTo } = useAppNavigate();
+
+  const location = useLocation();
+
+  const { search, pathname, hash, state, key } = location;
+
+  // get search value
   const sp = new URLSearchParams(search);
-  const redirect = sp.get("redirect") || "/";
+  const redirectPath = sp.get("redirect");
+
+  const redirect = (defaultRedirectPath?: string) =>
+    moveTo(redirectPath || defaultRedirectPath || "");
 
   return {
     redirect,

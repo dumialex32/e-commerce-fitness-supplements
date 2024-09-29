@@ -99,11 +99,19 @@ const useShippingFormReducer = () => {
     fetchCitties();
   }, [country]);
 
-  const handleShippingFormSubmit = (e: React.FormEvent) => {
+  const handleShippingFormSubmit = (
+    e: React.FormEvent,
+    isEdit: boolean,
+    closeModal: () => void
+  ) => {
     e.preventDefault();
     const shippingAddress = { country, city, address, postalCode };
     reduxDispatch(storeShippingAddress(shippingAddress));
-    moveTo("/payment");
+    if (!isEdit) {
+      moveTo("/payment");
+    } else {
+      closeModal();
+    }
   };
 
   const setCountry = (countryInput: string) => {
@@ -135,6 +143,7 @@ const useShippingFormReducer = () => {
     cities,
     isFormInvalid,
     renderCityOptions,
+    shippingAddress,
     setCountry,
     setCity,
     setAddress,

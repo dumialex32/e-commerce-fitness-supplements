@@ -6,6 +6,7 @@ import userRoutes from "./routes/userRoutes";
 import orderRoutes from "./routes/orderRoutes";
 import { errorHandler, notFound } from "./middleware/errorMiddleware";
 import cookieParser from "cookie-parser";
+import { limiter, requestTimeout } from "./utils/requestUtils";
 
 // initialize environment variables
 dotenv.config();
@@ -18,6 +19,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// request timeout middleware
+app.use(requestTimeout);
+
+// apply the limiter to all requests
+app.use(limiter);
+
 // products routes
 app.use("/api/products", productRoutes);
 
@@ -27,7 +34,7 @@ app.use("/api/users", userRoutes);
 // order routes
 app.use("/api/orders", orderRoutes);
 
-//  handling 404 and other errors
+//  handling 404 and other errorsth
 app.use(notFound);
 app.use(errorHandler);
 

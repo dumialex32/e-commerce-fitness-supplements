@@ -66,7 +66,7 @@ const Window: FC<IModalWindowProps> = ({
   return createPortal(
     <div className="fixed top-0 left-0 w-full h-screen bg-primary/15 backdrop-blur-md transition-all duration-500 z-50">
       <div
-        className={`fixed ${modalWindowPosition[positionY]} right-1/2 translate-x-1/2 -translate-y-1/2 bg-white rounded-md shadow-lg transition-all duration-500 py-4 px-6`}
+        className={`fixed ${modalWindowPosition[positionY]} right-1/2 translate-x-1/2 -translate-y-1/2 bg-white rounded-md shadow-lg transition-all duration-500 p-6`}
       >
         <button onClick={close} className="absolute top-1 right-2">
           <FontAwesomeIcon icon={faClose} />

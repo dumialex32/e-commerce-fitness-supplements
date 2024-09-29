@@ -1,4 +1,9 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
+import asyncHandler from "../middleware/asyncHandler";
+import Order from "../models/orderModel";
+import { IOrderSchema } from "../types/models/orderModelTypes";
+import { IProductSchema } from "../types/models/productModelTypes";
+import mongoose from "mongoose";
 
 /**
  * @desc: Get logged in user orders
@@ -6,9 +11,10 @@ import { Request, Response, NextFunction } from "express";
  * @access: Private
  */
 
-const getMyOrders = (req: Request, res: Response, next: NextFunction) => {
-  res.send("Get my orders");
-};
+const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
+  const orders = await Order.find({ user: req.user._id });
+  res.status(200).json(orders);
+});
 
 /**
  * @desc: Create new order
@@ -16,9 +22,36 @@ const getMyOrders = (req: Request, res: Response, next: NextFunction) => {
  * @access: Private
  */
 
-const createOrder = (req: Request, res: Response, next: NextFunction) => {
-  res.send("Create order");
-};
+const addOrderItems = asyncHandler(async (req: Request, res: Response) => {
+  const {
+    orderItems,
+    shippingAddress,
+    paymentMethod,
+    itemsPrice,
+    taxPrice,
+    shippingPrice,
+    totalPrice,
+  } = req.body;
+
+  if (orderItems && orderItems.length === 0) {
+    res.status(400);
+    throw new Error("No order items");
+  } else {
+    const order: IOrderSchema = new Order({
+      orderItems: orderItems.map((item: IProductSchema) => {
+        return { ...item, product: item._id, _id: undefined }; // retrieve product _id and store it within the product property of each orderItem and remove the _id from orderItem obj
+      }),
+      shippingAddress,
+      paymentMethod,
+      itemsPrice,
+      taxPrice,
+      shippingPrice,
+      totalPrice,
+    });
+    const createdOrder = await order.save();
+    res.status(201).json(createdOrder);
+  }
+});
 
 /**
  * @desc: Get order by ID
@@ -26,9 +59,26 @@ const createOrder = (req: Request, res: Response, next: NextFunction) => {
  * @access: Private
  */
 
-const getOrderById = (req: Request, res: Response, next: NextFunction) => {
-  res.send("Get order by id");
-};
+const getOrderById = asyncHandler(async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.status(400);
+    throw new Error("Invalid order ID");
+  }
+
+  const order = await Order.findById(req.params.id).populate(
+    "user",
+    "name email"
+  );
+
+  if (order) {
+    res.status(200).json(order);
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+});
 
 /**
  * @desc: Get all orders
@@ -36,9 +86,11 @@ const getOrderById = (req: Request, res: Response, next: NextFunction) => {
  * @access: Private/Admin
  */
 
-const getAllOrders = (req: Request, res: Response, next: NextFunction) => {
-  res.send("Get all orders");
-};
+const getAllOrders = asyncHandler(async (req: Request, res: Response) => {
+  const orders = await Order.find({});
+
+  res.status(200).json(orders);
+});
 
 /**
  * @desc: Update order to delivered
@@ -46,13 +98,11 @@ const getAllOrders = (req: Request, res: Response, next: NextFunction) => {
  * @access: Private
  */
 
-const updateOrdeToDelivered = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  res.send("Update order to delivered");
-};
+const updateOrdeToDelivered = asyncHandler(
+  async (req: Request, res: Response) => {
+    return res.send("Update order to delivered");
+  }
+);
 
 /**
  *@desc: Update order to paid
@@ -60,13 +110,13 @@ const updateOrdeToDelivered = (
  *@access: Private
  */
 
-const updateOrderToPaid = (req: Request, res: Response, next: NextFunction) => {
+const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
   res.send("Update order to paid");
-};
+});
 
 export {
   getMyOrders,
-  createOrder,
+  addOrderItems,
   getOrderById,
   getAllOrders,
   updateOrdeToDelivered,

@@ -63,6 +63,11 @@ const cartSlice = createSlice({
       state.paymentMethod = payment;
       updateCart(state);
     },
+
+    clearCartItems: (state, action) => {
+      state.cartItems = [];
+      updateCart(state);
+    },
   },
 });
 
@@ -72,6 +77,7 @@ export const {
   removeCartItem,
   storeShippingAddress,
   storePaymentMethod,
+  clearCartItems,
 } = cartSlice.actions;
 
 export default cartSlice.reducer; // exported in store.ts as cartSliceReducer

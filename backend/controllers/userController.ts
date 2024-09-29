@@ -85,12 +85,9 @@ const registerUser = asyncHandler(
       res.status(201).json({
         _id: newUser._id,
         name: newUser.name,
-        password: newUser.email,
+        email: newUser.email,
         isAdmin: newUser.isAdmin,
       });
-    } else {
-      res.status(400);
-      throw new Error("Invalid user data");
     }
   }
 );

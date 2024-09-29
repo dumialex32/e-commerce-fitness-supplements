@@ -5,7 +5,6 @@ import useAuth from "../../hooks/useAuth";
 import Form from "../Form";
 import useRedirectParam from "../../hooks/useRedirectParam";
 import { useEffect } from "react";
-import useAppNavigate from "../../hooks/useAppNavigate";
 
 const LoginForm: React.FC = () => {
   const {
@@ -20,13 +19,12 @@ const LoginForm: React.FC = () => {
   } = useAuth();
 
   const { redirect } = useRedirectParam();
-  const { moveTo } = useAppNavigate();
 
   useEffect(() => {
     if (isUserLoggedIn) {
-      moveTo(redirect);
+      redirect("/");
     }
-  }, [isUserLoggedIn, moveTo, redirect]);
+  }, [isUserLoggedIn, redirect]);
 
   return (
     <Form onSubmit={handleAuthSubmit}>

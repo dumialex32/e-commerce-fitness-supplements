@@ -3,7 +3,7 @@ import { Dispatch, FC, ReactElement, ReactNode, SetStateAction } from "react";
 export interface IModalWindowProps {
   children: ReactElement;
   name: string;
-  positionY: TModalWindowYPosition;
+  positionY?: TModalWindowYPosition;
 }
 
 export interface IModalOpenProps {
