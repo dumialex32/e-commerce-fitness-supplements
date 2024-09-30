@@ -6,7 +6,6 @@ import { addToCart, removeCartItem } from "../slices/cartSlice";
 import { IProduct } from "../types/productsTypes/productTypes";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { isEmpty } from "lodash";
 import { hasEmptyValues } from "../utils/utils";
 
 export const useCart = () => {

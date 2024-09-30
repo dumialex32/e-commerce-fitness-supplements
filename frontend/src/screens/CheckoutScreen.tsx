@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { ReactNode } from "react";
+import Modal from "../components/Modal";
 
 const CheckoutScreen: React.FC<{
   children: ReactNode;
@@ -20,7 +21,9 @@ const CheckoutScreen: React.FC<{
 
       <CheckoutSteps step1={step1} step2={step2} step3={step3} step4={step4} />
 
-      <div className="flex justify-center">{children}</div>
+      <div className="flex justify-center">
+        <Modal>{children}</Modal>
+      </div>
     </div>
   );
 };

@@ -1,9 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import rateLimit from "express-rate-limit";
 
-export const limiter = rateLimit({
+// general rate limits
+export const generalRateLimit = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 min
-  max: 50, // limit for each UP to 100 req / windowMs
+  max: 100, // limit for each UP to 100 req / windowMs
+  message: "To many requests from this IP, please try again later",
+});
+
+// user rate limits
+export const userRateLimit = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 min
+  max: 10, // limit for each UP to 100 req / windowMs
   message: "To many requests from this IP, please try again later",
 });
 

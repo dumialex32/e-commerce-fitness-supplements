@@ -10,9 +10,7 @@ const usePayment = () => {
     (state: RootState) => state.cart
   );
 
-  const [paymentMethod, setPaymentMethod] = useState<string>(
-    payment || "paypal"
-  );
+  const [paymentMethod, setPaymentMethod] = useState<string>(payment || "");
   const { shippingAddress } = useSelector((state: RootState) => state.cart);
   const { moveTo } = useAppNavigate();
   const dispatch = useDispatch();

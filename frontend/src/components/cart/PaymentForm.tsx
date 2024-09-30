@@ -32,7 +32,11 @@ const PaymentForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
         />
       </FormRow>
 
-      <button type="submit" className="btn btn-primary">
+      <button
+        type="submit"
+        className="btn btn-primary"
+        disabled={!paymentMethod}
+      >
         {isEdit ? "Edit" : "Continue"}
       </button>
     </Form>

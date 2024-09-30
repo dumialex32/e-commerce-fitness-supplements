@@ -6,7 +6,11 @@ import userRoutes from "./routes/userRoutes";
 import orderRoutes from "./routes/orderRoutes";
 import { errorHandler, notFound } from "./middleware/errorMiddleware";
 import cookieParser from "cookie-parser";
-import { limiter, requestTimeout } from "./utils/requestUtils";
+import {
+  generalRateLimit,
+  userRateLimit,
+  requestTimeout,
+} from "./utils/requestUtils";
 
 // initialize environment variables
 dotenv.config();
@@ -23,10 +27,10 @@ app.use(cookieParser());
 app.use(requestTimeout);
 
 // apply the limiter to all requests
-app.use(limiter);
+app.use(generalRateLimit);
 
-// products routes
-app.use("/api/products", productRoutes);
+// products routes with user limit rate for requests
+app.use("/api/products", userRateLimit, productRoutes);
 
 // user routes
 app.use("/api/users", userRoutes);
