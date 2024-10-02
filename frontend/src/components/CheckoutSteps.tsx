@@ -36,10 +36,10 @@ const CheckoutSteps: React.FC<{
         </li>
         <li>
           {step4 ? (
-            <NavLink to={"/placeorder"}>Place Order</NavLink>
+            <NavLink to={"/checkout"}>Checkout</NavLink>
           ) : (
             <button className="text-gray-400" disabled>
-              Place Order
+              Checkout
             </button>
           )}
         </li>

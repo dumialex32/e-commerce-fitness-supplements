@@ -54,6 +54,7 @@ export const {
   useGetOrdersQuery,
   useGetOrderByIdQuery,
   useGetAllOrdersQuery,
-  useUpdateOrderToPaidQuery,
-  useUpdateOrderToDeliveredQuery,
+  useCreateOrderMutation,
+  useUpdateOrderToPaidMutation,
+  useUpdateOrderToDeliveredMutation,
 } = ordersSliceApi as any;

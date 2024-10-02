@@ -1,4 +1,5 @@
 import { formatPriceCurrency } from "../../utils/formatters";
+import TotalCheckoutPrice from "./TotalCheckoutPrice";
 
 const TotalCheckout: React.FC<{
   totalPrice: number;
@@ -23,9 +24,8 @@ const TotalCheckout: React.FC<{
         <p className="justify-self-end">{formatPriceCurrency(taxPrice)}</p>
       </div>
 
-      <div className="grid grid-cols-[1fr_1fr] text-XL font-semibold ">
-        <p>Total:</p>
-        <p className="justify-self-end">{formatPriceCurrency(totalPrice)}</p>
+      <div className="grid grid-cols-[1fr_1fr]">
+        <TotalCheckoutPrice totalPrice={totalPrice} />
       </div>
     </div>
   );
