@@ -13,7 +13,6 @@ const UserMenuList: React.FC<{ isUserLoggedIn: boolean }> = ({
   const handleUserLogout = async () => {
     try {
       const res = await logoutApiCall().unwrap();
-      console.log(res);
       dispatch(logout());
       useNavigate;
       navigate("/login");

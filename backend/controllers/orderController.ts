@@ -38,6 +38,7 @@ const addOrderItems = asyncHandler(async (req: Request, res: Response) => {
     throw new Error("No order items");
   } else {
     const order: IOrderSchema = new Order({
+      user: req.user._id,
       orderItems: orderItems.map((item: IProductSchema) => {
         return { ...item, product: item._id, _id: undefined }; // retrieve product _id and store it within the product property of each orderItem and remove the _id from orderItem obj
       }),

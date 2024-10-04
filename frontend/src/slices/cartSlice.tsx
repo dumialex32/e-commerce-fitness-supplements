@@ -49,7 +49,7 @@ const cartSlice = createSlice({
       state.cartItems = state.cartItems.filter((x) => x._id !== itemId);
 
       // update local storage cart item with the new state
-      localStorage.setItem("cart", JSON.stringify(state));
+      updateCart(state);
     },
 
     storeShippingAddress: (state, action) => {
@@ -64,7 +64,7 @@ const cartSlice = createSlice({
       updateCart(state);
     },
 
-    clearCartItems: (state, action) => {
+    clearCartItems: (state) => {
       state.cartItems = [];
       updateCart(state);
     },

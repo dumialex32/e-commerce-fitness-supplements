@@ -1,7 +1,7 @@
 // form validators
 export const validateName = (name: string) => {
   const trimmedName = name.trim();
-  const validNameRegex = /^[a-zA-Z0-9_]+$/;
+  const validNameRegex = /^[A-Z][a-z]+ [A-Z][a-z]+$/;
   const sequentialOrRepeatedRegex = /(.)\1{2,}/;
   const reserverdWords = ["admin", "root", "system"];
   if (trimmedName.length < 3) return "Name must contain at least 3 characters";

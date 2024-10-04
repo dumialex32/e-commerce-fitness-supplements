@@ -5,7 +5,7 @@ const getCitiesURL = "https://countriesnow.space/api/v0.1/countries/cities";
 export const getCitties = async (country: string): Promise<string[]> => {
   try {
     const res = await axios.post(getCitiesURL, { country: country });
-    console.log(res);
+
     if (!res.data.error) {
       return res.data.data;
     } else {

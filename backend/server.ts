@@ -10,6 +10,7 @@ import {
   generalRateLimit,
   userRateLimit,
   requestTimeout,
+  orderRateLimit,
 } from "./utils/requestUtils";
 
 // initialize environment variables
@@ -30,13 +31,13 @@ app.use(requestTimeout);
 app.use(generalRateLimit);
 
 // products routes with user limit rate for requests
-app.use("/api/products", userRateLimit, productRoutes);
+app.use("/api/products", productRoutes);
 
 // user routes
-app.use("/api/users", userRoutes);
+app.use("/api/users", userRateLimit, userRoutes);
 
 // order routes
-app.use("/api/orders", orderRoutes);
+app.use("/api/orders", orderRateLimit, orderRoutes);
 
 //  handling 404 and other errorsth
 app.use(notFound);

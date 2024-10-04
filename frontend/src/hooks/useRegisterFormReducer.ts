@@ -87,7 +87,7 @@ const useRegisterForm = () => {
       });
       setTimeout(() => reduxDispatch(setCredentials(res)), 3000);
     } catch (err: any) {
-      console.log(err);
+      console.error(err);
       if (err.status === 400 && err.data.message) {
         dispatch({
           type: "SET_ERRORS",

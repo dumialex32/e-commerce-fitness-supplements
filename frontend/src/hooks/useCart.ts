@@ -10,7 +10,6 @@ import { hasEmptyValues } from "../utils/utils";
 
 export const useCart = () => {
   const cart: ICartInitialState = useSelector((state: RootState) => state.cart);
-  console.log(cart);
 
   const [qty, setQty] = useState<number>(1);
   const dispatch = useDispatch();

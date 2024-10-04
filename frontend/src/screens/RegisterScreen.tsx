@@ -5,7 +5,7 @@ const RegisterScreen: React.FC = () => {
   return (
     <>
       <div className="container mx-auto">
-        <div className="mb-20 flex items-center justify-center my-11">
+        <div className="mb-16 flex items-center justify-center my-11">
           <Logo size="xxl" />
         </div>
 

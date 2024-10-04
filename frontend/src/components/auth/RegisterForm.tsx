@@ -34,7 +34,7 @@ const RegisterForm: React.FC = () => {
   const { redirect } = useRedirectParam();
 
   useEffect(() => {
-    if (isUserLoggedIn) moveTo(redirect);
+    if (isUserLoggedIn) redirect("/");
   }, [isUserLoggedIn, redirect, moveTo]);
 
   return (

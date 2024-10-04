@@ -16,9 +16,12 @@ export const updateCart = (state: ICartInitialState): ICartInitialState => {
   state.taxPrice = addDecimals((state.itemsPrice * 15) / 100);
 
   // calc item shipping price ( if cartItems price > 65 shipping is free)
-  state.shippingPrice = addDecimals(
-    state.itemsPrice > FREE_SHIPPING_THRESHOLD ? 0 : STANDARD_SHIPPING_PRICE
-  );
+
+  state.cartItems.length > 0
+    ? (state.shippingPrice = addDecimals(
+        state.itemsPrice > FREE_SHIPPING_THRESHOLD ? 0 : STANDARD_SHIPPING_PRICE
+      ))
+    : (state.shippingPrice = 0);
 
   // calc total price
   state.totalPrice = addDecimals(

@@ -8,7 +8,9 @@ export const renderFetchBaseQueryError = (
     if ("status" in error) {
       // handle FetchBaseQueryError
       const fetchBaseErrMsg: string =
-        "error" in error ? error.error : JSON.stringify(error.data);
+        "data" in error && typeof error.data === "string"
+          ? error.data
+          : JSON.stringify(error.data);
 
       return fetchBaseErrMsg;
     } else {

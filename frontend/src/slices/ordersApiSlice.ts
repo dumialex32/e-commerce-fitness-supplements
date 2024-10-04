@@ -1,30 +1,24 @@
 import { ORDERS_URL } from "../constants";
+import { IOrder, IOrderResponse } from "../types/Order/OrderTypes";
 import apiSlice from "./apiSlice";
 
 const ordersSliceApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
-    getMyOrders: build.query({
+    getMyOrders: build.query<IOrder[], void>({
       query: () => ({
         url: `${ORDERS_URL}/getMyOrders`,
       }),
       keepUnusedDataFor: 5000,
     }),
 
-    getOrderById: build.query({
-      query: () => ({
-        url: `${ORDERS_URL}/getMyOrders`,
-      }),
-      keepUnusedDataFor: 5000,
-    }),
-
-    getOrders: build.query({
-      query: (id: string) => ({
+    getOrderById: build.query<IOrderResponse, string>({
+      query: (id) => ({
         url: `${ORDERS_URL}/${id}`,
       }),
       keepUnusedDataFor: 5000,
     }),
 
-    createOrder: build.mutation({
+    createOrder: build.mutation<IOrderResponse, IOrder>({
       query: (order) => ({
         url: `${ORDERS_URL}`,
         method: "POST",
@@ -32,15 +26,21 @@ const ordersSliceApi = apiSlice.injectEndpoints({
       }),
     }),
 
-    updateOrderToPaid: build.mutation({
-      query: ({ id, isPaid }: { id: string; isPaid: boolean }) => ({
+    updateOrderToPaid: build.mutation<
+      IOrderResponse,
+      { id: string; isPaid: boolean }
+    >({
+      query: ({ id, isPaid }) => ({
         url: `${ORDERS_URL}/${id}/pay`,
         method: "PUT",
         body: isPaid,
       }),
     }),
 
-    updateOrderToDelivered: build.mutation({
+    updateOrderToDelivered: build.mutation<
+      IOrderResponse,
+      { id: string; isDelivered: boolean }
+    >({
       query: ({ id, isDelivered }) => ({
         url: `${ORDERS_URL}/${id}/$deliver`,
         method: "PUT",

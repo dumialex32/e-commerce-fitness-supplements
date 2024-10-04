@@ -56,7 +56,6 @@ const reducer = (state: IinitialState, action: ActionType) => {
 
 const useShippingFormReducer = () => {
   const { shippingAddress } = useSelector((state: RootState) => state.cart);
-  console.log(shippingAddress);
 
   const [{ country, city, address, postalCode, errors, cities }, dispatch] =
     useReducer(reducer, shippingAddress, init);
@@ -65,7 +64,6 @@ const useShippingFormReducer = () => {
   const renderCityOptions = useMemo(
     () =>
       cities.map((city, i) => {
-        console.log("isRunning");
         return (
           <option key={i} value={city}>
             {city}

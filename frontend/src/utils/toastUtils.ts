@@ -3,7 +3,7 @@ import { TCreateToast, ToastOptions } from "../types/utils/toastUtilsTypes";
 
 export const createToast: TCreateToast = (
   message: string,
-  options?: ToastOptions // Handle undefined explicitly
+  options?: ToastOptions // handle undefined explicitly
 ): void => {
   const {
     type = "success",

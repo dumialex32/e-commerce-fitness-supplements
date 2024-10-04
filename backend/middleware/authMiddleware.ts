@@ -23,7 +23,6 @@ export const protect = asyncHandler(
           const user = await User.findById(decodedToken.userId).select(
             "-password"
           );
-          console.log(user);
 
           if (user) {
             req.user = user;

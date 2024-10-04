@@ -16,7 +16,7 @@ const CheckoutScreen: React.FC<{
   const title = pathname.charAt(0).toUpperCase() + pathname.slice(1);
 
   return (
-    <div className="container flex flex-col gap-12 items-center">
+    <div className="container flex flex-col gap-8 items-center">
       <h1 className="text-4xl font-semibold text-primary">{title}</h1>
 
       <CheckoutSteps step1={step1} step2={step2} step3={step3} step4={step4} />

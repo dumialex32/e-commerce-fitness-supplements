@@ -6,7 +6,7 @@ const useRedirectParam = () => {
 
   const location = useLocation();
 
-  const { search, pathname, hash, state, key } = location;
+  const { search } = location;
 
   // get search value
   const sp = new URLSearchParams(search);

@@ -9,3 +9,29 @@ export interface IOrder {
   totalPrice: number;
   paymentMethod: string;
 }
+
+interface IOrderItem {
+  name: string;
+  qty: number;
+  image: string;
+  price: number;
+  product: string;
+  _id: string;
+}
+
+export interface IOrderResponse {
+  user: string;
+  orderItems: IOrderItem[];
+  shippingAddress: IShippingAddress;
+  paymentMethod: string;
+  itemsPrice: number;
+  taxPrice: number;
+  shippingPrice: number;
+  totalPrice: number;
+  isPaid: boolean;
+  isDelivered: boolean;
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}

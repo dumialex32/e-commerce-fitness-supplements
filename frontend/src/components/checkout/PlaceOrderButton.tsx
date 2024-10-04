@@ -1,15 +1,17 @@
+import usePlaceOrder from "../../hooks/usePlaceOrder";
 import { IOrder } from "../../types/Order/OrderTypes";
-import { useCreateOrderMutation } from "../../slices/ordersApiSlice";
 
-const PlaceOrderButton: React.FC<{ order: IOrder }> = ({ order }) => {
-  const [createOrder, { isLoading, errror }] = useCreateOrderMutation();
-
-  const handleConfirmOrder = async () => {
-    const order = await createOrder(order);
-  };
-
+const PlaceOrderButton: React.FC<{ order: IOrder; disabled: boolean }> = ({
+  order,
+  disabled,
+}) => {
+  const { handleConfirmOrder, isLoading, error } = usePlaceOrder();
   return (
-    <button onClick={handleConfirmOrder} className="btn btn-primary">
+    <button
+      onClick={() => handleConfirmOrder(order)}
+      className="btn btn-primary"
+      disabled={disabled}
+    >
       Order now
     </button>
   );
