@@ -1,6 +1,6 @@
 import PaymentForm from "../components/cart/PaymentForm";
 import Modal from "../components/Modal";
-import ShippingForm from "../components/ShippingForm";
+import ShippingForm from "../components/checkout/ShippingForm";
 import TotalCheckout from "../components/checkout/TotalCheckout";
 import OrderDisclaimer from "../components/checkout/OrderDisclaimer";
 import TotalCheckoutPrice from "../components/checkout/TotalCheckoutPrice";

@@ -45,7 +45,7 @@ const usePlaceOrder = () => {
     }
   }, [shippingAddress, paymentMethod, cartItems]);
 
-  const handleConfirmOrder = async (order: IOrder) => {
+  const handlePlaceOrder = async (order: IOrder) => {
     try {
       const res = await createOrder(order).unwrap();
       dispatch(clearCartItems());
@@ -73,7 +73,7 @@ const usePlaceOrder = () => {
     shippingPrice,
     isLoading,
     error,
-    handleConfirmOrder,
+    handlePlaceOrder,
   };
 };
 

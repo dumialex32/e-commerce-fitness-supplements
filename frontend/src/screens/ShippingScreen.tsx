@@ -1,4 +1,4 @@
-import ShippingForm from "../components/ShippingForm";
+import ShippingForm from "../components/checkout/ShippingForm";
 import useCart from "../hooks/useCart";
 import { hasEmptyValues } from "../utils/utils";
 

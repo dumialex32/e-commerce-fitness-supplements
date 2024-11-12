@@ -10,7 +10,7 @@ export interface IOrder {
   paymentMethod: string;
 }
 
-interface IOrderItem {
+export interface IOrderItem {
   name: string;
   qty: number;
   image: string;

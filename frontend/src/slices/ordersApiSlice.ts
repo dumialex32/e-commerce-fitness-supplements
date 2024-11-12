@@ -1,3 +1,4 @@
+import { PAYPAL_URL } from "../constants";
 import { ORDERS_URL } from "../constants";
 import { IOrder, IOrderResponse } from "../types/Order/OrderTypes";
 import apiSlice from "./apiSlice";
@@ -11,7 +12,7 @@ const ordersSliceApi = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5000,
     }),
 
-    getOrderById: build.query<IOrderResponse, string>({
+    getOrderDetails: build.query<IOrderResponse, string>({
       query: (id) => ({
         url: `${ORDERS_URL}/${id}`,
       }),
@@ -26,15 +27,17 @@ const ordersSliceApi = apiSlice.injectEndpoints({
       }),
     }),
 
-    updateOrderToPaid: build.mutation<
-      IOrderResponse,
-      { id: string; isPaid: boolean }
-    >({
-      query: ({ id, isPaid }) => ({
-        url: `${ORDERS_URL}/${id}/pay`,
+    updateOrderToPaid: build.mutation({
+      query: ({ orderId, ...details }) => ({
+        url: `${ORDERS_URL}/${orderId}/pay`,
         method: "PUT",
-        body: isPaid,
+        body: details,
       }),
+    }),
+
+    getPaypalClientId: build.query<{ clientId: string }, void>({
+      query: () => ({ url: PAYPAL_URL, method: "GET" }),
+      keepUnusedDataFor: 5000,
     }),
 
     updateOrderToDelivered: build.mutation<
@@ -52,8 +55,9 @@ const ordersSliceApi = apiSlice.injectEndpoints({
 
 export const {
   useGetOrdersQuery,
-  useGetOrderByIdQuery,
+  useGetOrderDetailsQuery,
   useGetAllOrdersQuery,
+  useGetPaypalClientIdQuery,
   useCreateOrderMutation,
   useUpdateOrderToPaidMutation,
   useUpdateOrderToDeliveredMutation,

@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import express from "express";
+import express, { Request, Response } from "express";
 import connectDB from "./config/db";
 import productRoutes from "./routes/productRoutes";
 import userRoutes from "./routes/userRoutes";
@@ -32,12 +32,16 @@ app.use(generalRateLimit);
 
 // products routes with user limit rate for requests
 app.use("/api/products", productRoutes);
-
 // user routes
-app.use("/api/users", userRateLimit, userRoutes);
-
+// app.use("/api/users", userRateLimit, userRoutes);
+app.use("/api/users", userRoutes);
 // order routes
 app.use("/api/orders", orderRateLimit, orderRoutes);
+
+// get paypal client id from backend
+app.get("/api/config/paypal", (req: Request, res: Response) =>
+  res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
+);
 
 //  handling 404 and other errorsth
 app.use(notFound);

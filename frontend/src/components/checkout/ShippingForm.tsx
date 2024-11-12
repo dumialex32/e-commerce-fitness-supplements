@@ -1,8 +1,8 @@
-import Form from "../components/Form";
-import FormRow from "../components/FormRow";
-import useModal from "../hooks/useModal";
-import useShippingFormReducer from "../hooks/useShippingFormReducer";
-import { countries } from "../utils/formUtils/shippingFormUtils";
+import FormRow from "../FormRow";
+import useModal from "../../hooks/useModal";
+import useShippingFormReducer from "../../hooks/useShippingFormReducer";
+import { countries } from "../../utils/formUtils/shippingFormUtils";
+import Form from "../Form";
 
 const ShippingForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
   const {

@@ -12,6 +12,7 @@ export const generalRateLimit = rateLimit({
 export const userRateLimit = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 min
   max: 5, // limit for each UP to 100 req / windowMs
+
   message: "To many user requests from this IP, please try again later",
 });
 

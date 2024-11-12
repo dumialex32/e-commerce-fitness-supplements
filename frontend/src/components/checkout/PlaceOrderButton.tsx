@@ -5,14 +5,14 @@ const PlaceOrderButton: React.FC<{ order: IOrder; disabled: boolean }> = ({
   order,
   disabled,
 }) => {
-  const { handleConfirmOrder, isLoading, error } = usePlaceOrder();
+  const { handlePlaceOrder, isLoading, error } = usePlaceOrder();
   return (
     <button
-      onClick={() => handleConfirmOrder(order)}
+      onClick={() => handlePlaceOrder(order)}
       className="btn btn-primary"
       disabled={disabled}
     >
-      Order now
+      Place order
     </button>
   );
 };

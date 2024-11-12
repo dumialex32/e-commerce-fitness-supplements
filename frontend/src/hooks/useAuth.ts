@@ -30,12 +30,12 @@ const useAuth = () => {
         navigate("/");
       }
     } catch (error: any) {
-      if (error.status === 401) {
-        console.error(error);
-        setError(error?.data.message);
-      } else {
-        setError("An unknown error occured. Please try again");
-      }
+      console.log(error);
+      setError(
+        error.data.message ||
+          error.data ||
+          "An unknown error occured. Please try again"
+      );
     }
   };
 

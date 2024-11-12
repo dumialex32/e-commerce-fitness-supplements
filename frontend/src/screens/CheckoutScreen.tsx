@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import CheckoutSteps from "../components/CheckoutSteps";
+import CheckoutSteps from "../components/checkout/CheckoutSteps";
 import { ReactNode } from "react";
 import Modal from "../components/Modal";
 

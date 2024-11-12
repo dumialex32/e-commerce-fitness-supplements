@@ -19,7 +19,7 @@ export interface IPaymentResult {
   id?: string;
   status?: string;
   update_time?: string;
-  emailAddress?: string;
+  email_address?: string;
 }
 
 // extending Document for the main schema interface
