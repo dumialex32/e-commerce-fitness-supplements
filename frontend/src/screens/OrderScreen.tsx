@@ -11,7 +11,7 @@ import {
   useUpdateOrderToPaidMutation,
 } from "../slices/ordersApiSlice";
 import useAuth from "../hooks/useAuth";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import OrderItem from "../components/order/OrderItem";
 import { IOrderItem } from "../types/Order/OrderTypes";
 import { createToast } from "../utils/toastUtils";
@@ -37,37 +37,39 @@ const OrderScreen: React.FC = () => {
 
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
   const {
-    data: paypal,
+    data: paypalSDK,
     isLoading: loadingPayPal,
     error: errorPayPal,
   } = useGetPaypalClientIdQuery();
 
+  console.log(paypalSDK);
+
   const { userInfo } = useAuth();
 
   useEffect(() => {
-    if (!errorPayPal && !loadingPayPal && paypal.clientId) {
-      const loadPaypalScript = async () => {
+    if (!errorPayPal && !loadingPayPal && paypalSDK?.clientId) {
+      const loadPaypalScript = () => {
         paypalDispatch({
-          type: "setOptions",
+          type: "resetOptions",
           value: {
-            "client-id": paypal.clientId,
+            "client-id": paypalSDK.clientId,
             currency: "EUR",
           },
         });
-        paypalDispatch({ type: "setLoadingStatus", value: "pending" });
+        paypalDispatch({
+          type: "setLoadingStatus",
+          value: "pending",
+        });
       };
 
-      if (order && !order.isPaid) {
-        // check if the script is not already loaded
-        if (!window.paypal) {
-          loadPaypalScript();
-        }
+      if (order && !order.isPaid && !window.paypal) {
+        loadPaypalScript();
       }
     }
-  }, [paypal, paypalDispatch, errorPayPal, loadingPayPal, order]);
+  }, [paypalSDK, paypalDispatch, errorPayPal, loadingPayPal, order]);
 
   function onApprove(data, actions) {
-    return actions.order.capture.then(async function (details) {
+    return actions.order.capture().then(async function (details) {
       try {
         await payOrder({ orderId, details });
         refetch();
@@ -103,7 +105,7 @@ const OrderScreen: React.FC = () => {
         purchase_units: [
           {
             amount: {
-              value: order.totalPrice.toString(), // Ensure the value is a string
+              value: order.totalPrice.toString(),
             },
           },
         ],

@@ -45,7 +45,7 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <PayPalScriptProvider deferLoading={true} options={{ clientId: "test" }}>
+      <PayPalScriptProvider deferLoading={true}>
         <RouterProvider router={router}></RouterProvider>
       </PayPalScriptProvider>
     </Provider>
