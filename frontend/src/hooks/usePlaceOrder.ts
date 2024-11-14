@@ -49,7 +49,7 @@ const usePlaceOrder = () => {
     try {
       const res = await createOrder(order).unwrap();
       dispatch(clearCartItems());
-      createToast("Order successfully created.", {
+      createToast("Order successfully placed.", {
         type: "success",
         orientation: "bottom-center",
       });

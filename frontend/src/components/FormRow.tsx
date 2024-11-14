@@ -30,7 +30,7 @@ const FormRow: React.FC<{
   children: ReactNode;
   labelWithIcon?: "Password" | "Email" | "PayPal" | "CreditCard";
   label?: string | undefined;
-  error: string;
+  error?: string;
   direction?: "vertical" | "horizontal";
 }> = ({
   children,

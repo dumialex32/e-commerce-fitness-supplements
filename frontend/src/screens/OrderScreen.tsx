@@ -1,25 +1,23 @@
 import { useParams } from "react-router-dom";
 import { useGetOrderDetailsQuery } from "../slices/ordersApiSlice";
-import FlexRow from "../components/common/FlexRow";
-import Loader from "../components/Loader";
-import { formatDate, formatPriceCurrency } from "../utils/formatters";
-import Message from "../components/Message";
+
 import useAppNavigate from "../hooks/useAppNavigate";
-import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
-import {
-  useGetPaypalClientIdQuery,
-  useUpdateOrderToPaidMutation,
-} from "../slices/ordersApiSlice";
+
 import useAuth from "../hooks/useAuth";
-import { useEffect } from "react";
+import usePayPal from "../hooks/usePayPal";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
+import FlexRow from "../components/common/FlexRow";
+import { IOrderItem, IOrderResponse } from "../types/Order/OrderTypes";
 import OrderItem from "../components/order/OrderItem";
-import { IOrderItem } from "../types/Order/OrderTypes";
-import { createToast } from "../utils/toastUtils";
+import { formatDate, formatPriceCurrency } from "../utils/formatters";
 
 const OrderScreen: React.FC = () => {
-  const { id: orderId } = useParams();
+  const { id: orderId } = useParams<string>();
 
   const { moveBack, moveTo } = useAppNavigate();
+
+  const { userInfo } = useAuth();
 
   const {
     data: order,
@@ -32,94 +30,27 @@ const OrderScreen: React.FC = () => {
   const { shippingAddress: { country, city, address, postalCode } = {} } =
     order || {};
 
-  // paypal states
-  const [payOrder, { isLoading: loadingPay }] = useUpdateOrderToPaidMutation();
+  const { loadingPay, isPending, renderPayPalButtons } = usePayPal(
+    orderId as string,
+    order?.totalPrice as number,
+    refetch
+  );
 
-  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
-  const {
-    data: paypalSDK,
-    isLoading: loadingPayPal,
-    error: errorPayPal,
-  } = useGetPaypalClientIdQuery();
+  // function to simulate the payment approval without paypal
+  // async function onApproveTest() {
+  //   const res = await payOrder({
+  //     orderId,
+  //     details: {
+  //       id: "1",
+  //       status: "paid",
+  //       updateTime: "test",
+  //       payer: { email_address: "test@test.com" },
+  //     },
+  //   });
 
-  console.log(paypalSDK);
-
-  const { userInfo } = useAuth();
-
-  useEffect(() => {
-    if (!errorPayPal && !loadingPayPal && paypalSDK?.clientId) {
-      const loadPaypalScript = () => {
-        paypalDispatch({
-          type: "resetOptions",
-          value: {
-            "client-id": paypalSDK.clientId,
-            currency: "EUR",
-          },
-        });
-        paypalDispatch({
-          type: "setLoadingStatus",
-          value: "pending",
-        });
-      };
-
-      if (order && !order.isPaid && !window.paypal) {
-        loadPaypalScript();
-      }
-    }
-  }, [paypalSDK, paypalDispatch, errorPayPal, loadingPayPal, order]);
-
-  function onApprove(data, actions) {
-    return actions.order.capture().then(async function (details) {
-      try {
-        await payOrder({ orderId, details });
-        refetch();
-        createToast("Order successfully paid", { type: "success" });
-      } catch (err: any) {
-        console.error(err);
-        createToast(err?.data?.message || err.message || "Order pay failed", {
-          type: "error",
-        });
-      }
-    });
-  }
-
-  async function onApproveTest() {
-    const res = await payOrder({
-      orderId,
-      details: {
-        id: "1",
-        status: "paid",
-        updateTime: "test",
-        payer: { email_address: "test@test.com" },
-      },
-    });
-
-    console.log(res);
-    refetch();
-    createToast("Order successfully paid", { type: "success" });
-  }
-
-  function createOrder(data, actions) {
-    return actions.order
-      .create({
-        purchase_units: [
-          {
-            amount: {
-              value: order.totalPrice.toString(),
-            },
-          },
-        ],
-      })
-      .then((orderId) => {
-        return orderId;
-      });
-  }
-
-  function onError(err: any) {
-    createToast(err.message, {
-      type: "error",
-    });
-  }
+  //   console.log(res);
+  //   renderFetchBaseQueryError();
+  //   createToast("Order successfully paid", { type: "success" });
 
   return (
     <>
@@ -199,26 +130,27 @@ const OrderScreen: React.FC = () => {
                   </p>
                 </FlexRow>
                 <div className="py-4">
-                  {!order.isPaid && (
+                  {!order.isPaid ? (
                     <ul>
                       {loadingPay && <Loader />}
                       {isPending ? (
                         <Loader />
                       ) : (
                         <>
-                          <button className="btn" onClick={onApproveTest}>
+                          {/* <button className="btn" onClick={onApproveTest}>
                             Test Pay order
-                          </button>
-                          <div>
-                            <PayPalButtons
-                              createOrder={createOrder}
-                              onApprove={onApprove}
-                              onError={onError}
-                            />
-                          </div>
+                          </button> */}
+                          {renderPayPalButtons()}
                         </>
                       )}
                     </ul>
+                  ) : (
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => moveTo("/")}
+                    >
+                      Go to Homepage
+                    </button>
                   )}
                 </div>
               </div>
@@ -260,5 +192,4 @@ const OrderScreen: React.FC = () => {
     </>
   );
 };
-
 export default OrderScreen;
