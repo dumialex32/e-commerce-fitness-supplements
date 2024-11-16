@@ -113,7 +113,7 @@ const updateOrdeToDelivered = asyncHandler(
 
 const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
   const order = await Order.findById(req.params.id);
-  console.log(req.body);
+
   // if there is an order document matched, update it's specified fields
   if (order) {
     order.isPaid = true;

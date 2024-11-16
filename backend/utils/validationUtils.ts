@@ -10,7 +10,7 @@ const validateName = async (name: string) => {
 
   if (reservedNameMatch) {
     const reservedNameExist = await User.findOne({ name: reservedNameMatch });
-    console.log(reservedNameExist);
+
     if (reservedNameExist) {
       return `Reserved name "${reservedNameMatch}" already exists in the database`;
     }

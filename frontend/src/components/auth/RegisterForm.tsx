@@ -31,7 +31,7 @@ const RegisterForm: React.FC<{ isUpdating?: boolean }> = ({
     setPassword,
     setConfirmPassword,
   } = useRegisterForm();
-  console.log(errors);
+
   const { isUserLoggedIn } = useAuth();
   const { moveTo } = useAppNavigate();
   const { redirect } = useRedirectParam();

@@ -26,7 +26,7 @@ const usePayPal = (
     isLoading: loadingPayPal,
     error: errorPayPal,
   } = useGetPaypalClientIdQuery();
-  console.log(paypal);
+
 
   // function to configure and load the paypal script with the client id and current currency state
   const loadPaypalScript = () => {

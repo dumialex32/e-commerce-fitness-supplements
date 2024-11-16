@@ -30,7 +30,7 @@ const useAuth = () => {
         navigate("/");
       }
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
       setError(
         error.data.message ||
           error.data ||
@@ -46,7 +46,7 @@ const useAuth = () => {
 
   // check if user is logged in
   const isUserLoggedIn: boolean = !isEmpty(userInfo);
-  console.log(userInfo);
+
   // get the user's name first letter
   const userInitial: string | null = userInfo?.name
     ? userInfo?.name.slice(0, 1)

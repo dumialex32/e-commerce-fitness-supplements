@@ -1,3 +1,5 @@
+import { IUserInfo } from "../userTypes/authSliceTypes";
+
 export interface IErrors {
   name?: string;
   email?: string;
@@ -21,6 +23,7 @@ type SetPassword = { type: "SET_PASSWORD"; payload: string };
 type SetConfirmPassword = { type: "SET_CONFIRM_PASSWORD"; payload: string };
 type SetErrors = { type: "SET_ERRORS"; payload: IErrors };
 type setRegistrationSuccess = { type: "SET_REGISTRATION_SUCCESS" };
+type setResetForm = { type: "RESET_FORM"; payload: IUserInfo | null };
 
 export type ActionType =
   | SetName
@@ -28,4 +31,5 @@ export type ActionType =
   | SetPassword
   | SetConfirmPassword
   | SetErrors
-  | setRegistrationSuccess;
+  | setRegistrationSuccess
+  | setResetForm;

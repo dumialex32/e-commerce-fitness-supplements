@@ -57,6 +57,11 @@ const reducer = (state: IinitialState, action: ActionType) => {
     case "SET_REGISTRATION_SUCCESS":
       return { ...state, isRegistrationSuccess: true };
 
+    case "RESET_FORM":
+      return {
+        ...init(action.payload),
+      };
+
     default:
       return state;
   }
@@ -90,7 +95,7 @@ const useRegisterForm = () => {
   ) => {
     e.preventDefault();
 
-    impdispatch({
+    dispatch({
       type: "SET_ERRORS",
       payload: { registrationError: "" },
     });
@@ -98,7 +103,7 @@ const useRegisterForm = () => {
     const userData = { name, email, password };
 
     try {
-      const res = isUpdating
+      const userInfo: IUserInfo = isUpdating
         ? await updateProfile(userData).unwrap()
         : await register(userData).unwrap();
       setRegistrationSuccess();
@@ -109,7 +114,10 @@ const useRegisterForm = () => {
           orientation: "bottom-center",
         }
       );
-      setTimeout(() => reduxDispatch(setCredentials(res)), 3000);
+      setTimeout(() => reduxDispatch(setCredentials(userInfo)), 3000);
+
+      // reset the form fields
+      resetFormFields(userInfo);
     } catch (err: any) {
       console.error(err);
       if (err.status === 400 && err.data.message) {
@@ -156,6 +164,10 @@ const useRegisterForm = () => {
 
   const setRegistrationSuccess = () => {
     dispatch({ type: "SET_REGISTRATION_SUCCESS" });
+  };
+
+  const resetFormFields = (userInfo: IUserInfo) => {
+    dispatch({ type: "RESET_FORM", payload: userInfo });
   };
 
   return {
