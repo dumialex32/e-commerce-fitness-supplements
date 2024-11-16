@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import CheckoutSteps from "../components/checkout/CheckoutSteps";
 import { ReactNode } from "react";
 import Modal from "../components/Modal";
+import ScreenTitle from "../components/ScreenTitle";
 
 const CheckoutScreen: React.FC<{
   children: ReactNode;
@@ -17,7 +18,7 @@ const CheckoutScreen: React.FC<{
 
   return (
     <div className="container flex flex-col gap-8 items-center">
-      <h1 className="text-4xl font-semibold text-primary">{title}</h1>
+      <ScreenTitle>{title}</ScreenTitle>
 
       <CheckoutSteps step1={step1} step2={step2} step3={step3} step4={step4} />
 

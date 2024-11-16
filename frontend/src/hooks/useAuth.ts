@@ -46,10 +46,11 @@ const useAuth = () => {
 
   // check if user is logged in
   const isUserLoggedIn: boolean = !isEmpty(userInfo);
-
+  console.log(userInfo);
   // get the user's name first letter
-  const userInitial: string | null =
-    userInfo && isUserLoggedIn ? userInfo.name.slice(0, 1) : null;
+  const userInitial: string | null = userInfo?.name
+    ? userInfo?.name.slice(0, 1)
+    : null;
 
   return {
     email,

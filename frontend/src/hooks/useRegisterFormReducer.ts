@@ -1,5 +1,8 @@
 import { useReducer } from "react";
-import { useRegisterMutation } from "../slices/usersApiSlice";
+import {
+  useProfileMutation,
+  useRegisterMutation,
+} from "../slices/usersApiSlice";
 import {
   validateEmail,
   validateName,
@@ -13,6 +16,23 @@ import {
   IinitialState,
 } from "../types/authTypes/registerFormReducerTypes";
 import { checkFormInputs } from "../utils/utils";
+import useAuth from "./useAuth";
+import { IUserInfo } from "../types/userTypes/authSliceTypes";
+
+const init = (userInfo: IUserInfo | null) => ({
+  name: userInfo?.name || "",
+  email: userInfo?.email || "",
+  password: "",
+  confirmPassword: "",
+  errors: {
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    registrationError: "",
+  },
+  isRegistrationSuccess: false,
+});
 
 const reducer = (state: IinitialState, action: ActionType) => {
   switch (action.type) {
@@ -42,26 +62,17 @@ const reducer = (state: IinitialState, action: ActionType) => {
   }
 };
 
-const initialState = {
-  name: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-  errors: {
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    registrationError: "",
-  },
-  isRegistrationSuccess: false,
-};
-
 const useRegisterForm = () => {
+  const { userInfo } = useAuth();
+  console.log(userInfo);
   const [
     { name, email, password, errors, isRegistrationSuccess, confirmPassword },
     dispatch,
-  ] = useReducer(reducer, initialState);
+  ] = useReducer(reducer, userInfo, init);
+
+  // retrieve the profile mutation hook from users api slice
+  const [updateProfile, { isLoading: isLoadingProfileUpdate }] =
+    useProfileMutation();
 
   // retrieve the register mutation hook and the loading state from userApiSlice
   const [register, { isLoading }] = useRegisterMutation();
@@ -73,25 +84,35 @@ const useRegisterForm = () => {
     errors
   );
 
-  const handleRegisterFormSubmit = async (e: React.FormEvent) => {
+  const handleRegisterFormSubmit = async (
+    e: React.FormEvent,
+    isUpdating: boolean
+  ) => {
     e.preventDefault();
 
     const userData = { name, email, password };
 
     try {
-      const res = await register(userData).unwrap();
+      const res = isUpdating
+        ? await updateProfile(userData).unwrap()
+        : await register(userData).unwrap();
       setRegistrationSuccess();
-      createToast("Register successfully done.", {
-        type: "success",
-        orientation: "bottom-center",
-      });
+      createToast(
+        `${isUpdating ? "Profile updated" : "Register successfully done"}`,
+        {
+          type: "success",
+          orientation: "bottom-center",
+        }
+      );
       setTimeout(() => reduxDispatch(setCredentials(res)), 3000);
     } catch (err: any) {
       console.error(err);
       if (err.status === 400 && err.data.message) {
         dispatch({
           type: "SET_ERRORS",
-          payload: { registrationError: err.data.message },
+          payload: {
+            registrationError: err.data.message || "An unknown error occured",
+          },
         });
       }
     }
@@ -140,6 +161,7 @@ const useRegisterForm = () => {
     errors,
     isFormInvalid,
     isLoading,
+    isLoadingProfileUpdate,
     isRegistrationSuccess,
     setName,
     setPassword,

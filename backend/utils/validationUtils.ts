@@ -1,7 +1,7 @@
 import { Response } from "express";
 
 const validateName = (name: string) => {
-  const regex = /^[A-Z][a-z]+ [A-Z][a-z]+$/;
+  const regex = /^[a-zA-Z ]+$/;
   if (name.length < 6 || name.length > 24 || !regex.test(name)) {
     return "Invalid name format";
   }

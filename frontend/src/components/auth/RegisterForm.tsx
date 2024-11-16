@@ -12,7 +12,9 @@ import Modal from "../Modal";
 import RegistrationSuccess from "./RegistrationSuccess";
 import Message from "../Message";
 
-const RegisterForm: React.FC = () => {
+const RegisterForm: React.FC<{ isUpdating?: boolean }> = ({
+  isUpdating = false,
+}) => {
   const {
     name,
     email,
@@ -21,6 +23,7 @@ const RegisterForm: React.FC = () => {
     errors,
     isFormInvalid,
     isLoading,
+    isLoadingProfileUpdate,
     isRegistrationSuccess,
     handleRegisterFormSubmit,
     setName,
@@ -34,22 +37,22 @@ const RegisterForm: React.FC = () => {
   const { redirect } = useRedirectParam();
 
   useEffect(() => {
-    if (isUserLoggedIn) redirect("/");
+    if (isUserLoggedIn && !isUpdating) redirect("/");
   }, [isUserLoggedIn, redirect, moveTo]);
 
   return (
-    <>
+    <div>
       <ToastContainer />
-      {isRegistrationSuccess ? (
+      {isRegistrationSuccess && !isUpdating ? (
         <Modal name="registrationSuccess">
           <Modal.Window name="registrationSuccess" positionY="center">
             <RegistrationSuccess name={name} />
           </Modal.Window>
         </Modal>
       ) : (
-        <Form onSubmit={(e) => handleRegisterFormSubmit(e)}>
+        <Form onSubmit={(e) => handleRegisterFormSubmit(e, isUpdating)}>
           <div className="text-center text-primary font-semibold text-2xl">
-            Register your account
+            {isUpdating ? "" : "Register your account"}
           </div>
 
           <FormRow
@@ -110,31 +113,52 @@ const RegisterForm: React.FC = () => {
             />
           </FormRow>
 
-          <div className="flex items-center gap-6 justify-center pt-4 mb-4">
+          <div className="flex items-center gap-6 pt-4 mb-4">
             <div className="flex items-center gap-5">
-              <button
-                className="btn btn-primary"
-                type="submit"
-                value="Sign Up"
-                disabled={isFormInvalid || isLoading}
-              >
-                {isLoading ? <ButtonLoader text="Signing up..." /> : "Sign Up"}
-              </button>
+              {isUpdating ? (
+                <button
+                  className="btn btn-primary"
+                  type="submit"
+                  value="updateProfile"
+                  disabled={
+                    isFormInvalid || isLoading || isLoadingProfileUpdate
+                  }
+                >
+                  Update profile
+                </button>
+              ) : (
+                <button
+                  className="btn btn-primary"
+                  type="submit"
+                  value="Sign Up"
+                  disabled={
+                    isFormInvalid || isLoading || isLoadingProfileUpdate
+                  }
+                >
+                  {isLoading || isLoadingProfileUpdate ? (
+                    <ButtonLoader text="Signing up..." />
+                  ) : (
+                    "Sign Up"
+                  )}
+                </button>
+              )}
             </div>
 
-            <p className="ml-auto">
-              Already have an account ?{" "}
-              <Link to={"/login"} className="text-primary font-semibold">
-                Sign In
-              </Link>
-            </p>
+            {!isUpdating && (
+              <p className="ml-auto">
+                Already have an account ?{" "}
+                <Link to={"/login"} className="text-primary font-semibold">
+                  Sign In
+                </Link>
+              </p>
+            )}
           </div>
           {errors.registrationError && (
             <Message type="error">{errors.registrationError}</Message>
           )}
         </Form>
       )}
-    </>
+    </div>
   );
 };
 

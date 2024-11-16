@@ -1,8 +1,10 @@
 // form validators
 export const validateName = (name: string) => {
   const trimmedName = name.trim();
-  const validNameRegex = /^[A-Z][a-z]+ [A-Z][a-z]+$/;
-  const sequentialOrRepeatedRegex = /(.)\1{2,}/;
+
+  const validNameRegex = /^[a-zA-Z ]+$/;
+
+  const sequentialOrRepeatedRegex = /(.)\1{3,}/;
   const reserverdWords = ["admin", "root", "system"];
   if (trimmedName.length < 3) return "Name must contain at least 3 characters";
 
@@ -15,7 +17,7 @@ export const validateName = (name: string) => {
     return "Reserved name, please choose another one";
 
   if (sequentialOrRepeatedRegex.test(trimmedName))
-    return "Name must not contain three or more repeated characters in a row";
+    return "Name must not contain four or more repeated characters in a row";
 
   return "";
 };
