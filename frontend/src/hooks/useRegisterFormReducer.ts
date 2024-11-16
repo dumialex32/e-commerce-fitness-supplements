@@ -64,7 +64,7 @@ const reducer = (state: IinitialState, action: ActionType) => {
 
 const useRegisterForm = () => {
   const { userInfo } = useAuth();
-  console.log(userInfo);
+
   const [
     { name, email, password, errors, isRegistrationSuccess, confirmPassword },
     dispatch,
@@ -89,6 +89,11 @@ const useRegisterForm = () => {
     isUpdating: boolean
   ) => {
     e.preventDefault();
+
+    impdispatch({
+      type: "SET_ERRORS",
+      payload: { registrationError: "" },
+    });
 
     const userData = { name, email, password };
 

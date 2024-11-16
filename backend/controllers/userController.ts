@@ -142,6 +142,12 @@ const updateUserProfile = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     const user = await User.findById(req.user._id);
 
+    await validateInputs(res, {
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+    });
+
     if (user) {
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;

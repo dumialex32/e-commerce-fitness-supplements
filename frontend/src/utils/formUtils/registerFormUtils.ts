@@ -5,16 +5,13 @@ export const validateName = (name: string) => {
   const validNameRegex = /^[a-zA-Z ]+$/;
 
   const sequentialOrRepeatedRegex = /(.)\1{3,}/;
-  const reserverdWords = ["admin", "root", "system"];
+
   if (trimmedName.length < 3) return "Name must contain at least 3 characters";
 
   if (trimmedName.length > 30) return "Name must not exceed 30 characters";
 
   if (!validNameRegex.test(trimmedName))
     return "Name must contain only letters, numbers and underscores";
-
-  if (reserverdWords.includes(trimmedName))
-    return "Reserved name, please choose another one";
 
   if (sequentialOrRepeatedRegex.test(trimmedName))
     return "Name must not contain four or more repeated characters in a row";

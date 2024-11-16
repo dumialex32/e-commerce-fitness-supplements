@@ -1,8 +1,26 @@
 import { Response } from "express";
+import User from "../models/userModel";
 
-const validateName = (name: string) => {
+const validateName = async (name: string) => {
   const regex = /^[a-zA-Z ]+$/;
-  if (name.length < 6 || name.length > 24 || !regex.test(name)) {
+  const trimmedName = name.trim();
+  const reservedWords = ["admin", "root", "system"];
+
+  const reservedNameMatch = reservedWords.find((n) => n === trimmedName);
+
+  if (reservedNameMatch) {
+    const reservedNameExist = await User.findOne({ name: reservedNameMatch });
+    console.log(reservedNameExist);
+    if (reservedNameExist) {
+      return `Reserved name "${reservedNameMatch}" already exists in the database`;
+    }
+  }
+
+  if (
+    trimmedName.length < 4 ||
+    trimmedName.length > 24 ||
+    !regex.test(trimmedName)
+  ) {
     return "Invalid name format";
   }
 
@@ -20,19 +38,21 @@ const validateEmail = (email: string) => {
 
 const validatePassword = (password: string) => {
   const regex = /[\d]/;
-  if (password.length < 6 || password.length > 12 || !regex.test(password))
+  if (password.length < 6 || password.length > 12 || !regex.test(password)) {
     return "Invalid password format";
+  }
 
   return undefined;
 };
 
-export const validateInputs = (
+export const validateInputs = async (
   res: Response,
   inputs: { name: string; email: string; password: string }
 ) => {
   const { name, email, password } = inputs;
 
-  const nameError = validateName(name);
+  // Make `validateName` asynchronous and wait for its result
+  const nameError = await validateName(name);
   const emailError = validateEmail(email);
   const passwordError = validatePassword(password);
 
