@@ -11,6 +11,7 @@ import FlexRow from "../components/common/FlexRow";
 import { IOrderItem, IOrderResponse } from "../types/Order/OrderTypes";
 import OrderItem from "../components/order/OrderItem";
 import { formatDate, formatPriceCurrency } from "../utils/formatters";
+import Logo from "../components/Logo";
 
 const OrderScreen: React.FC = () => {
   const { id: orderId } = useParams<string>();
@@ -74,28 +75,34 @@ const OrderScreen: React.FC = () => {
             Order review
           </h2>
 
-          <div className="grid gap-1 max-w-80 p-4 bg-gray-50 rounded-md text-gray-500 text-sm">
-            <FlexRow>
-              <p>Order</p>
-              <p>6345673463465</p>
-            </FlexRow>
-            <FlexRow>
-              <p>Order date</p>
-              <p>{formatDate(order.createdAt)}</p>
-            </FlexRow>
+          <nav className="grid grid-cols-2 gap-6">
+            <div className="grid gap-1 p-4 bg-gray-50 rounded-md text-gray-500 text-sm">
+              <FlexRow>
+                <p>Order</p>
+                <p>6345673463465</p>
+              </FlexRow>
+              <FlexRow>
+                <p>Order date</p>
+                <p>{formatDate(order.createdAt)}</p>
+              </FlexRow>
 
-            <FlexRow>
-              <p>Sold by</p>
-              <p>MUSCLEDEV</p>
-            </FlexRow>
-          </div>
+              <FlexRow>
+                <p>Sold by</p>
+                <p>MUSCLEDEV</p>
+              </FlexRow>
+            </div>
 
-          <ul className="flex flex-col gap-2 p-4 shadow-md max-w-80 text-sm">
-            <h2>Order Items</h2>
-            {order.orderItems.map((oi: IOrderItem) => (
-              <OrderItem key={oi._id} orderItem={oi} />
-            ))}
-          </ul>
+            <div className="justify-self-center">
+              <Logo size="xl" />
+            </div>
+
+            <ul className="flex flex-col gap-2 p-4 shadow-md text-sm">
+              <h2>Order Items</h2>
+              {order.orderItems.map((oi: IOrderItem) => (
+                <OrderItem key={oi._id} orderItem={oi} />
+              ))}
+            </ul>
+          </nav>
 
           <div className="grid grid-cols-3 gap-9 p-4 max-w-cm-78">
             <div>
