@@ -7,9 +7,10 @@ const ordersSliceApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
     getMyOrders: build.query<IOrder[], void>({
       query: () => ({
-        url: `${ORDERS_URL}/getMyOrders`,
+        url: `${ORDERS_URL}/myorders`,
       }),
       keepUnusedDataFor: 5000,
+      providesTags: ["Order"],
     }),
 
     getOrderDetails: build.query<IOrderResponse, string>({
@@ -25,6 +26,7 @@ const ordersSliceApi = apiSlice.injectEndpoints({
         method: "POST",
         body: { ...order },
       }),
+      invalidatesTags: ["Order"],
     }),
 
     updateOrderToPaid: build.mutation({
@@ -61,4 +63,5 @@ export const {
   useCreateOrderMutation,
   useUpdateOrderToPaidMutation,
   useUpdateOrderToDeliveredMutation,
+  useGetMyOrdersQuery,
 } = ordersSliceApi as any;

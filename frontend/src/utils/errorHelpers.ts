@@ -1,6 +1,7 @@
 import { SerializedError } from "@reduxjs/toolkit";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
+//  render error messages from Redux Toolkit's createApi queries or mutations
 export const renderFetchBaseQueryError = (
   error: FetchBaseQueryError | SerializedError | undefined
 ): string | null => {

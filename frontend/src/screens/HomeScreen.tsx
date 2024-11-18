@@ -12,23 +12,25 @@ const HomeScreen: React.FC = () => {
     error,
   }: IuseGetProductsQuery = useGetProductsQuery();
 
+  const errorMessage = renderFetchBaseQueryError(error);
+
+  if (isLoading) {
+    return <Loader size="xl" />;
+  }
+
+  if (errorMessage) {
+    return <Message>{errorMessage}</Message>;
+  }
+
   return (
-    <>
-      {isLoading ? (
-        <Loader size="xl" />
-      ) : renderFetchBaseQueryError(error) ? (
-        <Message>{renderFetchBaseQueryError(error)}</Message>
-      ) : (
-        <div className="flex flex-col gap-4">
-          <h1 className="text-3xl">Latest Products</h1>
-          <ul className="flex flex-wrap">
-            {products.map((product) => (
-              <Product key={product._id} product={product} />
-            ))}
-          </ul>
-        </div>
-      )}
-    </>
+    <div className="flex flex-col gap-4">
+      <h1 className="text-3xl">Latest Products</h1>
+      <ul className="flex flex-wrap">
+        {products.map((product) => (
+          <Product key={product._id} product={product} />
+        ))}
+      </ul>
+    </div>
   );
 };
 

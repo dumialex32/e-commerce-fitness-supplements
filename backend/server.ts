@@ -36,7 +36,8 @@ app.use("/api/products", productRoutes);
 // app.use("/api/users", userRateLimit, userRoutes);
 app.use("/api/users", userRoutes);
 // order routes
-app.use("/api/orders", orderRateLimit, orderRoutes);
+// app.use("/api/orders", orderRateLimit, orderRoutes);
+app.use("/api/orders", orderRoutes);
 
 // get paypal client id from backend
 app.get("/api/config/paypal", (req: Request, res: Response) =>

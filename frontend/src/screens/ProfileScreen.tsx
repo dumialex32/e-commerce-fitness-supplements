@@ -1,5 +1,5 @@
 import RegisterForm from "../components/auth/RegisterForm";
-import OrdersTable from "../components/OrdersTable";
+import OrderTable from "../components/OrderTable";
 import ScreenTitle from "../components/ScreenTitle";
 
 const ProfileScreen: React.FC = () => {
@@ -10,7 +10,7 @@ const ProfileScreen: React.FC = () => {
       <div className="grid grid-cols-2 gap-6">
         <RegisterForm isUpdating={true} />
 
-        <OrdersTable />
+        <OrderTable />
       </div>
     </div>
   );
