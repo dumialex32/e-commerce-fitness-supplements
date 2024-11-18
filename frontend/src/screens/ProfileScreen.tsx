@@ -7,7 +7,7 @@ const ProfileScreen: React.FC = () => {
     <div>
       <ScreenTitle>User Profile</ScreenTitle>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-[1fr_2fr] gap-6">
         <RegisterForm isUpdating={true} />
 
         <OrderTable />

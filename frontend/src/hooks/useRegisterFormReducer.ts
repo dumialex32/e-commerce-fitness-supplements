@@ -116,7 +116,7 @@ const useRegisterForm = () => {
       );
       setTimeout(() => reduxDispatch(setCredentials(userInfo)), 3000);
 
-      // reset the form fields
+      setCredentials(userInfo);
       resetFormFields(userInfo);
     } catch (err: any) {
       console.error(err);
