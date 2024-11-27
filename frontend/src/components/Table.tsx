@@ -1,15 +1,4 @@
-import React from "react";
-
-export interface TableColumn<T> {
-  header: string;
-  accessor: keyof T | ((item: T) => React.ReactNode);
-}
-
-interface TableProps<T> {
-  columns: TableColumn<T>[];
-  data: T[];
-  className?: string;
-}
+import { TableProps } from "../types/componentsTypes/tableTypes";
 
 const Table = <T,>({
   columns,
@@ -30,23 +19,27 @@ const Table = <T,>({
                 key={index}
                 className="px-4 py-2 rounded-md bg-gray-100 text-left"
               >
-                {col.header}
+                {col.label}
               </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {data.map((item, rowIndex) => (
-            <tr key={rowIndex} className="hover:bg-gray-50">
-              {columns.map((col, colIndex) => (
-                <td key={colIndex} className="px-4 py-2 text-sm">
-                  {typeof col.accessor === "function"
-                    ? col.accessor(item)
-                    : (item[col.accessor as keyof T] as React.ReactNode)}
-                </td>
-              ))}
-            </tr>
-          ))}
+          {data.map((row, rowIndex) => {
+            return (
+              <tr key={rowIndex} className="hover:bg-gray-50">
+                {columns.map((col, colIndex) => {
+                  const value = row[col.id];
+                  console.log(value);
+                  return (
+                    <td key={colIndex} className="px-4 py-2 text-sm">
+                      {col.accessor ? col.accessor(value) : String(value)}
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

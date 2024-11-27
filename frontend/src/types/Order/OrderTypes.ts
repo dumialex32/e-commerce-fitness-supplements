@@ -27,6 +27,7 @@ export interface IOrderResponse {
   itemsPrice: number;
   taxPrice: number;
   shippingPrice: number;
+  paymentResult: IPaymentResult;
   totalPrice: number;
   isPaid: boolean;
   isDelivered: boolean;
@@ -34,4 +35,11 @@ export interface IOrderResponse {
   createdAt: string;
   updatedAt: string;
   __v: number;
+}
+
+interface IPaymentResult {
+  id: string;
+  status: string;
+  update_time: string;
+  email_address: string;
 }

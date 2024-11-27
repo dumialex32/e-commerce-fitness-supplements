@@ -2,18 +2,20 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../slices/usersApiSlice";
 import { useDispatch } from "react-redux";
 import { logout } from "../../slices/authSlice";
+import useAuth from "../../hooks/useAuth";
 
 const UserMenuList: React.FC<{
   isUserLoggedIn: boolean;
   // isDropdownOpen: boolean;
-}> = ({ isUserLoggedIn, isDropdownOpen }) => {
+}> = ({ isUserLoggedIn }) => {
   const [logoutApiCall, { isLoading }] = useLogoutMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { userInfo } = useAuth();
 
   const handleUserLogout = async () => {
     try {
-      const res = await logoutApiCall().unwrap();
+      await logoutApiCall().unwrap();
 
       dispatch(logout());
 
@@ -34,6 +36,16 @@ const UserMenuList: React.FC<{
                 Profile
               </Link>
             </li>
+            {userInfo?.isAdmin && (
+              <>
+                <li>
+                  <Link to={"/admin/products"}>Products</Link>
+                </li>
+                <li>
+                  <Link to={"/admin/orderlist"}>Admin order list</Link>
+                </li>
+              </>
+            )}
             <li>
               <button onClick={handleUserLogout}>Logout</button>
             </li>

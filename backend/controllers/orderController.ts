@@ -88,7 +88,7 @@ const getOrderById = asyncHandler(async (req: Request, res: Response) => {
  */
 
 const getAllOrders = asyncHandler(async (req: Request, res: Response) => {
-  const orders = await Order.find({});
+  const orders = await Order.find({}).populate("user", "id name");
 
   res.status(200).json(orders);
 });

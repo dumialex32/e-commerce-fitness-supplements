@@ -20,6 +20,11 @@ const ordersSliceApi = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5000,
     }),
 
+    getOrders: build.query({
+      query: () => ({ url: ORDERS_URL }),
+      keepUnusedDataFor: 5000,
+    }),
+
     createOrder: build.mutation<IOrderResponse, IOrder>({
       query: (order) => ({
         url: `${ORDERS_URL}`,
@@ -58,7 +63,6 @@ const ordersSliceApi = apiSlice.injectEndpoints({
 export const {
   useGetOrdersQuery,
   useGetOrderDetailsQuery,
-  useGetAllOrdersQuery,
   useGetPaypalClientIdQuery,
   useCreateOrderMutation,
   useUpdateOrderToPaidMutation,

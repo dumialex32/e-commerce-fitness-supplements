@@ -1,67 +1,59 @@
+import React from "react";
 import { Link } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
-import { useGetMyOrdersQuery } from "../slices/ordersApiSlice";
-import { IOrderResponse } from "../types/Order/OrderTypes";
-import { renderFetchBaseQueryError } from "../utils/errorHelpers";
-import Loader from "./Loader";
-import Message from "./Message";
-import Table, { TableColumn } from "./Table";
+import Table from "./Table";
+import { getStatusIcon } from "../utils/tableUtils";
+import { formatDate } from "../utils/formatters";
+import { OrderTableRow, OrderTableProps } from "../types/Order/orderTableTypes";
+import { TableColumn } from "../types/componentsTypes/tableTypes";
 
-interface IOrderApiSliceResponse {
-  data: IOrderResponse[] | undefined;
-  isLoading: boolean;
-  error: unknown;
-}
-
-interface IOrderTableRow {
-  orderNum: number;
-  id: string;
-  name: string;
-  status: string;
-  totalPrice: number;
-}
-
-const OrderTable: React.FC = () => {
-  const {
-    data: orders,
-    isLoading,
-    error,
-  } = useGetMyOrdersQuery() as IOrderApiSliceResponse;
-
-  const { userInfo } = useAuth();
-
-  const columns: TableColumn<IOrderTableRow>[] = [
-    { header: "", accessor: "orderNum" },
+const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
+  const columns: TableColumn<OrderTableRow>[] = [
+    { id: "orderNum", label: "" },
     {
-      header: "Order ID",
-      accessor: (item: IOrderTableRow) => (
-        <Link to={`/order/${item.id}`} className="text-primary">
-          {item.id}
+      id: "orderId",
+      label: "Order ID",
+      accessor: (value: string | number | boolean | undefined) => (
+        <Link to={`/order/${value}`} className="text-primary">
+          {value}
         </Link>
       ),
     },
-    { header: "Name", accessor: "name" },
-    { header: "Status", accessor: "status" },
+    { id: "user", label: "User" },
     {
-      header: "Total",
-      accessor: (item: IOrderTableRow) => `${item.totalPrice}€`,
+      id: "paidStatus",
+      label: "Paid",
+      accessor: (value: string | number | boolean | undefined | undefined) =>
+        getStatusIcon(value as boolean),
+    },
+    {
+      id: "deliveredStatus",
+      label: "Delivered",
+      accessor: (value: string | number | boolean | undefined) =>
+        getStatusIcon(value as boolean),
+    },
+    {
+      id: "totalPrice",
+      label: "Total",
+      accessor: (value: string | number | boolean | undefined) => `${value}€`,
+    },
+    {
+      id: "date",
+      label: "Date",
+      accessor: (value: string | number | boolean | undefined) =>
+        formatDate(value as string),
     },
   ];
 
-  const orderDataRow: IOrderTableRow[] =
-    orders?.map((o, i) => ({
+  const orderDataRow: OrderTableRow[] =
+    data?.map((order, i) => ({
       orderNum: i + 1,
-      id: o._id,
-      name: userInfo?.name || "",
-      status: o.isPaid ? "Paid" : "Not Paid",
-      totalPrice: o.totalPrice,
+      orderId: order._id,
+      user: order.user.name || order.currentUser?.name || "unknown",
+      paidStatus: order.isPaid,
+      deliveredStatus: order.isDelivered,
+      totalPrice: order.totalPrice,
+      date: order.createdAt,
     })) || [];
-
-  if (isLoading) {
-    return <Loader />;
-  }
-  if (error)
-    return <Message type="error">{renderFetchBaseQueryError(error)}</Message>;
 
   return <Table columns={columns} data={orderDataRow} />;
 };
