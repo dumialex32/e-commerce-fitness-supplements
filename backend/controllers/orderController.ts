@@ -101,7 +101,21 @@ const getAllOrders = asyncHandler(async (req: Request, res: Response) => {
 
 const updateOrdeToDelivered = asyncHandler(
   async (req: Request, res: Response) => {
-    return res.send("Update order to delivered");
+    const orderId = req.params.id;
+
+    const order = await Order.findById(orderId);
+
+    if (order) {
+      order.isDelivered = true;
+      order.deliveredAt = new Date();
+
+      const updatedOrder = await order.save();
+
+      res.status(200).json(updatedOrder);
+    } else {
+      res.status(400);
+      throw new Error("Order not found");
+    }
   }
 );
 

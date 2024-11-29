@@ -27,7 +27,7 @@ export interface IOrderResponse {
   itemsPrice: number;
   taxPrice: number;
   shippingPrice: number;
-  paymentResult: IPaymentResult;
+  paymentResult?: IPaymentResult;
   totalPrice: number;
   isPaid: boolean;
   isDelivered: boolean;

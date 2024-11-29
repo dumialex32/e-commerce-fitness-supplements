@@ -3,27 +3,26 @@ import Message from "../../components/Message";
 import OrderTable from "../../components/OrderTable";
 import ScreenTitle from "../../components/ScreenTitle";
 import { useGetOrdersQuery } from "../../slices/ordersApiSlice";
-import { IOrderResponse } from "../../types/Order/OrderTypes";
+import { IuseGetOrdersQuery } from "../../types/slices/orderSliceTypes";
 import { renderFetchBaseQueryError } from "../../utils/errorHelpers";
-
-interface IGetOrdersResponse {
-  data: IOrderResponse[];
-  isLoading: boolean;
-  error: unknown;
-}
 
 const AdminOrderList: React.FC = () => {
   const {
     data: orders,
     isLoading,
     error,
-  } = useGetOrdersQuery() as IGetOrdersResponse;
+  } = useGetOrdersQuery() as IuseGetOrdersQuery;
   console.log(orders);
 
   if (isLoading) return <Loader />;
 
   if (error)
     return <Message type="error">{renderFetchBaseQueryError(error)}</Message>;
+
+  if (!orders || orders.length === 0)
+    return (
+      <Message type="info">No orders have been placed by customers yet</Message>
+    );
 
   return (
     <div>

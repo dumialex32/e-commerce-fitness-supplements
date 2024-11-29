@@ -1,11 +1,12 @@
 import { PAYPAL_URL } from "../constants";
 import { ORDERS_URL } from "../constants";
 import { IOrder, IOrderResponse } from "../types/Order/OrderTypes";
+import { IPopulatedOrderResponse } from "../types/slices/orderSliceTypes";
 import apiSlice from "./apiSlice";
 
 const ordersSliceApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
-    getMyOrders: build.query<IOrder[], void>({
+    getMyOrders: build.query<IOrderResponse, void>({
       query: () => ({
         url: `${ORDERS_URL}/myorders`,
       }),
@@ -18,9 +19,10 @@ const ordersSliceApi = apiSlice.injectEndpoints({
         url: `${ORDERS_URL}/${id}`,
       }),
       keepUnusedDataFor: 5000,
+      providesTags: ["Order"],
     }),
 
-    getOrders: build.query({
+    getOrders: build.query<IPopulatedOrderResponse[], void>({
       query: () => ({ url: ORDERS_URL }),
       keepUnusedDataFor: 5000,
     }),
@@ -42,20 +44,17 @@ const ordersSliceApi = apiSlice.injectEndpoints({
       }),
     }),
 
+    updateOrderToDelivered: build.mutation({
+      query: (orderId) => ({
+        url: `${ORDERS_URL}/${orderId}/deliver`,
+        method: "PUT",
+      }),
+      invalidatesTags: ["Order"],
+    }),
+
     getPaypalClientId: build.query<{ clientId: string }, void>({
       query: () => ({ url: PAYPAL_URL, method: "GET" }),
       keepUnusedDataFor: 5000,
-    }),
-
-    updateOrderToDelivered: build.mutation<
-      IOrderResponse,
-      { id: string; isDelivered: boolean }
-    >({
-      query: ({ id, isDelivered }) => ({
-        url: `${ORDERS_URL}/${id}/$deliver`,
-        method: "PUT",
-        body: isDelivered,
-      }),
     }),
   }),
 });

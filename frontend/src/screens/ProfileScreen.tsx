@@ -5,29 +5,23 @@ import OrderTable from "../components/OrderTable";
 import ScreenTitle from "../components/ScreenTitle";
 import useAuth from "../hooks/useAuth";
 import { useGetMyOrdersQuery } from "../slices/ordersApiSlice";
-import { IProfileOrderData } from "../types/Order/orderTableTypes";
-import { IOrderResponse } from "../types/Order/OrderTypes";
+import { IUserProfileTableData } from "../types/Order/orderTableTypes";
+import { IuseGetMyOrdersQuery } from "../types/slices/orderSliceTypes";
 import { renderFetchBaseQueryError } from "../utils/errorHelpers";
-
-interface IOrderApiSliceResponse {
-  data: IOrderResponse[] | undefined;
-  isLoading: boolean;
-  error: unknown;
-}
 
 const ProfileScreen: React.FC = () => {
   const {
     data: orders,
     isLoading,
     error,
-  } = useGetMyOrdersQuery() as IOrderApiSliceResponse;
+  } = useGetMyOrdersQuery() as IuseGetMyOrdersQuery;
   console.log(orders);
   const { userInfo } = useAuth();
 
-  const profileTableOrders: IProfileOrderData[] =
+  const profileTableOrders: IUserProfileTableData[] =
     orders?.map((order) => ({
       ...order,
-      currentUser: userInfo,
+      currentUser: userInfo?.name || "Unknown User",
     })) || [];
 
   console.log(profileTableOrders);
@@ -40,7 +34,11 @@ const ProfileScreen: React.FC = () => {
     return <Message type="error">{renderFetchBaseQueryError(error)}</Message>;
 
   if (!orders || orders?.length === 0)
-    return <Message type="info">No orders were placed yet.</Message>;
+    return (
+      <Message type="info">
+        No orders placed yet. Start shopping and create your first order!
+      </Message>
+    );
 
   if (!userInfo) return <Message type="info">User could not be found.</Message>;
 

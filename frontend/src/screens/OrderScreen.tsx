@@ -1,5 +1,8 @@
 import { useParams } from "react-router-dom";
-import { useGetOrderDetailsQuery } from "../slices/ordersApiSlice";
+import {
+  useGetOrderDetailsQuery,
+  useUpdateOrderToDeliveredMutation,
+} from "../slices/ordersApiSlice";
 
 import useAppNavigate from "../hooks/useAppNavigate";
 
@@ -8,10 +11,11 @@ import usePayPal from "../hooks/usePayPal";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import FlexRow from "../components/common/FlexRow";
-import { IOrderItem, IOrderResponse } from "../types/Order/OrderTypes";
+import { IOrderItem } from "../types/Order/OrderTypes";
 import OrderItem from "../components/order/OrderItem";
 import { formatDate, formatPriceCurrency } from "../utils/formatters";
 import Logo from "../components/Logo";
+import { createToast } from "../utils/toastUtils";
 
 const OrderScreen: React.FC = () => {
   const { id: orderId } = useParams<string>();
@@ -37,6 +41,9 @@ const OrderScreen: React.FC = () => {
     refetch
   );
 
+  const [updateOrderToDelivered, { isLoading: isLoadingUpdateToDelivered }] =
+    useUpdateOrderToDeliveredMutation();
+
   // function to simulate the payment approval without paypal
   // async function onApproveTest() {
   //   const res = await payOrder({
@@ -52,6 +59,17 @@ const OrderScreen: React.FC = () => {
   //   console.log(res);
   //   renderFetchBaseQueryError();
   //   createToast("Order successfully paid", { type: "success" });
+
+  const handleIsDelivered = async () => {
+    try {
+      const res = await updateOrderToDelivered(orderId);
+
+      createToast("Order delivered", { type: "success" });
+    } catch (err: any) {
+      console.log(err);
+      createToast(err?.data?.message || err?.message, { type: "error" });
+    }
+  };
 
   return (
     <>
@@ -187,9 +205,24 @@ const OrderScreen: React.FC = () => {
                       {country}, {city}, {address}, {postalCode}
                     </p>
                   </FlexRow>
-                  <Message type={order.isDelivered ? "success" : "error"}>
-                    {order.isDelivered ? "Delivred" : "Not delivered"}
-                  </Message>
+                  {isLoadingUpdateToDelivered ? (
+                    <Loader />
+                  ) : (
+                    <Message type={order.isDelivered ? "success" : "error"}>
+                      {order.isDelivered
+                        ? `Deliverd on ${formatDate(order.deliveredAt)}`
+                        : "Not delivered"}
+                    </Message>
+                  )}
+
+                  {userInfo?.isAdmin && order.isPaid && !order.isDelivered && (
+                    <button
+                      className="btn btn-primary self-start"
+                      onClick={handleIsDelivered}
+                    >
+                      Mark as delivered
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

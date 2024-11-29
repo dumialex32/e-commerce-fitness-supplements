@@ -3,8 +3,13 @@ import { Link } from "react-router-dom";
 import Table from "./Table";
 import { getStatusIcon } from "../utils/tableUtils";
 import { formatDate } from "../utils/formatters";
-import { OrderTableRow, OrderTableProps } from "../types/Order/orderTableTypes";
+import {
+  OrderTableRow,
+  OrderTableProps,
+  IUserProfileTableData,
+} from "../types/Order/orderTableTypes";
 import { TableColumn } from "../types/componentsTypes/tableTypes";
+import { IPopulatedOrderResponse } from "../types/slices/orderSliceTypes";
 
 const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
   const columns: TableColumn<OrderTableRow>[] = [
@@ -45,15 +50,23 @@ const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
   ];
 
   const orderDataRow: OrderTableRow[] =
-    data?.map((order, i) => ({
-      orderNum: i + 1,
-      orderId: order._id,
-      user: order.user.name || order.currentUser?.name || "unknown",
-      paidStatus: order.isPaid,
-      deliveredStatus: order.isDelivered,
-      totalPrice: order.totalPrice,
-      date: order.createdAt,
-    })) || [];
+    data?.map((order, i) => {
+      const isUserProfileData = (
+        order: IUserProfileTableData | IPopulatedOrderResponse
+      ): order is IUserProfileTableData => {
+        return (order as IUserProfileTableData).currentUser !== undefined;
+      };
+
+      return {
+        orderNum: i + 1,
+        orderId: order._id,
+        user: isUserProfileData(order) ? order.currentUser : order.user.name,
+        paidStatus: order.isPaid,
+        deliveredStatus: order.isDelivered,
+        totalPrice: order.totalPrice,
+        date: order.createdAt,
+      };
+    }) || [];
 
   return <Table columns={columns} data={orderDataRow} />;
 };
