@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useCreateOrderMutation } from "../slices/ordersApiSlice";
-import { IOrder } from "../types/Order/OrderTypes";
+import { IOrder } from "../types/orderTypes/OrderTypes";
 import { hasEmptyValues } from "../utils/utils";
 import useCart from "./useCart";
 import useAuth from "./useAuth";

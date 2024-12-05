@@ -2,26 +2,29 @@ import { SerializedError } from "@reduxjs/toolkit";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 //  render error messages from Redux Toolkit's createApi queries or mutations
+
 export const renderFetchBaseQueryError = (
   error: FetchBaseQueryError | SerializedError | undefined
 ): string | null => {
   if (error) {
     if ("status" in error) {
-      // handle FetchBaseQueryError
+      // Handle FetchBaseQueryError
       const fetchBaseErrMsg: string =
         "data" in error && typeof error.data === "string"
           ? error.data
           : JSON.stringify(error.data);
 
-      return fetchBaseErrMsg;
+      return (
+        fetchBaseErrMsg || "A network error occurred. Please try again later."
+      );
     } else {
-      // handle SerializedError
+      // Handle SerializedError
       const serializedErrMsg: string | undefined =
-        error.message ?? "An unknown error occurred";
+        error.message ?? "An unknown error occurred. Please try again later.";
 
       return serializedErrMsg;
     }
   }
 
-  return null;
+  return "An unknown error occurred. Please try again later.";
 };

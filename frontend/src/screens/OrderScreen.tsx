@@ -11,11 +11,12 @@ import usePayPal from "../hooks/usePayPal";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import FlexRow from "../components/common/FlexRow";
-import { IOrderItem } from "../types/Order/OrderTypes";
+import { IOrderItem } from "../types/orderTypes/OrderTypes";
 import OrderItem from "../components/order/OrderItem";
 import { formatDate, formatPriceCurrency } from "../utils/formatters";
 import Logo from "../components/Logo";
 import { createToast } from "../utils/toastUtils";
+import { renderFetchBaseQueryError } from "../utils/errorHelpers";
 
 const OrderScreen: React.FC = () => {
   const { id: orderId } = useParams<string>();
@@ -30,7 +31,6 @@ const OrderScreen: React.FC = () => {
     error,
     refetch,
   } = useGetOrderDetailsQuery(orderId);
-  console.log(order);
 
   const { shippingAddress: { country, city, address, postalCode } = {} } =
     order || {};
@@ -66,7 +66,7 @@ const OrderScreen: React.FC = () => {
 
       createToast("Order delivered", { type: "success" });
     } catch (err: any) {
-      console.log(err);
+      console.error(err);
       createToast(err?.data?.message || err?.message, { type: "error" });
     }
   };
@@ -80,12 +80,7 @@ const OrderScreen: React.FC = () => {
           <button className="btn btn-primary" onClick={() => moveBack()}>
             Go Back
           </button>
-          <Message type="error">
-            {error?.data?.message ||
-              error?.data ||
-              error?.message ||
-              "An unknown error occured"}
-          </Message>
+          <Message type="error">{renderFetchBaseQueryError(error)}</Message>
         </div>
       ) : (
         <div className="flex flex-col gap-6 border-2 py-6 px-4">

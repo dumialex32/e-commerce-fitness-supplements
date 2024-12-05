@@ -27,7 +27,6 @@ const usePayPal = (
     error: errorPayPal,
   } = useGetPaypalClientIdQuery();
 
-
   // function to configure and load the paypal script with the client id and current currency state
   const loadPaypalScript = () => {
     paypalDispatch({
@@ -75,7 +74,7 @@ const usePayPal = (
         await payOrder({ orderId, details });
 
         // refetch data
-        onSuccess();
+        // onSuccess();
 
         createToast("Order successfully paid", { type: "success" });
       } catch (err: any) {

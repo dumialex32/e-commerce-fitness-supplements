@@ -8,8 +8,6 @@ const UserMenu: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const dropdownMenuRef = useRef<HTMLDivElement>(null);
 
-  console.log(isDropdownOpen);
-
   const toggleDropdownMenu = () => {
     setIsDropdownOpen((prevstate) => !prevstate);
   };

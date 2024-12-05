@@ -12,15 +12,13 @@ const HomeScreen: React.FC = () => {
     error,
   }: IuseGetProductsQuery = useGetProductsQuery();
 
-  const errorMessage = renderFetchBaseQueryError(error);
+  if (isLoading) return <Loader size="xl" />;
 
-  if (isLoading) {
-    return <Loader size="xl" />;
-  }
+  if (error)
+    return <Message type="error">{renderFetchBaseQueryError(error)}</Message>;
 
-  if (errorMessage) {
-    return <Message>{errorMessage}</Message>;
-  }
+  if (!products || products.length === 0)
+    return <Message type="info">No products has been found.</Message>;
 
   return (
     <div className="flex flex-col gap-4">

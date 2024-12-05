@@ -144,7 +144,6 @@ const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
 
     // return the document with the updated fields
     res.status(200).json(updatedOrder);
-    console.log(updatedOrder);
   } else {
     res.status(404);
     throw new Error("Order not found");

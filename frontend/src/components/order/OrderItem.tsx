@@ -1,4 +1,4 @@
-import { IOrderItem } from "../../types/Order/OrderTypes";
+import { IOrderItem } from "../../types/orderTypes/OrderTypes";
 import { formatPriceCurrency } from "../../utils/formatters";
 
 const OrderItem: React.FC<{ orderItem: IOrderItem }> = ({ orderItem }) => {

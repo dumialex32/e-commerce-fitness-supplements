@@ -1,4 +1,4 @@
-import { IOrderResponse } from "../Order/OrderTypes";
+import { IOrderResponse } from "../orderTypes/OrderTypes";
 
 // get all orders types
 export interface IPopulatedOrderResponse extends Omit<IOrderResponse, "user"> {

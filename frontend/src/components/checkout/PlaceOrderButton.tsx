@@ -1,5 +1,5 @@
 import usePlaceOrder from "../../hooks/usePlaceOrder";
-import { IOrder } from "../../types/Order/OrderTypes";
+import { IOrder } from "../../types/orderTypes/OrderTypes";
 
 const PlaceOrderButton: React.FC<{ order: IOrder; disabled: boolean }> = ({
   order,

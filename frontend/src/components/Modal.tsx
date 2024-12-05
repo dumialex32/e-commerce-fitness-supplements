@@ -5,6 +5,7 @@ import {
   useState,
   FC,
   useEffect,
+  useRef,
 } from "react";
 import { createPortal } from "react-dom";
 import {
@@ -60,18 +61,34 @@ const Window: FC<IModalWindowProps> = ({
   positionY = "center",
 }) => {
   const { close, openName } = useModal();
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    const clickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        close();
+      }
+    };
+
+    document.addEventListener("mousedown", clickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", clickOutside);
+    };
+  }, [close]);
 
   if (name !== openName) return;
 
   return createPortal(
     <div className="fixed top-0 left-0 w-full h-screen bg-primary/15 backdrop-blur-md transition-all duration-500 z-50">
       <div
+        ref={modalRef}
         className={`fixed ${modalWindowPosition[positionY]} right-1/2 translate-x-1/2 -translate-y-1/2 bg-white rounded-md shadow-lg transition-all duration-500 p-6`}
       >
         <button onClick={close} className="absolute top-1 right-2">
           <FontAwesomeIcon icon={faClose} />
         </button>
-        <div>{children}</div>
+        <div>{cloneElement(children, { onCloseModal: close })}</div>
       </div>
     </div>,
     document.body

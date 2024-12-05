@@ -5,7 +5,7 @@ import OrderTable from "../components/OrderTable";
 import ScreenTitle from "../components/ScreenTitle";
 import useAuth from "../hooks/useAuth";
 import { useGetMyOrdersQuery } from "../slices/ordersApiSlice";
-import { IUserProfileTableData } from "../types/Order/orderTableTypes";
+import { IUserProfileTableData } from "../types/orderTypes/orderTableTypes";
 import { IuseGetMyOrdersQuery } from "../types/slices/orderSliceTypes";
 import { renderFetchBaseQueryError } from "../utils/errorHelpers";
 
@@ -15,7 +15,7 @@ const ProfileScreen: React.FC = () => {
     isLoading,
     error,
   } = useGetMyOrdersQuery() as IuseGetMyOrdersQuery;
-  console.log(orders);
+
   const { userInfo } = useAuth();
 
   const profileTableOrders: IUserProfileTableData[] =
@@ -23,8 +23,6 @@ const ProfileScreen: React.FC = () => {
       ...order,
       currentUser: userInfo?.name || "Unknown User",
     })) || [];
-
-  console.log(profileTableOrders);
 
   if (isLoading) {
     return <Loader />;

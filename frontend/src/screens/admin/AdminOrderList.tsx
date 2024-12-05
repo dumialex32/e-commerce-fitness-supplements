@@ -12,7 +12,6 @@ const AdminOrderList: React.FC = () => {
     isLoading,
     error,
   } = useGetOrdersQuery() as IuseGetOrdersQuery;
-  console.log(orders);
 
   if (isLoading) return <Loader />;
 

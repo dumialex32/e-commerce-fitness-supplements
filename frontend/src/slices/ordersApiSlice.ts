@@ -1,6 +1,6 @@
 import { PAYPAL_URL } from "../constants";
 import { ORDERS_URL } from "../constants";
-import { IOrder, IOrderResponse } from "../types/Order/OrderTypes";
+import { IOrder, IOrderResponse } from "../types/orderTypes/OrderTypes";
 import { IPopulatedOrderResponse } from "../types/slices/orderSliceTypes";
 import apiSlice from "./apiSlice";
 
@@ -42,6 +42,7 @@ const ordersSliceApi = apiSlice.injectEndpoints({
         method: "PUT",
         body: details,
       }),
+      invalidatesTags: ["Order"],
     }),
 
     updateOrderToDelivered: build.mutation({

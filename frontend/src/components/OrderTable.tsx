@@ -4,15 +4,15 @@ import Table from "./Table";
 import { getStatusIcon } from "../utils/tableUtils";
 import { formatDate } from "../utils/formatters";
 import {
-  OrderTableRow,
-  OrderTableProps,
+  IOrderTableRow,
+  IOrderTableProps,
   IUserProfileTableData,
-} from "../types/Order/orderTableTypes";
-import { TableColumn } from "../types/componentsTypes/tableTypes";
-import { IPopulatedOrderResponse } from "../types/slices/orderSliceTypes";
+} from "../types/orderTypes/orderTableTypes";
+import { ITableColumn } from "../types/componentsTypes/tableTypes";
+import { IPopulatedOrderResponse } from "../types/orderTypes/orderSliceTypes";
 
-const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
-  const columns: TableColumn<OrderTableRow>[] = [
+const OrderTable: React.FC<IOrderTableProps> = ({ data }) => {
+  const columns: ITableColumn<IOrderTableRow>[] = [
     { id: "orderNum", label: "" },
     {
       id: "orderId",
@@ -49,7 +49,7 @@ const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
     },
   ];
 
-  const orderDataRow: OrderTableRow[] =
+  const orderDataRow: IOrderTableRow[] =
     data?.map((order, i) => {
       const isUserProfileData = (
         order: IUserProfileTableData | IPopulatedOrderResponse

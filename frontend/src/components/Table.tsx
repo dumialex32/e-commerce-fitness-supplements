@@ -1,10 +1,10 @@
-import { TableProps } from "../types/componentsTypes/tableTypes";
+import { ITableProps } from "../types/componentsTypes/tableTypes";
 
 const Table = <T,>({
   columns,
   data,
   className,
-}: TableProps<T>): JSX.Element => {
+}: ITableProps<T>): JSX.Element => {
   if (data.length === 0) {
     return <p className="text-center text-gray-500">No data available.</p>;
   }
@@ -30,7 +30,7 @@ const Table = <T,>({
               <tr key={rowIndex} className="hover:bg-gray-50">
                 {columns.map((col, colIndex) => {
                   const value = row[col.id];
-                  console.log(value);
+
                   return (
                     <td key={colIndex} className="px-4 py-2 text-sm">
                       {col.accessor ? col.accessor(value) : String(value)}
