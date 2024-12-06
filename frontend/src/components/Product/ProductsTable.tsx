@@ -43,10 +43,11 @@ const ProductsTable: React.FC<IProductsTableProps> = ({ data }) => {
     {
       id: "productId",
       label: "",
+      width: "24",
       accessor: (value: string | number) => {
         if (typeof value === "string")
           return (
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-center gap-2">
               <Modal>
                 <EditProduct />
 

@@ -61,11 +61,15 @@ const Window: FC<IModalWindowProps> = ({
   positionY = "center",
 }) => {
   const { close, openName } = useModal();
-  const modalRef = useRef(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const clickOutside = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target)) {
+      if (
+        modalRef.current &&
+        e.target instanceof Node &&
+        !modalRef.current.contains(e.target)
+      ) {
         close();
       }
     };

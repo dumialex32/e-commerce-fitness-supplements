@@ -6,7 +6,7 @@ const handleEditProduct = () => {
 
 const EditProduct: React.FC = () => {
   return (
-    <button onClick={handleEditProduct}>
+    <button className="btn" onClick={handleEditProduct}>
       <FaEdit />
     </button>
   );

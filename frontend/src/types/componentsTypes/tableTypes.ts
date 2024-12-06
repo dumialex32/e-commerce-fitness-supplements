@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 export interface ITableColumn<T> {
   id: keyof T;
   label: string;
+  width?: string;
   accessor?: (value: T[keyof T]) => ReactNode;
 }
 

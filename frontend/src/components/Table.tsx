@@ -17,7 +17,7 @@ const Table = <T,>({
             {columns.map((col, index) => (
               <th
                 key={index}
-                className="px-4 py-2 rounded-md bg-gray-100 text-left"
+                className={`px-4 py-2 rounded-md bg-gray-100 text-left w-${col.width}`}
               >
                 {col.label}
               </th>

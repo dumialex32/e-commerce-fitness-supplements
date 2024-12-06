@@ -29,7 +29,7 @@ const RemoveProduct: React.FC<{ productId: string }> = ({ productId }) => {
   return (
     <>
       <Modal.Open name={productId}>
-        <button>
+        <button className="btn">
           {isLoading && <Loader />}
           <FaTrash color="red" />
         </button>
