@@ -34,4 +34,13 @@ const deleteProduct = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-export { getProducts, getProduct, deleteProduct };
+const createProduct = asyncHandler(async (req: Request, res: Response) => {});
+
+const editProduct = asyncHandler(async (req: Request, res: Response) => {
+  // const { name, price, category, brand, countInStock, image, description } =
+  //   req.body;
+  // const product = await Product.findById(req.params.id);
+  // if(product)
+});
+
+export { getProducts, getProduct, deleteProduct, createProduct, editProduct };

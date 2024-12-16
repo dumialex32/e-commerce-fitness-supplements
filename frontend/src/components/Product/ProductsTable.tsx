@@ -12,6 +12,15 @@ import {
 import Modal from "../Modal";
 
 const ProductsTable: React.FC<IProductsTableProps> = ({ data }) => {
+  console.log(data);
+  const productTableData: IProductTableData[] = data.map((product) => ({
+    productId: product._id,
+    name: product?.name,
+    price: product?.price,
+    category: product?.category,
+    brand: product?.brand,
+  }));
+
   const columns: ITableColumn<IProductTableData>[] = [
     {
       id: "productId",
@@ -49,7 +58,10 @@ const ProductsTable: React.FC<IProductsTableProps> = ({ data }) => {
           return (
             <div className="flex items-center justify-center gap-2">
               <Modal>
-                <EditProduct />
+                <EditProduct
+                  productId={value as string}
+                  product={data.find((p) => p._id === value)}
+                />
 
                 <RemoveProduct productId={value as string} />
               </Modal>
@@ -60,14 +72,6 @@ const ProductsTable: React.FC<IProductsTableProps> = ({ data }) => {
       },
     },
   ];
-
-  const productTableData: IProductTableData[] = data.map((product) => ({
-    productId: product._id,
-    name: product?.name,
-    price: product?.price,
-    category: product?.category,
-    brand: product?.brand,
-  }));
 
   return (
     <>

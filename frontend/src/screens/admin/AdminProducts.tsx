@@ -13,7 +13,7 @@ const AdminProducts: React.FC = () => {
     isLoading,
     error,
   } = useGetProductsQuery() as IuseGetProductsQuery;
-  console.log(products);
+
   if (isLoading) return <Loader />;
   if (error)
     return <Message type="error">{renderFetchBaseQueryError(error)}</Message>;

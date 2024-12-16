@@ -1,14 +1,22 @@
 import { FaEdit } from "react-icons/fa";
+import Modal from "../Modal";
+import ProductForm from "./ProductForm";
 
-const handleEditProduct = () => {
-  // to do
-};
+import { IProduct } from "../../types/productsTypes/productTypes";
 
-const EditProduct: React.FC = () => {
+const EditProduct: React.FC<{ product: IProduct }> = ({ product }) => {
   return (
-    <button className="btn" onClick={handleEditProduct}>
-      <FaEdit />
-    </button>
+    <Modal>
+      <Modal.Open name={product._id}>
+        <button className="btn">
+          <FaEdit />
+        </button>
+      </Modal.Open>
+
+      <Modal.Window name={product._id}>
+        <ProductForm isEdit={true} product={product} />
+      </Modal.Window>
+    </Modal>
   );
 };
 
