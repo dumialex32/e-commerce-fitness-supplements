@@ -9,12 +9,9 @@ const isNumber = (input: number | string, inputName: string) => {
 };
 
 const validateProduct = (productInput: string, inputName: string) => {
-  const regex = /^[a-zA-Z]+$/;
-  const minLength = 3;
+  const minLength = 2;
   const maxLength = 24;
-  if (!productInput.match(regex)) {
-    return `The product ${inputName} must contain only characters`;
-  }
+
   if (productInput.length > maxLength) {
     return `Product ${inputName} is too long`;
   }

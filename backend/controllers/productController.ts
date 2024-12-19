@@ -37,10 +37,25 @@ const deleteProduct = asyncHandler(async (req: Request, res: Response) => {
 const createProduct = asyncHandler(async (req: Request, res: Response) => {});
 
 const editProduct = asyncHandler(async (req: Request, res: Response) => {
-  // const { name, price, category, brand, countInStock, image, description } =
-  //   req.body;
-  // const product = await Product.findById(req.params.id);
-  // if(product)
+  const { name, price, category, brand, countInStock, description } =
+    req.body.patch;
+
+  const product = await Product.findById(req.params.id);
+
+  if (product) {
+    product.name = name;
+    product.price = price;
+    product.category = category;
+    product.brand = brand;
+    product.countInStock = countInStock;
+    product.description = description;
+    const productUpdated = await product.save();
+
+    res.status(200).json(productUpdated);
+  } else {
+    res.status(404);
+    throw new Error("Product not found");
+  }
 });
 
 export { getProducts, getProduct, deleteProduct, createProduct, editProduct };

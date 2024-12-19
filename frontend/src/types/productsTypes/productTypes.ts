@@ -24,3 +24,12 @@ export interface IProduct {
   __v: number;
   _id: string;
 }
+
+export interface IProductEditPatch {
+  name: string;
+  price: number;
+  category: string;
+  brand: string;
+  countInStock: number;
+  description: string;
+}

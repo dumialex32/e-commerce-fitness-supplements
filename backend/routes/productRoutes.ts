@@ -1,5 +1,4 @@
 import express from "express";
-const router = express.Router();
 
 import {
   createProduct,
@@ -11,13 +10,14 @@ import {
 import { admin, protect } from "../middleware/authMiddleware";
 
 // initialize router
-
-router.route("/").get(getProducts).post(protect, admin, createProduct);
+const router = express.Router();
 
 router
   .route("/:id")
   .get(getProduct)
   .delete(protect, admin, deleteProduct)
-  .put(protect, admin, editProduct);
+  .patch(protect, admin, editProduct);
+
+router.route("/").get(getProducts).post(protect, admin, createProduct);
 
 export default router;

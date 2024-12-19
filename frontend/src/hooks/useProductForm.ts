@@ -12,7 +12,10 @@ import {
   validateProductName,
   validateProductPrice,
 } from "../utils/formUtils/productFormUtils";
-import { IProduct } from "../types/productsTypes/productTypes";
+import {
+  IProduct,
+  IProductEditPatch,
+} from "../types/productsTypes/productTypes";
 
 const init = (product: IProduct) => ({
   name: product.name || "",
@@ -78,11 +81,13 @@ const useProductForm = (product: IProduct, isEdit: boolean) => {
     useCreateProductMutation();
 
   const handleFormSubmit = async () => {
-    const patch = {
+    const patch: IProductEditPatch = {
       name,
       price,
       category,
       brand,
+      countInStock,
+      description,
     };
 
     try {
