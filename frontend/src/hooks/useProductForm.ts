@@ -86,6 +86,7 @@ const useProductForm = (product: IProduct, isEdit: boolean) => {
     image: state.image,
   };
   const errors = state.errors;
+  console.log(productInputs);
 
   const [editProduct, { isLoading: isLoadingEditProduct }] =
     useEditProductMutation();

@@ -58,9 +58,8 @@ const createProduct = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const editProduct = asyncHandler(async (req: Request, res: Response) => {
-  const { name, price, category, brand, countInStock, description } =
+  const { name, price, category, brand, countInStock, description, image } =
     req.body.patch;
-
   const product = await Product.findById(req.params.id);
 
   if (product) {
@@ -70,6 +69,7 @@ const editProduct = asyncHandler(async (req: Request, res: Response) => {
     product.brand = brand;
     product.countInStock = countInStock;
     product.description = description;
+    product.image = image;
     const productUpdated = await product.save();
 
     res.status(200).json(productUpdated);
