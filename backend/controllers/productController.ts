@@ -34,7 +34,28 @@ const deleteProduct = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-const createProduct = asyncHandler(async (req: Request, res: Response) => {});
+const createProduct = asyncHandler(async (req: Request, res: Response) => {
+  const { name, price, category, brand, countInStock, description, image } =
+    req.body;
+
+  const product = {
+    user: req.user?._id,
+    name,
+    price,
+    category,
+    brand,
+    countInStock,
+    description,
+    image,
+    rating: 0,
+    numReviews: 0,
+    reviews: [],
+  };
+
+  const createdProduct = await Product.create(product);
+
+  res.status(200).json(createdProduct);
+});
 
 const editProduct = asyncHandler(async (req: Request, res: Response) => {
   const { name, price, category, brand, countInStock, description } =

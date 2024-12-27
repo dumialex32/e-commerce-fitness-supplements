@@ -1,9 +1,6 @@
-import { PRODUCTS_URL } from "../constants";
+import { PRODUCTS_URL, UPLOAD_URL } from "../constants";
 import apiSlice from "./apiSlice";
-import {
-  IProduct,
-  IProductEditPatch,
-} from "../types/productsTypes/productTypes";
+import { IProduct, IProductPayload } from "../types/productsTypes/productTypes";
 
 // Define the API slice with endpoints and types
 const productApiSlice = apiSlice.injectEndpoints({
@@ -33,7 +30,7 @@ const productApiSlice = apiSlice.injectEndpoints({
 
     editProduct: builder.mutation<
       IProduct,
-      { productId: string; patch: IProductEditPatch }
+      { productId: string; patch: IProductPayload }
     >({
       query: ({ productId, ...patch }) => ({
         url: `${PRODUCTS_URL}/${productId}`,
@@ -43,7 +40,15 @@ const productApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["Product"],
     }),
 
-    createProduct: builder.mutation({
+    uploadProductImage: builder.mutation({
+      query: (data) => ({
+        url: UPLOAD_URL,
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    createProduct: builder.mutation<void, IProductPayload>({
       query: (body) => ({
         url: PRODUCTS_URL,
         method: "POST",
@@ -60,4 +65,5 @@ export const {
   useDeleteProductMutation,
   useEditProductMutation,
   useCreateProductMutation,
+  useUploadProductImageMutation,
 } = productApiSlice as any;

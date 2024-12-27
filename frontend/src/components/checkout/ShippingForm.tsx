@@ -1,6 +1,6 @@
 import FormRow from "../FormRow";
 import useModal from "../../hooks/useModal";
-import useShippingFormReducer from "../../hooks/useShippingFormReducer";
+import useShippingForm from "../../hooks/useShippingForm";
 import { countries } from "../../utils/formUtils/shippingFormUtils";
 import Form from "../Form";
 
@@ -20,7 +20,7 @@ const ShippingForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
     setAddress,
     setPostalCode,
     handleShippingFormSubmit,
-  } = useShippingFormReducer();
+  } = useShippingForm();
 
   const { close: closeModal } = useModal();
 

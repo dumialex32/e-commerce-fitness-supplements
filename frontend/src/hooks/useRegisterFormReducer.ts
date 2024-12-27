@@ -15,9 +15,9 @@ import {
   ActionType,
   IinitialState,
 } from "../types/authTypes/registerFormReducerTypes";
-import { checkFormInputs } from "../utils/utils";
 import useAuth from "./useAuth";
 import { IUserInfo } from "../types/userTypes/authSliceTypes";
+import { checkFormInputs } from "../utils/formUtils/formUtils";
 
 const init = (userInfo: IUserInfo | null) => ({
   name: userInfo?.name || "",

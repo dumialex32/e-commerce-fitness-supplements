@@ -25,11 +25,12 @@ export interface IProduct {
   _id: string;
 }
 
-export interface IProductEditPatch {
+export interface IProductPayload {
   name: string;
   price: number;
   category: string;
   brand: string;
   countInStock: number;
   description: string;
+  image: File;
 }

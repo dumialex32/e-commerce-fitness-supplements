@@ -1,35 +1,39 @@
 import FormRow from "../FormRow";
 import useProductForm from "../../hooks/useProductForm";
 import Loader from "../Loader";
-import { hasEmptyValues } from "../../utils/utils";
 import { IProduct } from "../../types/productsTypes/productTypes";
+import UploadFile from "../UploadFile";
+import { checkFormInputs } from "../../utils/formUtils/formUtils";
+import { useRef } from "react";
 
 const ProductForm: React.FC<{
-  isEdit: boolean;
+  isEdit?: boolean;
   product?: IProduct;
 }> = ({ isEdit = false, product }) => {
+  const addProductImageRef = useRef<HTMLInputElement | null>(null);
+
   const {
-    name,
-    price,
-    category,
-    brand,
-    countInStock,
-    description,
+    productInputs,
+    errors,
     isLoadingCreateProduct,
     isLoadingEditProduct,
-    errors,
     setProductName,
     setProductPrice,
     setProductCategory,
     setProductBrand,
     setProductDescription,
     setProductCount,
+    setProductImage,
     handleFormSubmit,
+    removeProductImage,
+    upImg,
   } = useProductForm(product, isEdit);
 
   if (isLoadingCreateProduct || isLoadingEditProduct) {
     return <Loader />;
   }
+
+  const isFormInvalid = checkFormInputs(productInputs, errors);
 
   return (
     <>
@@ -40,7 +44,7 @@ const ProductForm: React.FC<{
         <FormRow label="Name" error={errors?.name || ""}>
           <input
             type="text"
-            value={name}
+            value={productInputs.name}
             id="name"
             onChange={(e) => setProductName(e.target.value)}
           />
@@ -48,7 +52,7 @@ const ProductForm: React.FC<{
         <FormRow label="Price" error={errors?.price || ""}>
           <input
             type="number"
-            value={price}
+            value={productInputs.price}
             id="price"
             onChange={(e) => setProductPrice(Number(e.target.value))}
           />
@@ -56,7 +60,7 @@ const ProductForm: React.FC<{
         <FormRow label="Category" error={errors?.category || ""}>
           <input
             type="category"
-            value={category}
+            value={productInputs.category}
             id="category"
             onChange={(e) => setProductCategory(e.target.value)}
           />
@@ -64,7 +68,7 @@ const ProductForm: React.FC<{
         <FormRow label="Brand" error={errors?.brand || ""}>
           <input
             type="text"
-            value={brand}
+            value={productInputs.brand}
             id="brand"
             onChange={(e) => setProductBrand(e.target.value)}
           />
@@ -72,29 +76,40 @@ const ProductForm: React.FC<{
 
         <FormRow label="Description" error={errors?.description || ""}>
           <textarea
-            value={description}
+            value={productInputs.description}
             id="description"
             onChange={(e) => setProductDescription(e.target.value)}
           >
-            {description}
+            {productInputs.description}
           </textarea>
         </FormRow>
         <FormRow label="Count" error={errors?.countInStock || ""}>
           <input
             type="number"
-            value={countInStock}
+            value={productInputs.countInStock}
             id="count"
             onChange={(e) => setProductCount(Number(e.target.value))}
           />
         </FormRow>
-        <FormRow label="Image" error={errors?.image || ""}>
-          <input type="file" />
+        {isEdit && (
+          <FormRow label="Image">
+            <input type="text" defaultValue={productInputs.image} />
+          </FormRow>
+        )}
+        <FormRow label={!isEdit ? "Image " : ""} error={errors?.image || ""}>
+          <UploadFile
+            id="image"
+            onChange={(e) => setProductImage(e.target.files[0])}
+            removeFile={removeProductImage}
+            ref={addProductImageRef}
+            file={productInputs.image}
+          />
         </FormRow>
 
         <button
           className="btn btn-primary"
           type="submit"
-          disabled={!hasEmptyValues(errors)}
+          disabled={isFormInvalid}
         >
           {isEdit ? "Edit" : "Create"}
         </button>

@@ -7,10 +7,11 @@ import { storeShippingAddress } from "../slices/cartSlice";
 import { useDispatch } from "react-redux";
 import useAppNavigate from "./useAppNavigate";
 import { getCitties } from "../api/cittiesApi";
-import { checkFormInputs } from "../utils/utils";
+
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { IShippingAddress } from "../types/cartTypes/cartItemTypes";
+import { checkFormInputs } from "../utils/formUtils/formUtils";
 
 const init = (shippingAddress: IShippingAddress): IinitialState => ({
   country: shippingAddress.country || "",
@@ -54,24 +55,25 @@ const reducer = (state: IinitialState, action: ActionType) => {
   }
 };
 
-const useShippingFormReducer = () => {
+const useShippingForm = () => {
   const { shippingAddress } = useSelector((state: RootState) => state.cart);
 
   const [{ country, city, address, postalCode, errors, cities }, dispatch] =
     useReducer(reducer, shippingAddress, init);
 
   // to do: fix call stack size exceeded by using react-window
-  const renderCityOptions = useMemo(
-    () =>
-      cities.map((city, i) => {
-        return (
-          <option key={i} value={city}>
-            {city}
-          </option>
-        );
-      }),
-    [cities]
-  );
+  const renderCityOptions = useMemo(() => {
+    return [
+      <option key="default" value="" disabled>
+        Choose your city
+      </option>,
+      ...cities.map((c, i) => (
+        <option key={i} value={c}>
+          {c}
+        </option>
+      )),
+    ];
+  }, [cities]);
 
   const { moveTo } = useAppNavigate();
 
@@ -150,4 +152,4 @@ const useShippingFormReducer = () => {
   };
 };
 
-export default useShippingFormReducer;
+export default useShippingForm;

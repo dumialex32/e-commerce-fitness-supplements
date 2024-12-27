@@ -6,7 +6,7 @@ import { addToCart, removeCartItem } from "../slices/cartSlice";
 import { IProduct } from "../types/productsTypes/productTypes";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { hasEmptyValues } from "../utils/utils";
+import { hasEmptyValue } from "../utils/utils";
 
 export const useCart = () => {
   const cart: ICartInitialState = useSelector((state: RootState) => state.cart);
@@ -36,7 +36,7 @@ export const useCart = () => {
   const handleCheckout = () => {
     navigate(
       `/login?redirect=${
-        (hasEmptyValues(cart.shippingAddress) && "/shipping") ||
+        (hasEmptyValue(cart.shippingAddress) && "/shipping") ||
         (!cart.paymentMethod && "/payment") ||
         "/checkout"
       }`

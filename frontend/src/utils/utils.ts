@@ -1,18 +1,31 @@
-import { every, isEmpty } from "lodash";
+// checks if properties within obj are empty
+const isEmptyVal = (val) => {
+  if (val === "" || val === undefined || val === null) {
+    return true;
+  }
 
-// checks if all properties of the object are either empty or contain an empty string
-export const hasEmptyValues = (obj: Record<string, any>): boolean => {
-  return every(obj, (value) => isEmpty(value) || value === "");
+  return false;
 };
 
-export const checkFormInputs = (
-  inputs: Record<string, any>,
-  errors: Record<string, any>
-): boolean => {
-  for (const key in inputs) {
-    if (isEmpty(inputs[key]) || !isEmpty(errors[key])) {
-      return true;
-    }
+export const hasEmptyValue = (obj: unknown): boolean => {
+  if (Array.isArray(obj)) {
+    return obj.some((val) => hasEmptyValue(val));
   }
-  return false;
+
+  if (typeof obj === "object" && obj !== null) {
+    return Object.values(obj).some((val) => hasEmptyValue(val));
+  }
+
+  return isEmptyVal(obj);
+};
+
+export const hasEmptyValues = (obj: unknown): boolean => {
+  if (Array.isArray(obj)) {
+    return obj.every((val) => hasEmptyValues(val));
+  }
+  if (typeof obj === "object" && obj !== null) {
+    return Object.values(obj).every((val) => hasEmptyValues(val));
+  }
+
+  return isEmptyVal(obj);
 };

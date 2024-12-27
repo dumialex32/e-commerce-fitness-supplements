@@ -12,7 +12,6 @@ import {
 import Modal from "../Modal";
 
 const ProductsTable: React.FC<IProductsTableProps> = ({ data }) => {
-  console.log(data);
   const productTableData: IProductTableData[] = data.map((product) => ({
     productId: product._id,
     name: product?.name,
