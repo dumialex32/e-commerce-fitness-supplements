@@ -1,16 +1,19 @@
-import { forwardRef } from "react";
+import React, { forwardRef, useState } from "react";
 import { MdDelete } from "react-icons/md";
+import { ProductFormField } from "../types/productsTypes/productFormReducerTypes";
 
 interface UploadFileProps {
   accept: string;
   id: string;
-  file?: File;
+  isEdit?: boolean;
   removeFile: () => void;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (field: ProductFormField, value: File | null) => void;
 }
 
 const UploadFile = forwardRef<HTMLInputElement, UploadFileProps>(
-  ({ accept, id, file, onChange, removeFile }, ref) => {
+  ({ accept, id, onChange, removeFile }, ref) => {
+    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+
     const getRefCurrent = () =>
       typeof ref === "function" ? null : ref?.current;
 
@@ -20,12 +23,20 @@ const UploadFile = forwardRef<HTMLInputElement, UploadFileProps>(
     };
 
     const handleRemoveFile = () => {
+      setUploadedFile(null);
       removeFile();
       const inputEl = getRefCurrent();
       if (inputEl) {
         inputEl.value = "";
       }
     };
+
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      e.preventDefault();
+      setUploadedFile(e.target.files?.[0] || null);
+      onChange("image", e.target.files?.[0] || null);
+    };
+
     return (
       <div>
         <input
@@ -33,25 +44,29 @@ const UploadFile = forwardRef<HTMLInputElement, UploadFileProps>(
           type="file"
           id={id}
           accept={accept}
-          onChange={onChange}
+          onChange={handleOnChange}
           hidden
           ref={ref}
         />
         <>
-          {!file ? (
-            <button className="btn" onClick={(e) => handleUploadFileClick(e)}>
-              Add file
-            </button>
-          ) : (
-            <div className="flex items-center gap-2">
-              <div className="text-gray-500 text-sm">{file?.name}</div>
-              <button className="" onClick={handleRemoveFile}>
-                <div className="text-red-500">
-                  <MdDelete />
-                </div>
+          <>
+            {!uploadedFile ? (
+              <button className="btn" onClick={(e) => handleUploadFileClick(e)}>
+                Add file
               </button>
-            </div>
-          )}
+            ) : (
+              <div className="flex items-center gap-2">
+                <div className="text-gray-500 text-sm">
+                  {uploadedFile?.name}
+                </div>
+                <button className="" onClick={handleRemoveFile}>
+                  <div className="text-red-500">
+                    <MdDelete />
+                  </div>
+                </button>
+              </div>
+            )}
+          </>
         </>
       </div>
     );

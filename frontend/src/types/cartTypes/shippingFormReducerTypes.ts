@@ -14,17 +14,16 @@ export interface IinitialState {
   cities: string[];
 }
 
-type SetCountryAction = { type: "SET_COUNTRY"; payload: string };
-type SetCityAction = { type: "SET_CITY"; payload: string };
-type SetAddressAction = { type: "SET_ADDRESS"; payload: string };
-type SetPostalCodeAction = { type: "SET_POSTAL_CODE"; payload: string };
+export type ShippingFormField = "country" | "city" | "address" | "postalCode";
+
+type SetShippingFieldAction = {
+  type: "SET_FIELD";
+  payload: { field: ShippingFormField; value: string };
+};
 type SetInputErrorsAction = { type: "SET_ERRORS"; payload: IErrors };
 type SetCittiesAction = { type: "SET_CITIES"; payload: string[] };
 
 export type ActionType =
-  | SetCountryAction
-  | SetCityAction
-  | SetAddressAction
-  | SetPostalCodeAction
+  | SetShippingFieldAction
   | SetInputErrorsAction
   | SetCittiesAction;

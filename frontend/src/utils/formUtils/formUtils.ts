@@ -4,7 +4,7 @@ export const checkFormInputs = (
   inputs: Record<string, any>,
   errors: Record<string, any>
 ): boolean => {
-  if (hasEmptyValue(inputs) || !hasEmptyValue(errors)) {
+  if (hasEmptyValue(inputs) || !hasEmptyValues(errors)) {
     return true;
   }
 

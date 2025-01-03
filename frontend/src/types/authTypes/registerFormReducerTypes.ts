@@ -1,5 +1,11 @@
 import { IUserInfo } from "../userTypes/authSliceTypes";
 
+export type RegisterFormField =
+  | "name"
+  | "email"
+  | "password"
+  | "confirmPassword";
+
 export interface IErrors {
   name?: string;
   email?: string;
@@ -17,19 +23,16 @@ export interface IinitialState {
   isRegistrationSuccess: boolean;
 }
 
-type SetName = { type: "SET_NAME"; payload: string };
-type SetEmail = { type: "SET_EMAIL"; payload: string };
-type SetPassword = { type: "SET_PASSWORD"; payload: string };
-type SetConfirmPassword = { type: "SET_CONFIRM_PASSWORD"; payload: string };
-type SetErrors = { type: "SET_ERRORS"; payload: IErrors };
-type setRegistrationSuccess = { type: "SET_REGISTRATION_SUCCESS" };
-type setResetForm = { type: "RESET_FORM"; payload: IUserInfo | null };
+type SetRegistrationFieldAction = {
+  type: "SET_FIELD";
+  payload: { field: RegisterFormField; value: string };
+};
+type SetErrorsAction = { type: "SET_ERRORS"; payload: Partial<IErrors> };
+type setRegistrationSuccessAction = { type: "SET_REGISTRATION_SUCCESS" };
+type SetResetFormAction = { type: "RESET_FORM"; payload: IUserInfo | null };
 
 export type ActionType =
-  | SetName
-  | SetEmail
-  | SetPassword
-  | SetConfirmPassword
-  | SetErrors
-  | setRegistrationSuccess
-  | setResetForm;
+  | SetRegistrationFieldAction
+  | SetErrorsAction
+  | setRegistrationSuccessAction
+  | SetResetFormAction;

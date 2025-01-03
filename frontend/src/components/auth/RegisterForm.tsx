@@ -1,5 +1,5 @@
 import FormRow from "../FormRow";
-import useRegisterForm from "../../hooks/useRegisterFormReducer";
+import useRegisterForm from "../../hooks/useRegisterForm";
 import { Link } from "react-router-dom";
 import ButtonLoader from "../ButtonLoader";
 import { ToastContainer } from "react-toastify";
@@ -11,6 +11,7 @@ import useRedirectParam from "../../hooks/useRedirectParam";
 import Modal from "../Modal";
 import RegistrationSuccess from "./RegistrationSuccess";
 import Message from "../Message";
+import { RegisterFormField } from "../../types/authTypes/registerFormReducerTypes";
 
 const RegisterForm: React.FC<{ isUpdating?: boolean }> = ({
   isUpdating = false,
@@ -26,10 +27,7 @@ const RegisterForm: React.FC<{ isUpdating?: boolean }> = ({
     isLoadingProfileUpdate,
     isRegistrationSuccess,
     handleRegisterFormSubmit,
-    setName,
-    setEmail,
-    setPassword,
-    setConfirmPassword,
+    setRegisterFormField,
   } = useRegisterForm();
 
   const { isUserLoggedIn } = useAuth();
@@ -39,6 +37,9 @@ const RegisterForm: React.FC<{ isUpdating?: boolean }> = ({
   useEffect(() => {
     if (isUserLoggedIn && !isUpdating) redirect("/");
   }, [isUserLoggedIn, redirect, moveTo]);
+
+  console.log(errors);
+  console.log(isFormInvalid);
 
   return (
     <div>
@@ -65,7 +66,12 @@ const RegisterForm: React.FC<{ isUpdating?: boolean }> = ({
               value={name}
               id="name"
               placeholder="Enter your name"
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) =>
+                setRegisterFormField(
+                  e.target.id as RegisteFormField,
+                  e.target.value
+                )
+              }
               required
             />
           </FormRow>
@@ -79,7 +85,12 @@ const RegisterForm: React.FC<{ isUpdating?: boolean }> = ({
               value={email}
               id="email"
               placeholder="Enter your email"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) =>
+                setRegisterFormField(
+                  e.target.id as RegisterFormField,
+                  e.target.value
+                )
+              }
               required
             />
           </FormRow>
@@ -93,7 +104,12 @@ const RegisterForm: React.FC<{ isUpdating?: boolean }> = ({
               value={password}
               id="password"
               placeholder="Enter your password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) =>
+                setRegisterFormField(
+                  e.target.id as RegisterFormField,
+                  e.target.value
+                )
+              }
               required
             />
           </FormRow>
@@ -105,10 +121,15 @@ const RegisterForm: React.FC<{ isUpdating?: boolean }> = ({
           >
             <input
               type="password"
-              id="password"
+              id="confirmPassword"
               placeholder="Confirm your password"
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={(e) =>
+                setRegisterFormField(
+                  e.target.id as RegisterFormField,
+                  e.target.value
+                )
+              }
               required
             />
           </FormRow>

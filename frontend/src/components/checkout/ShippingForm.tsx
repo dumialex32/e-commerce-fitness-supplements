@@ -3,6 +3,7 @@ import useModal from "../../hooks/useModal";
 import useShippingForm from "../../hooks/useShippingForm";
 import { countries } from "../../utils/formUtils/shippingFormUtils";
 import Form from "../Form";
+import { ShippingFormField } from "../../types/cartTypes/shippingFormReducerTypes";
 
 const ShippingForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
   const {
@@ -15,10 +16,7 @@ const ShippingForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
     cities,
     renderCityOptions,
     shippingAddress,
-    setCountry,
-    setCity,
-    setAddress,
-    setPostalCode,
+    setShippingFormField,
     handleShippingFormSubmit,
   } = useShippingForm();
 
@@ -29,7 +27,13 @@ const ShippingForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
       <FormRow label="Country" error={errors.country}>
         <select
           value={country}
-          onChange={(e) => setCountry(e.target.value)}
+          id="country"
+          onChange={(e) =>
+            setShippingFormField(
+              e.target.id as ShippingFormField,
+              e.target.value
+            )
+          }
           required
         >
           <option hidden>Select your country</option>
@@ -42,7 +46,16 @@ const ShippingForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
       </FormRow>
       <FormRow label="City" error={errors.city}>
         {cities.length > 0 ? (
-          <select value={city} onChange={(e) => setCity(e.target.value)}>
+          <select
+            value={city}
+            id="city"
+            onChange={(e) =>
+              setShippingFormField(
+                e.target.id as ShippingFormField,
+                e.target.value
+              )
+            }
+          >
             {renderCityOptions}
           </select>
         ) : (
@@ -51,7 +64,12 @@ const ShippingForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
             value={city}
             placeholder="Please insert your city"
             id="city"
-            onChange={(e) => setCity(e.target.value)}
+            onChange={(e) =>
+              setShippingFormField(
+                e.target.id as ShippingFormField,
+                e.target.value
+              )
+            }
             required
           />
         )}
@@ -62,7 +80,12 @@ const ShippingForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
           value={address}
           placeholder="Please insert your address"
           id="address"
-          onChange={(e) => setAddress(e.target.value)}
+          onChange={(e) =>
+            setShippingFormField(
+              e.target.id as ShippingFormField,
+              e.target.value
+            )
+          }
           required
         />
       </FormRow>
@@ -72,7 +95,12 @@ const ShippingForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
           value={postalCode}
           placeholder="Please insert your postal code"
           id="postalCode"
-          onChange={(e) => setPostalCode(e.target.value)}
+          onChange={(e) =>
+            setShippingFormField(
+              e.target.id as ShippingFormField,
+              e.target.value
+            )
+          }
           required
         />
       </FormRow>

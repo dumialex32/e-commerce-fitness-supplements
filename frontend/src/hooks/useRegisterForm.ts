@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { createToast } from "../utils/toastUtils";
 import {
   ActionType,
+  RegisterFormField,
   IinitialState,
 } from "../types/authTypes/registerFormReducerTypes";
 import useAuth from "./useAuth";
@@ -36,23 +37,18 @@ const init = (userInfo: IUserInfo | null) => ({
 
 const reducer = (state: IinitialState, action: ActionType) => {
   switch (action.type) {
-    case "SET_NAME":
-      return { ...state, name: action.payload };
-
-    case "SET_EMAIL":
-      return { ...state, email: action.payload };
-
-    case "SET_PASSWORD":
-      return { ...state, password: action.payload };
-
-    case "SET_CONFIRM_PASSWORD":
-      return { ...state, confirmPassword: action.payload };
-
-    case "SET_ERRORS":
+    case "SET_FIELD": {
+      const value = action.payload.value;
+      const field = action.payload.field;
       return {
         ...state,
-        errors: { ...state.errors, ...action.payload },
+        [field]: value,
       };
+    }
+
+    case "SET_ERRORS": {
+      return { ...state, errors: { ...state.errors, ...action.payload } };
+    }
 
     case "SET_REGISTRATION_SUCCESS":
       return { ...state, isRegistrationSuccess: true };
@@ -65,6 +61,16 @@ const reducer = (state: IinitialState, action: ActionType) => {
     default:
       return state;
   }
+};
+
+const validateRegisterFormField: Record<
+  RegisterFormField,
+  (value1: string, value2?: string) => string
+> = {
+  name: validateName,
+  email: validateEmail,
+  password: validatePassword,
+  confirmPassword: validatePassword,
 };
 
 const useRegisterForm = () => {
@@ -131,35 +137,13 @@ const useRegisterForm = () => {
     }
   };
 
-  const setName = (name: string) => {
-    const validateNameError = validateName(name);
+  const setRegisterFormField = (field: RegisterFormField, value: string) => {
+    const validate = validateRegisterFormField[field];
+    const errorMessage =
+      field === "confirmPassword" ? validate(password, value) : validate(value);
 
-    dispatch({ type: "SET_NAME", payload: name });
-    dispatch({ type: "SET_ERRORS", payload: { name: validateNameError } });
-  };
-
-  const setPassword = (password: string) => {
-    const validatePasswordError = validatePassword(password);
-    dispatch({ type: "SET_PASSWORD", payload: password });
-    dispatch({
-      type: "SET_ERRORS",
-      payload: { password: validatePasswordError },
-    });
-  };
-
-  const setEmail = (email: string) => {
-    const validateEmailError = validateEmail(email);
-    dispatch({ type: "SET_EMAIL", payload: email });
-    dispatch({ type: "SET_ERRORS", payload: { email: validateEmailError } });
-  };
-
-  const setConfirmPassword = (confirmPassword: string) => {
-    const confirmPasswordError = validatePassword(confirmPassword, password);
-    dispatch({ type: "SET_CONFIRM_PASSWORD", payload: confirmPassword });
-    dispatch({
-      type: "SET_ERRORS",
-      payload: { confirmPassword: confirmPasswordError },
-    });
+    dispatch({ type: "SET_FIELD", payload: { field, value } });
+    dispatch({ type: "SET_ERRORS", payload: { [field]: errorMessage } });
   };
 
   const setRegistrationSuccess = () => {
@@ -180,10 +164,7 @@ const useRegisterForm = () => {
     isLoading,
     isLoadingProfileUpdate,
     isRegistrationSuccess,
-    setName,
-    setPassword,
-    setConfirmPassword,
-    setEmail,
+    setRegisterFormField,
     handleRegisterFormSubmit,
   };
 };

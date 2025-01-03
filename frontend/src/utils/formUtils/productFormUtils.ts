@@ -1,8 +1,18 @@
-const isNumber = (input: number | string, inputName: string) => {
+const isNumberInt = (input: number | string, inputName: string) => {
   const regex = /^\d+$/;
 
   if (!input.toString().match(regex)) {
     return `The ${inputName} must contain only numbers`;
+  }
+
+  return "";
+};
+
+const isNumberDec = (input: number | string, inputName: string) => {
+  const regex = /^\d+(\.\d+)?$/;
+
+  if (!input.toString().match(regex)) {
+    return `The ${inputName} must contain only whole numbers or decimals`;
   }
 
   return "";
@@ -27,7 +37,7 @@ export const validateProductName = (name: string) => {
 };
 
 export const validateProductPrice = (price: number) => {
-  return isNumber(price, "price");
+  return isNumberDec(price, "price");
 };
 
 export const validateProductCategory = (category: string) => {
@@ -39,5 +49,5 @@ export const validateProductBrand = (brand: string) => {
 };
 
 export const validateProductCount = (productCount: number) => {
-  return isNumber(productCount, "count");
+  return isNumberInt(productCount, "count");
 };

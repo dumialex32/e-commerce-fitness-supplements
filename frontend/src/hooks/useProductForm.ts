@@ -14,15 +14,30 @@ import {
   validateProductPrice,
 } from "../utils/formUtils/productFormUtils";
 import { IProduct, IProductPayload } from "../types/productsTypes/productTypes";
+import {
+  ActionType,
+  ProductFormField,
+  IInitialState,
+} from "../types/productsTypes/productFormReducerTypes";
+
+const validationMap: Record<ProductFormField, (value: any) => string> = {
+  name: validateProductName,
+  price: validateProductPrice,
+  countInStock: validateProductCount,
+  category: validateProductCategory,
+  brand: validateProductBrand,
+  image: () => "",
+  description: () => "",
+};
 
 const init = (product: IProduct) => ({
   name: product?.name || "",
-  price: product?.price || "",
+  price: product?.price || 0,
   category: product?.category || "",
   brand: product?.brand || "",
   description: product?.description || "",
-  countInStock: product?.countInStock || "",
-  image: product?.image || null,
+  countInStock: product?.countInStock || 0,
+  image: product?.image || "",
 
   errors: {
     name: "",
@@ -35,33 +50,15 @@ const init = (product: IProduct) => ({
   },
 });
 
-const reducer = (state, action) => {
+const reducer = (state: IInitialState, action: ActionType) => {
   switch (action.type) {
-    case "SET_PRODUCT_NAME":
-      return { ...state, name: action.payload };
-    case "SET_PRODUCT_PRICE":
-      return {
-        ...state,
-        price: action.payload,
-      };
-
-    case "SET_PRODUCT_CATEGORY":
-      return { ...state, category: action.payload };
-
-    case "SET_PRODUCT_BRAND":
-      return { ...state, brand: action.payload };
-
-    case "SET_PRODUCT_COUNT":
-      return { ...state, countInStock: action.payload };
-
-    case "SET_PRODUCT_DESCRIPTION":
-      return { ...state, description: action.payload };
-
-    case "SET_PRODUCT_IMAGE":
-      return { ...state, image: action.payload };
+    case "SET_FIELD": {
+      const { field, value } = action.payload;
+      return { ...state, [field]: value };
+    }
 
     case "REMOVE_PRODUCT_IMAGE":
-      return { ...state, image: null };
+      return { ...state, image: "" };
 
     case "SET_ERRORS":
       return { ...state, errors: { ...state.errors, ...action.payload } };
@@ -102,7 +99,7 @@ const useProductForm = (product: IProduct, isEdit: boolean) => {
       const res = await uploadProductImage(formData).unwrap();
 
       removeProductImage();
-      setProductImage(res.imagePath);
+      setProductFormField("image", res.imagePath);
 
       return res;
     } catch (err: any) {
@@ -131,6 +128,8 @@ const useProductForm = (product: IProduct, isEdit: boolean) => {
         ? (res = await editProduct({ productId, patch }))
         : (res = await createProduct(patch));
 
+      console.log(res);
+
       createToast(`Product successfully ${isEdit ? "updated" : "created"}`, {
         type: "success",
       });
@@ -144,49 +143,15 @@ const useProductForm = (product: IProduct, isEdit: boolean) => {
     }
   };
 
-  const setProductName = (productName: string) => {
-    const validatedProductName = validateProductName(productName);
-    dispatch({ type: "SET_PRODUCT_NAME", payload: productName });
-    dispatch({ type: "SET_ERRORS", payload: { name: validatedProductName } });
-  };
+  const setProductFormField = (
+    field: ProductFormField,
+    value: string | number | File | null
+  ) => {
+    const validate = validationMap[field];
+    const errorMessage = validate ? validate(value) : "";
 
-  const setProductPrice = (productPrice: number) => {
-    const validatedProductPrice = validateProductPrice(productPrice);
-    dispatch({ type: "SET_PRODUCT_PRICE", payload: productPrice });
-    dispatch({ type: "SET_ERRORS", payload: { price: validatedProductPrice } });
-  };
-
-  const setProductCategory = (productCategory: string) => {
-    const validatedProductCategory = validateProductCategory(productCategory);
-    dispatch({ type: "SET_PRODUCT_CATEGORY", payload: productCategory });
-    dispatch({
-      type: "SET_ERRORS",
-      payload: { category: validatedProductCategory },
-    });
-  };
-
-  const setProductBrand = (productBrand: string) => {
-    const validatedProductBrand = validateProductBrand(productBrand);
-    dispatch({ type: "SET_PRODUCT_BRAND", payload: productBrand });
-    dispatch({ type: "SET_ERRORS", payload: { brand: validatedProductBrand } });
-  };
-
-  const setProductDescription = (productDescription: string) => {
-    dispatch({ type: "SET_PRODUCT_DESCRIPTION", payload: productDescription });
-  };
-
-  const setProductCount = (productCount: number) => {
-    const validatedProductCount = validateProductCount(productCount);
-    dispatch({ type: "SET_PRODUCT_COUNT", payload: productCount });
-    dispatch({ type: "SET_ERRORS", payload: validatedProductCount });
-  };
-
-  // handle image upload
-  const setProductImage = (file: File | string) => {
-    dispatch({
-      type: "SET_PRODUCT_IMAGE",
-      payload: file,
-    });
+    dispatch({ type: "SET_FIELD", payload: { field, value } });
+    dispatch({ type: "SET_ERRORS", payload: { [field]: errorMessage } });
   };
 
   const removeProductImage = () => {
@@ -194,20 +159,13 @@ const useProductForm = (product: IProduct, isEdit: boolean) => {
   };
 
   return {
+    setProductFormField,
+    removeProductImage,
+    handleFormSubmit,
     productInputs,
     errors,
     isLoadingCreateProduct,
     isLoadingEditProduct,
-    setProductName,
-    setProductPrice,
-    setProductCategory,
-    setProductBrand,
-    setProductDescription,
-    setProductCount,
-    setProductImage,
-    removeProductImage,
-    handleFormSubmit,
   };
 };
-
 export default useProductForm;

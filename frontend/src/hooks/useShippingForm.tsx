@@ -2,6 +2,7 @@ import { useEffect, useMemo, useReducer } from "react";
 import {
   IinitialState,
   ActionType,
+  ShippingFormField,
 } from "../types/cartTypes/shippingFormReducerTypes";
 import { storeShippingAddress } from "../slices/cartSlice";
 import { useDispatch } from "react-redux";
@@ -29,26 +30,19 @@ const init = (shippingAddress: IShippingAddress): IinitialState => ({
 
 const reducer = (state: IinitialState, action: ActionType) => {
   switch (action.type) {
-    case "SET_COUNTRY":
-      return { ...state, country: action.payload };
+    case "SET_FIELD": {
+      const { field, value } = action.payload;
+      return { ...state, [field]: value };
+    }
 
-    case "SET_CITY":
-      return { ...state, city: action.payload };
-
-    case "SET_ADDRESS":
-      return { ...state, address: action.payload };
-
-    case "SET_POSTAL_CODE":
-      return { ...state, postalCode: action.payload };
+    case "SET_CITIES":
+      return { ...state, cities: action.payload };
 
     case "SET_ERRORS":
       return {
         ...state,
         errors: { ...state.errors, ...action.payload },
       };
-
-    case "SET_CITIES":
-      return { ...state, cities: action.payload };
 
     default:
       return state;
@@ -61,7 +55,6 @@ const useShippingForm = () => {
   const [{ country, city, address, postalCode, errors, cities }, dispatch] =
     useReducer(reducer, shippingAddress, init);
 
-  // to do: fix call stack size exceeded by using react-window
   const renderCityOptions = useMemo(() => {
     return [
       <option key="default" value="" disabled>
@@ -114,20 +107,8 @@ const useShippingForm = () => {
     }
   };
 
-  const setCountry = (countryInput: string) => {
-    dispatch({ type: "SET_COUNTRY", payload: countryInput });
-  };
-
-  const setCity = (cityInput: string) => {
-    dispatch({ type: "SET_CITY", payload: cityInput });
-  };
-
-  const setAddress = (addressInput: string) => {
-    dispatch({ type: "SET_ADDRESS", payload: addressInput });
-  };
-
-  const setPostalCode = (postalCodeInput: string) => {
-    dispatch({ type: "SET_POSTAL_CODE", payload: postalCodeInput });
+  const setShippingFormField = (field: ShippingFormField, value: string) => {
+    dispatch({ type: "SET_FIELD", payload: { field, value } });
   };
 
   const setCitties = (citties: string[]) => {
@@ -144,10 +125,7 @@ const useShippingForm = () => {
     isFormInvalid,
     renderCityOptions,
     shippingAddress,
-    setCountry,
-    setCity,
-    setAddress,
-    setPostalCode,
+    setShippingFormField,
     handleShippingFormSubmit,
   };
 };

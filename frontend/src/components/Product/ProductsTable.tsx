@@ -25,9 +25,15 @@ const ProductsTable: React.FC<IProductsTableProps> = ({ data }) => {
       id: "productId",
       label: "ID",
       accessor: (value: string | number) => (
-        <Link className="text-primary" to={`/product/${value}`}>
-          {value}
-        </Link>
+        <div className="flex items-center gap-3">
+          <img
+            className="w-8 h-8"
+            src={data.find((product) => product._id === value)?.image}
+          />
+          <Link className="text-primary" to={`/product/${value}`}>
+            {value}
+          </Link>
+        </div>
       ),
     },
     {

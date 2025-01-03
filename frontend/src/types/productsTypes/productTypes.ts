@@ -32,5 +32,5 @@ export interface IProductPayload {
   brand: string;
   countInStock: number;
   description: string;
-  image: File;
+  image: File | string;
 }

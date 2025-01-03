@@ -1,10 +1,11 @@
 import FormRow from "../FormRow";
 import useProductForm from "../../hooks/useProductForm";
-import Loader from "../Loader";
 import { IProduct } from "../../types/productsTypes/productTypes";
 import UploadFile from "../UploadFile";
 import { checkFormInputs } from "../../utils/formUtils/formUtils";
 import { useRef } from "react";
+import ButtonLoader from "../ButtonLoader";
+import { ProductFormField } from "../../types/productsTypes/productFormReducerTypes";
 
 const ProductForm: React.FC<{
   isEdit?: boolean;
@@ -17,21 +18,10 @@ const ProductForm: React.FC<{
     errors,
     isLoadingCreateProduct,
     isLoadingEditProduct,
-    setProductName,
-    setProductPrice,
-    setProductCategory,
-    setProductBrand,
-    setProductDescription,
-    setProductCount,
-    setProductImage,
+    setProductFormField,
     handleFormSubmit,
     removeProductImage,
-    upImg,
   } = useProductForm(product, isEdit);
-
-  if (isLoadingCreateProduct || isLoadingEditProduct) {
-    return <Loader />;
-  }
 
   const isFormInvalid = checkFormInputs(productInputs, errors);
 
@@ -46,7 +36,12 @@ const ProductForm: React.FC<{
             type="text"
             value={productInputs.name}
             id="name"
-            onChange={(e) => setProductName(e.target.value)}
+            onChange={(e) =>
+              setProductFormField(
+                e.target.id as ProductFormField,
+                e.target.value
+              )
+            }
           />
         </FormRow>
         <FormRow label="Price" error={errors?.price || ""}>
@@ -54,7 +49,12 @@ const ProductForm: React.FC<{
             type="number"
             value={productInputs.price}
             id="price"
-            onChange={(e) => setProductPrice(Number(e.target.value))}
+            onChange={(e) =>
+              setProductFormField(
+                e.target.id as ProductFormField,
+                e.target.value
+              )
+            }
           />
         </FormRow>
         <FormRow label="Category" error={errors?.category || ""}>
@@ -62,7 +62,12 @@ const ProductForm: React.FC<{
             type="category"
             value={productInputs.category}
             id="category"
-            onChange={(e) => setProductCategory(e.target.value)}
+            onChange={(e) =>
+              setProductFormField(
+                e.target.id as ProductFormField,
+                Number(e.target.value)
+              )
+            }
           />
         </FormRow>
         <FormRow label="Brand" error={errors?.brand || ""}>
@@ -70,7 +75,12 @@ const ProductForm: React.FC<{
             type="text"
             value={productInputs.brand}
             id="brand"
-            onChange={(e) => setProductBrand(e.target.value)}
+            onChange={(e) =>
+              setProductFormField(
+                e.target.id as ProductFormField,
+                e.target.value
+              )
+            }
           />
         </FormRow>
 
@@ -78,7 +88,12 @@ const ProductForm: React.FC<{
           <textarea
             value={productInputs.description}
             id="description"
-            onChange={(e) => setProductDescription(e.target.value)}
+            onChange={(e) =>
+              setProductFormField(
+                e.target.id as ProductFormField,
+                e.target.value
+              )
+            }
           >
             {productInputs.description}
           </textarea>
@@ -88,21 +103,26 @@ const ProductForm: React.FC<{
             type="number"
             value={productInputs.countInStock}
             id="count"
-            onChange={(e) => setProductCount(Number(e.target.value))}
+            onChange={(e) =>
+              setProductFormField(
+                e.target.id as ProductFormField,
+                Number(e.target.value)
+              )
+            }
           />
         </FormRow>
         {isEdit && (
           <FormRow label="Image">
-            <input type="text" defaultValue={productInputs.image} />
+            <input type="text" defaultValue={productInputs.image || ""} />
           </FormRow>
         )}
         <FormRow label={!isEdit ? "Image " : ""} error={errors?.image || ""}>
           <UploadFile
             id="image"
-            onChange={(e) => setProductImage(e.target.files[0])}
+            accept="image"
+            onChange={setProductFormField}
             removeFile={removeProductImage}
             ref={addProductImageRef}
-            file={productInputs.image}
           />
         </FormRow>
 
@@ -111,7 +131,15 @@ const ProductForm: React.FC<{
           type="submit"
           disabled={isFormInvalid}
         >
-          {isEdit ? "Edit" : "Create"}
+          {isLoadingCreateProduct || isLoadingEditProduct ? (
+            <ButtonLoader
+              text={isEdit ? "Updating Product..." : "Creating Product"}
+            />
+          ) : isEdit ? (
+            "Update product"
+          ) : (
+            "Create Product"
+          )}
         </button>
       </form>
     </>
