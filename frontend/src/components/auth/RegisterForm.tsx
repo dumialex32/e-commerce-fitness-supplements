@@ -68,7 +68,7 @@ const RegisterForm: React.FC<{ isUpdating?: boolean }> = ({
               placeholder="Enter your name"
               onChange={(e) =>
                 setRegisterFormField(
-                  e.target.id as RegisteFormField,
+                  e.target.id as RegisterFormField,
                   e.target.value
                 )
               }

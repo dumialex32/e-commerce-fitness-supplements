@@ -178,7 +178,10 @@ const updateUserProfile = asyncHandler(
 
 const getUsers = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
-    res.send("Get all users");
+    const users = await User.find({}).select("-password -__v -updatedAt");
+    console.log(users);
+
+    res.status(200).json(users);
   }
 );
 
@@ -202,7 +205,17 @@ const getUserById = asyncHandler(
 
 const deleteUser = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
-    res.send("delete user");
+    const { id } = req.params;
+
+    const user = await User.findById(id);
+
+    if (user) {
+      await User.deleteOne({ _id: id });
+      res.status(200).json({ message: "User successfully deleted" });
+    } else {
+      res.status(404);
+      throw new Error("User not found");
+    }
   }
 );
 

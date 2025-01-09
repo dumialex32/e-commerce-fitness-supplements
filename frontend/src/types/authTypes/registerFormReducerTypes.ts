@@ -1,4 +1,4 @@
-import { IUserInfo } from "../userTypes/authSliceTypes";
+import { IUserInfo } from "./authSliceTypes";
 
 export type RegisterFormField =
   | "name"

@@ -39,6 +39,9 @@ const UserMenuList: React.FC<{
             {userInfo?.isAdmin && (
               <>
                 <li>
+                  <Link to={"/admin/userlist"}>User list</Link>
+                </li>
+                <li>
                   <Link to={"/admin/products"}>Products</Link>
                 </li>
                 <li>

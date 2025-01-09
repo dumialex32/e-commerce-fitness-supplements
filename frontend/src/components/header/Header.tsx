@@ -1,8 +1,8 @@
-import CartBadge from "./cart/CartBadge";
+import CartBadge from "../cart/CartBadge";
 import HeaderControls from "./HeaderControls";
 
-import Logo from "./Logo";
-import UserMenu from "./user/UserMenu";
+import Logo from "../Logo";
+import UserMenu from "../user/UserMenu";
 
 const Header: React.FC = () => {
   return (

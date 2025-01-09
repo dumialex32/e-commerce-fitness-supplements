@@ -1,7 +1,7 @@
 import { isEmpty } from "lodash";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { IUserInfo } from "../types/userTypes/authSliceTypes";
+import { IUserInfo } from "../types/authTypes/authSliceTypes";
 import { FormEvent, useState } from "react";
 import { useLoginMutation } from "../slices/usersApiSlice";
 import { useDispatch } from "react-redux";

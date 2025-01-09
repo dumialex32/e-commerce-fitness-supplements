@@ -7,10 +7,10 @@ interface IConfirmProps {
 }
 
 const Confirm: React.FC<IConfirmProps> = ({
-  onConfirm,
   action,
   resourceName,
   resource,
+  onConfirm,
   onCloseModal,
 }) => {
   const capitalizedAction = action

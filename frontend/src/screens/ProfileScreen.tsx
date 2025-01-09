@@ -5,8 +5,8 @@ import OrderTable from "../components/OrderTable";
 import ScreenTitle from "../components/ScreenTitle";
 import useAuth from "../hooks/useAuth";
 import { useGetMyOrdersQuery } from "../slices/ordersApiSlice";
+import { IuseGetMyOrdersQuery } from "../types/orderTypes/orderSliceTypes";
 import { IUserProfileTableData } from "../types/orderTypes/orderTableTypes";
-import { IuseGetMyOrdersQuery } from "../types/slices/orderSliceTypes";
 import { renderFetchBaseQueryError } from "../utils/errorHelpers";
 
 const ProfileScreen: React.FC = () => {

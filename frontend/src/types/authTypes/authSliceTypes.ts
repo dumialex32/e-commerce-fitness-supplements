@@ -1,6 +1,6 @@
 // user info data types
 export interface IUserInfo {
-  userId: string;
+  id: string;
   name: string;
   email: string;
   isAdmin: boolean;
