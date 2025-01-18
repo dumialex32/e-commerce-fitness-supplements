@@ -1,7 +1,7 @@
 import useAuth from "../../hooks/useAuth";
-import UserMenuList from "./UserMenuList";
 import UserBadge from "./UserBadge";
 import { useEffect, useRef, useState } from "react";
+import UserMenuList from "./UserMenuList";
 
 const UserMenu: React.FC = () => {
   const { isUserLoggedIn, userInitial } = useAuth();
@@ -30,12 +30,11 @@ const UserMenu: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownMenuRef}>
       <div
         role="button"
         className="btn btn-ghost btn-circle avatar"
         onClick={toggleDropdownMenu}
-        ref={dropdownMenuRef}
       >
         <UserBadge isUserLoggedIn={isUserLoggedIn} userInitial={userInitial} />
       </div>

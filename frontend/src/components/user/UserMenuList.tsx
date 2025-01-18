@@ -1,67 +1,47 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useLogoutMutation } from "../../slices/usersApiSlice";
-import { useDispatch } from "react-redux";
-import { logout } from "../../slices/authSlice";
+import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import ProfileLogout from "./ProfileLogout";
+import TreeView from "../Tree view/TreeView";
+import { ReactNode } from "react";
 
-const UserMenuList: React.FC<{
-  isUserLoggedIn: boolean;
-  // isDropdownOpen: boolean;
-}> = ({ isUserLoggedIn }) => {
-  const [logoutApiCall, { isLoading }] = useLogoutMutation();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+export interface ITreeData {
+  id: string;
+  label: ReactNode | string;
+  children?: ITreeData[];
+}
+
+const UserMenuList: React.FC<{ isUserLoggedIn: boolean }> = ({
+  isUserLoggedIn,
+}) => {
   const { userInfo } = useAuth();
 
-  const handleUserLogout = async () => {
-    try {
-      await logoutApiCall().unwrap();
+  const treeData = isUserLoggedIn
+    ? [
+        userInfo?.isAdmin && {
+          id: "1",
+          label: "Admin",
+          children: [
+            { id: "1.1", label: <Link to="/admin/products">Products</Link> },
 
-      dispatch(logout());
-
-      navigate("/login");
-    } catch (error) {
-      console.error(error);
-    }
-  };
+            {
+              id: "1.2",
+              label: <Link to="/admin/orderlist">Order List</Link>,
+            },
+            {
+              id: "1.3",
+              label: <Link to="/admin/userlist">User List</Link>,
+            },
+          ],
+        },
+        { id: "2", label: <Link to="/profile">Profile</Link> },
+        { id: "3", label: <ProfileLogout /> },
+      ]
+    : [{ id: "1", label: <Link to={"/login"}>Login/Register</Link> }];
 
   return (
-    <>
-      {/* {isDropdownOpen && ( */}
-      <ul className="absolute right-0 menu dropdown-content bg-base-100 rounded-box z-[1] mt-4 w-52 p-2 shadow">
-        {isUserLoggedIn ? (
-          <ul>
-            <li>
-              <Link to={"/profile"} className="justify-between">
-                Profile
-              </Link>
-            </li>
-            {userInfo?.isAdmin && (
-              <>
-                <li>
-                  <Link to={"/admin/userlist"}>User list</Link>
-                </li>
-                <li>
-                  <Link to={"/admin/products"}>Products</Link>
-                </li>
-                <li>
-                  <Link to={"/admin/orderlist"}>Admin order list</Link>
-                </li>
-              </>
-            )}
-            <li>
-              <button onClick={handleUserLogout}>Logout</button>
-            </li>
-          </ul>
-        ) : (
-          <ul>
-            <li className="font-semibold">
-              <Link to={"/login"}>Login / Sign up</Link>
-            </li>
-          </ul>
-        )}
-      </ul>
-    </>
+    <div className="absolute border p-2 bg-white transform -translate-x-1/2 left-1/2 rounded-md z-50 ">
+      <TreeView data={treeData} />
+    </div>
   );
 };
 
