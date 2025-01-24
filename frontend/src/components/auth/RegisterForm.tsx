@@ -38,9 +38,6 @@ const RegisterForm: React.FC<{ isUpdating?: boolean }> = ({
     if (isUserLoggedIn && !isUpdating) redirect("/");
   }, [isUserLoggedIn, redirect, moveTo]);
 
-  console.log(errors);
-  console.log(isFormInvalid);
-
   return (
     <div>
       <ToastContainer />

@@ -6,6 +6,7 @@ import Table from "./Table";
 import { FaCheck } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import RemoveUser from "./user/RemoveUser";
+import EditUser from "./user/EditUser";
 
 const UserTable: React.FC<{ data: IUser[] }> = ({ data }) => {
   console.log(data);
@@ -36,8 +37,14 @@ const UserTable: React.FC<{ data: IUser[] }> = ({ data }) => {
     {
       label: "",
       id: "_id",
+      width: "sm",
       accessor: (value) => {
-        return <RemoveUser userId={value as string} />;
+        return (
+          <div className="flex items-center gap-2">
+            <EditUser user={data.find((user) => user._id === value)} />
+            <RemoveUser userId={value as string} />
+          </div>
+        );
       },
     },
   ];

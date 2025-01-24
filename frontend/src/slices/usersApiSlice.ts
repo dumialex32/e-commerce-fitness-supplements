@@ -33,6 +33,7 @@ const userApiSlice = apiSlice.injectEndpoints({
         method: "PUT",
         body,
       }),
+      invalidatesTags: ["User"],
     }),
 
     getUsers: builder.query<IUser[], void>({
@@ -49,6 +50,15 @@ const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
+
+    updateUser: builder.mutation({
+      query: ({ userId, ...patch }) => ({
+        url: `${USERS_URL}/${userId}`,
+        method: "PATCH",
+        body: patch,
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
@@ -58,5 +68,6 @@ export const {
   useRegisterMutation,
   useProfileMutation,
   useDeleteUserMutation,
+  useUpdateUserMutation,
   useGetUsersQuery,
 } = userApiSlice as any;

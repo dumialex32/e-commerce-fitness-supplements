@@ -18,7 +18,8 @@ import {
   ActionType,
   ProductFormField,
   IInitialState,
-} from "../types/productsTypes/productFormReducerTypes";
+  IuseProductFormProps,
+} from "../types/productsTypes/ProductFormTypes";
 
 const validationMap: Record<ProductFormField, (value: any) => string> = {
   name: validateProductName,
@@ -68,7 +69,11 @@ const reducer = (state: IInitialState, action: ActionType) => {
   }
 };
 
-const useProductForm = (product: IProduct, isEdit: boolean) => {
+const useProductForm = ({
+  product,
+  isEdit,
+  onCloseModal,
+}: IuseProductFormProps) => {
   const productId = product?._id;
 
   const [state, dispatch] = useReducer(reducer, product, init);
@@ -83,14 +88,12 @@ const useProductForm = (product: IProduct, isEdit: boolean) => {
     image: state.image,
   };
   const errors = state.errors;
-  console.log(productInputs);
 
   const [editProduct, { isLoading: isLoadingEditProduct }] =
     useEditProductMutation();
   const [createProduct, { isLoading: isLoadingCreateProduct }] =
     useCreateProductMutation();
-  const [uploadProductImage, { isLoading: isLoadingUploadProductImage }] =
-    useUploadProductImageMutation();
+  const [uploadProductImage] = useUploadProductImageMutation();
 
   const uploadImage = async (file: File) => {
     const formData = new FormData();
@@ -108,7 +111,9 @@ const useProductForm = (product: IProduct, isEdit: boolean) => {
     }
   };
 
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
     try {
       let productImage = productInputs.image;
 
@@ -133,6 +138,7 @@ const useProductForm = (product: IProduct, isEdit: boolean) => {
       createToast(`Product successfully ${isEdit ? "updated" : "created"}`, {
         type: "success",
       });
+      onCloseModal();
     } catch (err: any) {
       console.error(err);
       createToast(

@@ -6,8 +6,6 @@ import { createToast } from "../../utils/toastUtils";
 import { renderFetchBaseQueryError } from "../../utils/errorHelpers";
 
 const RemoveUser: React.FC<{ userId: string }> = ({ userId }) => {
-  console.log(userId);
-
   const [removeUser, { isLoading }] = useDeleteUserMutation();
 
   const handleRemoveUser = async () => {
@@ -29,8 +27,8 @@ const RemoveUser: React.FC<{ userId: string }> = ({ userId }) => {
   return (
     <Modal>
       <Modal.Open name={userId}>
-        <button>
-          <FaTrash />
+        <button className="btn btn-secondary">
+          <FaTrash color="red" />
         </button>
       </Modal.Open>
 

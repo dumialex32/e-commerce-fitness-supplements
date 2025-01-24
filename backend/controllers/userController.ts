@@ -179,7 +179,6 @@ const updateUserProfile = asyncHandler(
 const getUsers = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
     const users = await User.find({}).select("-password -__v -updatedAt");
-    console.log(users);
 
     res.status(200).json(users);
   }
@@ -227,7 +226,23 @@ const deleteUser = asyncHandler(
 
 const updateUser = asyncHandler(
   async (req: Request, res: Response): Promise<void> => {
-    res.send("update user ");
+    const { email, name, isAdmin } = req.body.patch;
+    const { id } = req.params;
+
+    const user = await User.findById(id);
+
+    if (user) {
+      user.name = name;
+      user.email = email;
+      user.isAdmin = isAdmin;
+
+      const userUpdated = await user.save();
+
+      res.status(200).json(userUpdated);
+    } else {
+      res.status(404);
+      throw new Error("User not found");
+    }
   }
 );
 
