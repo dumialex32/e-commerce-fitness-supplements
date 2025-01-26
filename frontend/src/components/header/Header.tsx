@@ -13,8 +13,8 @@ const Header: React.FC = () => {
         </div>
 
         <HeaderControls>
-          <CartBadge />
           <UserMenu />
+          <CartBadge />
         </HeaderControls>
       </div>
     </header>

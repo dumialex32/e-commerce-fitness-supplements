@@ -39,7 +39,7 @@ const UserMenuList: React.FC<{ isUserLoggedIn: boolean }> = ({
     : [{ id: "1", label: <Link to={"/login"}>Login/Register</Link> }];
 
   return (
-    <div className="absolute border p-2 bg-white transform -translate-x-1/2 left-1/2 rounded-md z-50 ">
+    <div className="absolute border p-2 bg-white transform -translate-x-1/2 left-1/2 rounded-md z-50">
       <TreeView data={treeData} />
     </div>
   );

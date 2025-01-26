@@ -7,11 +7,9 @@ const TreeItem: React.FC<{
   activeItem: string;
   onSetActiveItem: React.Dispatch<React.SetStateAction<string>>;
 }> = ({ node, activeItem, onSetActiveItem }) => {
-  console.log(node);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
   const nodeHasChildren = node.children && node.children.length > 0;
-  console.log(nodeHasChildren);
 
   const handleTreeExpand = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -21,6 +19,7 @@ const TreeItem: React.FC<{
 
   return (
     <div className="">
+      {/* to do: bg color for the entire element*/}
       <div
         className="flex items-center gap-2 cursor-pointer whitespace-nowrap"
         onClick={handleTreeExpand}
