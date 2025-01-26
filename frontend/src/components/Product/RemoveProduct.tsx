@@ -27,7 +27,7 @@ const RemoveProduct: React.FC<{ productId: string }> = ({ productId }) => {
   };
 
   return (
-    <>
+    <Modal>
       <Modal.Open name={productId}>
         <button className="btn">
           {isLoading && <Loader />}
@@ -44,7 +44,7 @@ const RemoveProduct: React.FC<{ productId: string }> = ({ productId }) => {
           action="delete"
         />
       </Modal.Window>
-    </>
+    </Modal>
   );
 };
 

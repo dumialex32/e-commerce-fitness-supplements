@@ -14,7 +14,7 @@ const EditProduct: React.FC<{ product: IProduct }> = ({ product }) => {
       </Modal.Open>
 
       <Modal.Window name={product._id}>
-        <ProductForm isEdit={true} product={product} />
+        <ProductForm isEdit={true} product={product} onCloseModal />
       </Modal.Window>
     </Modal>
   );

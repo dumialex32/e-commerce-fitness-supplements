@@ -5,12 +5,13 @@ import UploadFile from "../UploadFile";
 import { checkFormInputs } from "../../utils/formUtils/formUtils";
 import { useRef } from "react";
 import ButtonLoader from "../ButtonLoader";
-import { ProductFormField } from "../../types/productsTypes/productFormReducerTypes";
+import { ProductFormField } from "../../types/productsTypes/ProductFormTypes";
 
 const ProductForm: React.FC<{
   isEdit?: boolean;
-  product?: IProduct;
-}> = ({ isEdit = false, product }) => {
+  product: IProduct;
+  onCloseModal: () => void;
+}> = ({ isEdit = false, product, onCloseModal }) => {
   const addProductImageRef = useRef<HTMLInputElement | null>(null);
 
   const {
@@ -21,7 +22,7 @@ const ProductForm: React.FC<{
     setProductFormField,
     handleFormSubmit,
     removeProductImage,
-  } = useProductForm(product, isEdit);
+  } = useProductForm({ product, isEdit, onCloseModal });
 
   const isFormInvalid = checkFormInputs(productInputs, errors);
 

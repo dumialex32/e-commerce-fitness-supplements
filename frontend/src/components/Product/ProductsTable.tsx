@@ -9,7 +9,6 @@ import {
   IProductsTableProps,
   IProductTableData,
 } from "../../types/productsTypes/productsTableTypes";
-import Modal from "../Modal";
 
 const ProductsTable: React.FC<IProductsTableProps> = ({ data }) => {
   const productTableData: IProductTableData[] = data.map((product) => ({
@@ -57,19 +56,17 @@ const ProductsTable: React.FC<IProductsTableProps> = ({ data }) => {
     {
       id: "productId",
       label: "",
-      width: "24",
+      width: "sm",
       accessor: (value: string | number) => {
         if (typeof value === "string")
           return (
             <div className="flex items-center justify-center gap-2">
-              <Modal>
-                <EditProduct
-                  productId={value as string}
-                  product={data.find((p) => p._id === value)}
-                />
+              <EditProduct
+                productId={value as string}
+                product={data.find((p) => p._id === value)}
+              />
 
-                <RemoveProduct productId={value as string} />
-              </Modal>
+              <RemoveProduct productId={value as string} />
             </div>
           );
 

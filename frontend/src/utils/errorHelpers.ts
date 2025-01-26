@@ -7,6 +7,7 @@ export const renderFetchBaseQueryError = (
   error: FetchBaseQueryError | SerializedError | undefined
 ): string | null => {
   if (error) {
+    console.error(error);
     if ("status" in error) {
       // Handle FetchBaseQueryError
       const fetchBaseErrMsg: string =

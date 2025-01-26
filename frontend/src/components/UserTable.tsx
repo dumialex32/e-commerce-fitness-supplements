@@ -9,7 +9,6 @@ import RemoveUser from "./user/RemoveUser";
 import EditUser from "./user/EditUser";
 
 const UserTable: React.FC<{ data: IUser[] }> = ({ data }) => {
-  console.log(data);
   const columns: ITableColumn<IUser>[] = [
     {
       label: "User ID",

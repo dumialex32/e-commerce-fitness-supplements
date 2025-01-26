@@ -1,4 +1,13 @@
-import { ITableProps } from "../types/componentsTypes/tableTypes";
+import {
+  ITableProps,
+  TableColumnWidth,
+} from "../types/componentsTypes/tableTypes";
+
+const mapWidth: Record<TableColumnWidth, string> = {
+  sm: "w-12",
+  md: "w-14",
+  lg: "w-24",
+};
 
 const Table = <T,>({
   columns,
@@ -17,7 +26,9 @@ const Table = <T,>({
             {columns.map((col, index) => (
               <th
                 key={index}
-                className={`px-4 py-2 rounded-md bg-gray-100 text-left w-${col.width}`}
+                className={`px-4 py-2 rounded-md bg-gray-100 text-left ${
+                  mapWidth[col.width || "md"]
+                }`}
               >
                 {col.label}
               </th>

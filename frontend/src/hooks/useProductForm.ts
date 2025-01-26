@@ -133,7 +133,7 @@ const useProductForm = ({
         ? (res = await editProduct({ productId, patch }))
         : (res = await createProduct(patch));
 
-      console.log(res);
+    
 
       createToast(`Product successfully ${isEdit ? "updated" : "created"}`, {
         type: "success",

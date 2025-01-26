@@ -22,7 +22,7 @@ const getFormIcon: {
 };
 
 const formRowDirection = {
-  vertical: "grid grid-cols-[6rem,1fr] gap-12 items-center mb-6",
+  vertical: "grid grid-cols-[6rem,1fr] gap-12 items-center mb-10",
   horizontal: "grid grid-rows-2 gap-1 items-end mb-3",
 };
 

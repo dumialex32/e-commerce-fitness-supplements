@@ -3,7 +3,8 @@ import Message from "../../components/Message";
 import OrderTable from "../../components/OrderTable";
 import ScreenTitle from "../../components/ScreenTitle";
 import { useGetOrdersQuery } from "../../slices/ordersApiSlice";
-import { IuseGetOrdersQuery } from "../../types/slices/orderSliceTypes";
+import { IuseGetOrdersQuery } from "../../types/orderTypes/orderSliceTypes";
+
 import { renderFetchBaseQueryError } from "../../utils/errorHelpers";
 
 const AdminOrderList: React.FC = () => {

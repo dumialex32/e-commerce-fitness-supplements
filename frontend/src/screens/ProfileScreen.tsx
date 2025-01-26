@@ -24,19 +24,14 @@ const ProfileScreen: React.FC = () => {
       currentUser: userInfo?.name || "Unknown User",
     })) || [];
 
+  const hasOrders = orders && orders.length > 0;
+
   if (isLoading) {
     return <Loader />;
   }
 
   if (error)
     return <Message type="error">{renderFetchBaseQueryError(error)}</Message>;
-
-  if (!orders || orders?.length === 0)
-    return (
-      <Message type="info">
-        No orders placed yet. Start shopping and create your first order!
-      </Message>
-    );
 
   if (!userInfo) return <Message type="info">User could not be found.</Message>;
 
@@ -47,7 +42,15 @@ const ProfileScreen: React.FC = () => {
       <div className="grid grid-cols-[1fr_2fr] gap-6">
         <RegisterForm isUpdating={true} />
 
-        <OrderTable data={profileTableOrders} />
+        {!hasOrders ? (
+          <div>
+            <Message type="info">
+              No orders placed yet. Start shopping and create your first order!
+            </Message>
+          </div>
+        ) : (
+          <OrderTable data={profileTableOrders} />
+        )}
       </div>
     </div>
   );

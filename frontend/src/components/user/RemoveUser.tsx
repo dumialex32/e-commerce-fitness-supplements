@@ -11,7 +11,6 @@ const RemoveUser: React.FC<{ userId: string }> = ({ userId }) => {
   const handleRemoveUser = async () => {
     try {
       const res = await removeUser(userId);
-      console.log(res);
 
       createToast("User sucessfully deleted", { type: "success" });
     } catch (err: any) {

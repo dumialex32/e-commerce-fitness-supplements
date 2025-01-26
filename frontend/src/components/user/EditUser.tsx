@@ -5,8 +5,6 @@ import { IUser } from "../../types/userTypes/usersSliceTypes";
 import EditUserForm from "./EditUserForm";
 
 const EditUser: React.FC<{ user: IUser }> = ({ user }) => {
-  console.log(user);
-
   return (
     <div>
       <Modal>

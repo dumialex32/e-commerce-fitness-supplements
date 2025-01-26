@@ -1,9 +1,11 @@
 import { ReactNode } from "react";
 
+export type TableColumnWidth = "sm" | "md" | "lg";
+
 export interface ITableColumn<T> {
   id: keyof T;
   label: string;
-  width?: string;
+  width?: TableColumnWidth;
   accessor?: (value: T[keyof T]) => ReactNode;
 }
 

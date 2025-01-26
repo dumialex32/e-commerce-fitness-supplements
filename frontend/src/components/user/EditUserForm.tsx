@@ -33,7 +33,6 @@ interface IEditUserFormProps {
 }
 
 const EditUserForm: React.FC<IEditUserFormProps> = ({ user, onCloseModal }) => {
-  console.log(onCloseModal);
   const [formData, setFormData] = useState<IEditUserForm>({
     name: user?.name || "",
     email: user?.email || "",
@@ -84,7 +83,7 @@ const EditUserForm: React.FC<IEditUserFormProps> = ({ user, onCloseModal }) => {
 
     try {
       const res = await updateUser({ userId, patch });
-      console.log(res);
+
       createToast("User update successfully made", { type: "success" });
       onCloseModal();
     } catch (err: any) {
