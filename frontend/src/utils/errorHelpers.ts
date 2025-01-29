@@ -1,31 +1,30 @@
 import { SerializedError } from "@reduxjs/toolkit";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { DEFAULT_ERROR_MESSAGE } from "../constants";
 
 //  render error messages from Redux Toolkit's createApi queries or mutations
-
 export const renderFetchBaseQueryError = (
   error: FetchBaseQueryError | SerializedError | undefined
-): string | null => {
-  if (error) {
-    console.error(error);
-    if ("status" in error) {
-      // Handle FetchBaseQueryError
-      const fetchBaseErrMsg: string =
-        "data" in error && typeof error.data === "string"
-          ? error.data
-          : JSON.stringify(error.data);
-
-      return (
-        fetchBaseErrMsg || "A network error occurred. Please try again later."
-      );
-    } else {
-      // Handle SerializedError
-      const serializedErrMsg: string | undefined =
-        error.message ?? "An unknown error occurred. Please try again later.";
-
-      return serializedErrMsg;
-    }
+): string => {
+  if (!error) {
+    return DEFAULT_ERROR_MESSAGE;
   }
 
-  return "An unknown error occurred. Please try again later.";
+  // handle FetchBaseQueryError (network or response-related errors)
+  if ("status" in error) {
+    const fetchBaseErrMsg: string =
+      error.data && typeof error.data === "string"
+        ? error.data
+        : JSON.stringify(error.data) ||
+          "A network error occurred. Please try again later.";
+
+    return fetchBaseErrMsg;
+  }
+
+  // handle SerializedError (internal errors or validation errors)
+  if ("message" in error) {
+    return error.message ?? DEFAULT_ERROR_MESSAGE;
+  }
+
+  return DEFAULT_ERROR_MESSAGE;
 };

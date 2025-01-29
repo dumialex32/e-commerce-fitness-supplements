@@ -1,4 +1,4 @@
-interface IReviews {
+export interface IReview {
   user: string;
   name: string;
   rating: number;
@@ -18,7 +18,7 @@ export interface IProduct {
   numReviews: number;
   price: number;
   rating: number;
-  reviews: IReviews[];
+  reviews: IReview[];
   updatedAt: string;
   user: string;
   __v: number;
@@ -33,4 +33,13 @@ export interface IProductPayload {
   countInStock: number;
   description: string;
   image: File | string;
+}
+
+// Product reviews
+export interface ProductReviewsProps {
+  reviews: IReview[];
+}
+
+export interface IProductReviewProps {
+  review: IReview;
 }

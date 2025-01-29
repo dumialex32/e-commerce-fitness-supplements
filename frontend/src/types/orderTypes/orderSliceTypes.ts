@@ -8,13 +8,13 @@ export interface IPopulatedOrderResponse extends Omit<IOrderResponse, "user"> {
   };
 }
 
-export interface IuseGetOrdersQuery {
+export interface IuseGetAllOrdersQuery {
   data: IPopulatedOrderResponse[];
   isLoading: boolean;
   error: unknown;
 }
 
-export interface IuseGetMyOrdersQuery {
+export interface IuseGetOrdersQuery {
   data: IOrderResponse[];
   isLoading: boolean;
   error: unknown;

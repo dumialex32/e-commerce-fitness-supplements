@@ -21,10 +21,12 @@ const getFormIcon: {
   CreditCard: faCreditCard,
 };
 
-const formRowDirection = {
-  vertical: "grid grid-cols-[6rem,1fr] gap-12 items-center mb-10",
+const formRowDirection = (label) => ({
+  vertical: `${
+    label ? `grid grid-cols-[6rem,1fr] gap-12` : "flex"
+  }items-center mb-10`,
   horizontal: "grid grid-rows-2 gap-1 items-end mb-3",
-};
+});
 
 const FormRow: React.FC<{
   children: ReactNode;
@@ -40,7 +42,7 @@ const FormRow: React.FC<{
   direction = "vertical",
 }) => {
   return (
-    <div className={`${formRowDirection[direction]}`}>
+    <div className={`${formRowDirection(label)[direction]}`}>
       <div>
         {labelWithIcon ? (
           <label

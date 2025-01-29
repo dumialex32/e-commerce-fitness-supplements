@@ -1,14 +1,15 @@
 import { PAYPAL_URL } from "../constants";
 import { ORDERS_URL } from "../constants";
+import { IPopulatedOrderResponse } from "../types/orderTypes/orderSliceTypes";
 import { IOrder, IOrderResponse } from "../types/orderTypes/OrderTypes";
-import { IPopulatedOrderResponse } from "../types/slices/orderSliceTypes";
+
 import apiSlice from "./apiSlice";
 
 const ordersSliceApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
-    getMyOrders: build.query<IOrderResponse, void>({
+    getOrders: build.query<IOrderResponse, void>({
       query: () => ({
-        url: `${ORDERS_URL}/myorders`,
+        url: `${ORDERS_URL}/orders`,
       }),
       keepUnusedDataFor: 5000,
       providesTags: ["Order"],
@@ -22,7 +23,7 @@ const ordersSliceApi = apiSlice.injectEndpoints({
       providesTags: ["Order"],
     }),
 
-    getOrders: build.query<IPopulatedOrderResponse[], void>({
+    getAllOrders: build.query<IPopulatedOrderResponse[], void>({
       query: () => ({ url: ORDERS_URL }),
       keepUnusedDataFor: 5000,
     }),
@@ -62,10 +63,10 @@ const ordersSliceApi = apiSlice.injectEndpoints({
 
 export const {
   useGetOrdersQuery,
+  useGetAllOrdersQuery,
   useGetOrderDetailsQuery,
   useGetPaypalClientIdQuery,
   useCreateOrderMutation,
   useUpdateOrderToPaidMutation,
   useUpdateOrderToDeliveredMutation,
-  useGetMyOrdersQuery,
 } = ordersSliceApi as any;

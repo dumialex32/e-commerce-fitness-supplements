@@ -1,40 +1,87 @@
+import React, { useState } from "react";
 import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
 
 type Direction = "horizontal" | "vertical";
 
-interface RatingProps {
-  value: number;
-  reviews: number;
-  starNum: number;
-  direction: Direction;
-}
 const directionMap: Record<Direction, string> = {
   horizontal: "flex",
   vertical: "flex flex-col",
 };
 
+type StarSize = "xs" | "sm" | "md" | "lg";
+
+const sizeMap: Record<StarSize, string> = {
+  xs: "text-xs",
+  sm: "text-sm",
+  md: "text-md",
+  lg: "text-lg",
+};
+
+interface RatingProps {
+  value?: number;
+  reviews?: number;
+  starNum: number;
+  direction?: Direction;
+  size?: StarSize;
+  interactive?: boolean;
+  onSetRating?: (rating: number) => void;
+}
+
 const Rating: React.FC<RatingProps> = ({
-  value,
-  reviews,
+  value = 0,
+  reviews = 0,
   direction = "horizontal",
   starNum,
+  size = "md",
+  interactive = true,
+  onSetRating,
 }) => {
+  const [rate, setRate] = useState(value);
+  const [tempRate, setTempRate] = useState(0);
+
+  const handleSetRate = (i: number) => {
+    if (interactive) {
+      setRate(i);
+      onSetRating && onSetRating(i);
+    }
+  };
+
+  const handleSetTempRate = (i: number) => {
+    if (interactive) {
+      setTempRate(i);
+    }
+  };
+
   return (
     <div className={`${directionMap[direction]} gap-2`}>
-      <div className="flex gap-1">
-        {Array.from({ length: starNum }, (_, i) => (
-          <span className="text-yellow-300 text-xl" key={i}>
-            {value >= i + 1 ? (
-              <FaStar />
-            ) : value >= i - 0.5 ? (
-              <FaStarHalfAlt />
-            ) : (
-              <FaRegStar />
-            )}
-          </span>
-        ))}
-      </div>
-      <p className="text-sm text-gray-400 font-semibold">{reviews} reviews</p>
+      <ul className="flex gap-1">
+        {Array.from({ length: starNum }, (_, i) => {
+          const isFullStar = tempRate ? tempRate >= i + 1 : rate >= i + 1;
+          const isHalfStar = tempRate ? tempRate >= i + 0.5 : rate >= i + 0.5;
+          return (
+            <li
+              key={i}
+              className={`${sizeMap[size]} text-yellow-300 cursor-pointer`}
+              onClick={() => handleSetRate(i + 1)}
+              onMouseEnter={() => handleSetTempRate(i + 1)}
+              onMouseLeave={() => handleSetTempRate(0)}
+              role={interactive ? "button" : undefined}
+              aria-label={`Rate ${i + 1} stars`}
+            >
+              {isFullStar ? (
+                <FaStar />
+              ) : isHalfStar ? (
+                <FaStarHalfAlt />
+              ) : (
+                <FaRegStar />
+              )}
+            </li>
+          );
+        })}
+      </ul>
+      {reviews > 0 && (
+        <p className="text-sm text-gray-400 font-semibold">{reviews} reviews</p>
+      )}
     </div>
   );
 };

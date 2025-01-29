@@ -4,8 +4,8 @@ import Message from "../components/Message";
 import OrderTable from "../components/OrderTable";
 import ScreenTitle from "../components/ScreenTitle";
 import useAuth from "../hooks/useAuth";
-import { useGetMyOrdersQuery } from "../slices/ordersApiSlice";
-import { IuseGetMyOrdersQuery } from "../types/orderTypes/orderSliceTypes";
+import { useGetOrdersQuery } from "../slices/ordersApiSlice";
+import { IuseGetOrdersQuery } from "../types/orderTypes/orderSliceTypes";
 import { IUserProfileTableData } from "../types/orderTypes/orderTableTypes";
 import { renderFetchBaseQueryError } from "../utils/errorHelpers";
 
@@ -14,7 +14,7 @@ const ProfileScreen: React.FC = () => {
     data: orders,
     isLoading,
     error,
-  } = useGetMyOrdersQuery() as IuseGetMyOrdersQuery;
+  } = useGetOrdersQuery() as IuseGetOrdersQuery;
 
   const { userInfo } = useAuth();
 

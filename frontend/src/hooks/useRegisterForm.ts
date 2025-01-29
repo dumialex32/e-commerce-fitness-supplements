@@ -19,6 +19,7 @@ import {
 import useAuth from "./useAuth";
 import { IUserInfo } from "../types/authTypes/authSliceTypes";
 import { checkFormInputs } from "../utils/formUtils/formUtils";
+import { DEFAULT_ERROR_MESSAGE } from "../constants";
 
 const init = (userInfo: IUserInfo | null) => ({
   name: userInfo?.name || "",
@@ -130,7 +131,7 @@ const useRegisterForm = () => {
         dispatch({
           type: "SET_ERRORS",
           payload: {
-            registrationError: err.data.message || "An unknown error occured",
+            registrationError: err.data.message || DEFAULT_ERROR_MESSAGE,
           },
         });
       }

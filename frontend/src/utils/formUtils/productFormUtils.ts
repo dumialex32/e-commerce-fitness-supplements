@@ -51,3 +51,16 @@ export const validateProductBrand = (brand: string) => {
 export const validateProductCount = (productCount: number) => {
   return isNumberInt(productCount, "count");
 };
+
+export const validateProductComment = (comment: string) => {
+  const regex =
+    /^[^!@#$%^&*(),.?":{}|<>]*([!@#$%^&*(),.?":{}|<>][^!@#$%^&*(),.?":{}|<>]*){0,3}$/;
+
+  if (comment.length < 9) {
+    return "Review length is to short";
+  }
+
+  if (!regex.test(comment)) return "You can use maxim 3 special characters";
+
+  return "";
+};

@@ -25,3 +25,7 @@ export const FREE_SHIPPING_THRESHOLD: number = 65;
 
 // Order constants
 export const MAX_ORDER_PER_ITEM: number = 9;
+
+// Error handling
+export const DEFAULT_ERROR_MESSAGE =
+  "An unknown error occured. Please try again";

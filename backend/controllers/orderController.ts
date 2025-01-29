@@ -11,7 +11,7 @@ import mongoose from "mongoose";
  * @access: Private
  */
 
-const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
+const getOrders = asyncHandler(async (req: Request, res: Response) => {
   const orders = await Order.find({ user: req.user._id });
   res.status(200).json(orders);
 });
@@ -151,7 +151,7 @@ const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export {
-  getMyOrders,
+  getOrders,
   addOrderItems,
   getOrderById,
   getAllOrders,

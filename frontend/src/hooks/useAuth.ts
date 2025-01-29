@@ -1,4 +1,3 @@
-import { isEmpty } from "lodash";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { IUserInfo } from "../types/authTypes/authSliceTypes";
@@ -7,6 +6,8 @@ import { useLoginMutation } from "../slices/usersApiSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setCredentials } from "../slices/authSlice";
+import { renderFetchBaseQueryError } from "../utils/errorHelpers";
+import { DEFAULT_ERROR_MESSAGE } from "../constants";
 
 const useAuth = () => {
   const [email, setEmail] = useState<string>("");
@@ -19,23 +20,19 @@ const useAuth = () => {
 
   const handleAuthSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!email || !password) return;
+    if (isLoading || !email || !password) return;
 
     try {
       setError(null);
       const userInfo: IUserInfo = await login({ email, password }).unwrap();
 
-      if (userInfo && !isEmpty(userInfo)) {
+      if (isValidUser(userInfo)) {
         dispatch(setCredentials(userInfo));
         navigate("/");
       }
-    } catch (error: any) {
+    } catch (err: any) {
       console.error(error);
-      setError(
-        error.data.message ||
-          error.data ||
-          "An unknown error occured. Please try again"
-      );
+      setError(renderFetchBaseQueryError(err) || DEFAULT_ERROR_MESSAGE);
     }
   };
 
@@ -44,13 +41,19 @@ const useAuth = () => {
     (state: RootState) => state.auth.userInfo
   );
 
-  // check if user is logged in
-  const isUserLoggedIn: boolean = !isEmpty(userInfo);
+  // check if user is logged in and validate the id and email fields
+  const isValidUser = (user: IUserInfo | null): boolean => {
+    if (!user) {
+      return false;
+    }
+
+    return Boolean(user.userId && user.email && user.name && user.isAdmin);
+  };
+
+  const isUserLoggedIn = isValidUser(userInfo);
 
   // get the user's name first letter
-  const userInitial: string | null = userInfo?.name
-    ? userInfo?.name.slice(0, 1)
-    : null;
+  const userInitial: string | null = userInfo?.name?.[0] || null;
 
   return {
     email,

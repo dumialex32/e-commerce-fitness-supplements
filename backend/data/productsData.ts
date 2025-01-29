@@ -9,8 +9,8 @@ const products: IProductData[] = [
     category: "Pre-workouts",
     price: 39.0,
     countInStock: 9,
-    rating: 4.1,
-    numReviews: 2,
+    rating: 0,
+    numReviews: 0,
   },
   {
     name: "Creatine ON",
