@@ -7,7 +7,7 @@ import useAppNavigate from "../../hooks/useAppNavigate";
 const ProductCard = ({ product }: { product: IProduct }) => {
   const { moveTo } = useAppNavigate();
   return (
-    <li className="w-full md:w-1/2 lg:w-1/6 p-2">
+    <li className="w-full md:w-1/2 lg:w-1/5 p-2">
       <div className="card bg-base-100 shadow-xl">
         <figure>
           <Link to={`product/${product._id}`}>

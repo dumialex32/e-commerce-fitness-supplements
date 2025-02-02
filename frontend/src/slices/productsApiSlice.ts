@@ -1,13 +1,17 @@
-import { PRODUCTS_URL, UPLOAD_URL } from "../constants";
+import { DEFAULT_PAGE_SIZE, PRODUCTS_URL, UPLOAD_URL } from "../constants";
 import apiSlice from "./apiSlice";
 import { IProduct, IProductPayload } from "../types/productsTypes/productTypes";
 
 // Define the API slice with endpoints and types
 const productApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getProducts: builder.query<IProduct[], void>({
-      query: () => ({
+    getProducts: builder.query<
+      IProduct[],
+      { page?: number; pageSize?: number }
+    >({
+      query: ({ page = 1, pageSize = DEFAULT_PAGE_SIZE }) => ({
         url: `${PRODUCTS_URL}`,
+        params: { page, pageSize },
       }),
       providesTags: ["Product"],
       keepUnusedDataFor: 5000,

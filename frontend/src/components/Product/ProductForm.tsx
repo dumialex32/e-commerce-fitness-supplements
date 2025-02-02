@@ -114,7 +114,10 @@ const ProductForm: React.FC<{
         </FormRow>
         {isEdit && (
           <FormRow label="Image">
-            <input type="text" defaultValue={productInputs.image || ""} />
+            <input
+              type="text"
+              defaultValue={productInputs.image.toString() || ""}
+            />
           </FormRow>
         )}
         <FormRow label={!isEdit ? "Image " : ""} error={errors?.image || ""}>

@@ -12,7 +12,7 @@ import { SerializedError } from "@reduxjs/toolkit";
  **/
 
 export interface IuseGetProductsQuery {
-  data: IProduct[];
+  data: { products: IProduct[]; pageCount: number };
   isLoading: boolean;
   error: FetchBaseQueryError | SerializedError | undefined;
 }

@@ -2,13 +2,47 @@ import { Request, Response } from "express";
 import Product from "../models/productModel";
 import { IProductSchema } from "../types/models/productModelTypes";
 import asyncHandler from "../middleware/asyncHandler";
+import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from "../constants";
 
 const getProducts = asyncHandler(async (req: Request, res: Response) => {
-  const products: IProductSchema[] = await Product.find({});
+  const pageSize = Math.min(
+    Math.max(
+      parseInt(req.query.pageSize as string, 10) || DEFAULT_PAGE_SIZE,
+      1
+    ),
+    MAX_PAGE_SIZE
+  );
 
-  // if no products return an empty array
+  const page = Math.max(parseInt(req.query.page as string, 10) || 1, 1);
 
-  res.json(products);
+  const filter: Record<string, any> = {};
+  const sort: Record<string, 1 | -1> = {};
+
+  if (req.query.category) {
+    filter.category = req.query.category;
+  }
+
+  const SORTABLE_FIELDS = ["price", "date", "rating", "name"];
+
+  const sortBy = req.query.sortBy as string;
+  const order = req.query.order === "desc" ? -1 : 1;
+
+  if (SORTABLE_FIELDS.includes(sortBy)) {
+    sort[sortBy] = order;
+  }
+  const [count, products] = await Promise.all([
+    Product.countDocuments(filter),
+    Product.find(filter)
+      .sort(sort)
+      .limit(pageSize)
+      .skip(pageSize * (page - 1))
+      .select("-__v"),
+  ]);
+
+  res.json({
+    products,
+    pageCount: Math.ceil(count / pageSize),
+  });
 });
 
 const getProduct = asyncHandler(async (req: Request, res: Response) => {

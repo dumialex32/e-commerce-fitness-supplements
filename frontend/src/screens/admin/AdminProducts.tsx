@@ -8,11 +8,11 @@ import CreateProduct from "../../components/Product/CreateProduct";
 import { IuseGetProductsQuery } from "../../types/productsTypes/productQueryTypes";
 
 const AdminProducts: React.FC = () => {
-  const {
-    data: products,
-    isLoading,
-    error,
-  } = useGetProductsQuery() as IuseGetProductsQuery;
+  const { data, isLoading, error } = useGetProductsQuery(
+    {}
+  ) as IuseGetProductsQuery;
+
+  // to do pagination
 
   if (isLoading) return <Loader />;
   if (error)
@@ -25,7 +25,7 @@ const AdminProducts: React.FC = () => {
         <CreateProduct />
       </div>
 
-      <ProductsTable data={products} />
+      <ProductsTable data={data.products} />
     </div>
   );
 };
