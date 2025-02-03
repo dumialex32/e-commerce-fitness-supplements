@@ -11,6 +11,7 @@ const App: React.FC = () => {
 
       <main className="container mx-auto py-8 min-h-lvh">
         <ToastContainer />
+
         <Outlet />
       </main>
 

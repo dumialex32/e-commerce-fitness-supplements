@@ -2,6 +2,7 @@ import React from "react";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { useSearchParams } from "react-router-dom";
 import { PAGE_SIZE_OPTIONS } from "../../constants";
+import { setLocalStoragePaginationSettings } from "../../utils/localStorageUtils";
 
 type Size = "sm" | "md" | "lg" | "xl" | "xxl";
 
@@ -21,8 +22,16 @@ const Pagination: React.FC<{
   totalPages: number;
   pageSize: number;
   isLoadingPages: boolean;
+  pageSizeStorageKey: string;
   onSetPageSize: (value: number) => void;
-}> = ({ totalPages, size, pageSize, isLoadingPages, onSetPageSize }) => {
+}> = ({
+  totalPages,
+  size,
+  pageSize,
+  isLoadingPages,
+  pageSizeStorageKey,
+  onSetPageSize,
+}) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
 
@@ -36,7 +45,12 @@ const Pagination: React.FC<{
   };
 
   const handleSetPageSize = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log(e);
     onSetPageSize(Number(e.target.value));
+    setLocalStoragePaginationSettings(
+      String(pageSizeStorageKey),
+      e.target.value
+    );
     searchParams.set("page", "1");
     setSearchParams(searchParams);
   };

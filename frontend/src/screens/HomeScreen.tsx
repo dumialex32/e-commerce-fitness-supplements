@@ -8,11 +8,20 @@ import Loader from "../components/Loader";
 import { DEFAULT_ERROR_MESSAGE, DEFAULT_PAGE_SIZE } from "../constants";
 import Pagination from "../components/pagination/Pagination";
 import Product from "../components/Product/ProductCard";
+import {
+  getLocalStorageItem,
+  getLocalStoragePaginationSettings,
+} from "../utils/localStorageUtils";
 
 const HomeScreen: React.FC = () => {
+  console.log(getLocalStorageItem("pageSize"));
   const [params] = useSearchParams();
   const page = Number(params.get("page")) || 1;
-  const [pageSize, setPageSize] = useState<number>(DEFAULT_PAGE_SIZE);
+  const [pageSize, setPageSize] = useState<number>(
+    () =>
+      getLocalStoragePaginationSettings()["homeScreenPageSize"] ||
+      DEFAULT_PAGE_SIZE
+  );
 
   const { data, isLoading, error }: IuseGetProductsQuery = useGetProductsQuery({
     page,
@@ -32,8 +41,7 @@ const HomeScreen: React.FC = () => {
   }
 
   return (
-    <div className="grid grid-cols-[12rem_1fr] gap-4">
-      <div>to do side panel</div>
+    <div className="">
       <div className="flex flex-col gap-6">
         <ul className="flex flex-wrap">
           {data.products.map((product) => (
@@ -47,6 +55,7 @@ const HomeScreen: React.FC = () => {
             isLoadingPages={isLoading}
             pageSize={pageSize}
             onSetPageSize={setPageSize}
+            pageSizeStorageKey="homeScreenPageSize"
             size="md"
           />
         </div>
