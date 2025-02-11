@@ -5,7 +5,6 @@ import asyncHandler from "../middleware/asyncHandler";
 import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from "../constants";
 
 const getProducts = asyncHandler(async (req: Request, res: Response) => {
-  console.log(req.query.category);
   const pageSize = Math.min(
     Math.max(
       parseInt(req.query.pageSize as string, 10) || DEFAULT_PAGE_SIZE,
@@ -17,12 +16,17 @@ const getProducts = asyncHandler(async (req: Request, res: Response) => {
   const page = Math.max(parseInt(req.query.page as string, 10) || 1, 1);
 
   const filter: Record<string, any> = {};
+
   const sort: Record<string, 1 | -1> = {};
 
   if (req.query.category) {
+    console.log(req.query.searcKey);
     filter.category = req.query.category;
   }
-  console.log(filter.category);
+
+  if (req.query.searchKey) {
+    filter.name = { $regex: req.query.searchKey, $options: "i" };
+  }
 
   const SORTABLE_FIELDS = ["price", "date", "rating", "name"];
 

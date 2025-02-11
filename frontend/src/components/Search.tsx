@@ -1,6 +1,6 @@
 import { MdOutlineSearch } from "react-icons/md";
-import { useSearchParams } from "react-router-dom";
-import { useState } from "react";
+import { useLocation, useSearchParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { useGetProductCategoriesQuery } from "../slices/productsApiSlice";
 
 const mapCategories = (categories: string[]) => {
@@ -13,32 +13,42 @@ const mapCategories = (categories: string[]) => {
 const Search: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const productCategory = searchParams.get("category") || "all";
+  const { pathname } = useLocation();
 
-  const [query, setQuery] = useState("");
+  const productCategory = searchParams.get("category") || "all";
+  const searchQuery = searchParams.get("k") || "";
+
+  const [query, setQuery] = useState(searchQuery);
+
+  useEffect(() => {
+    // if pathname changes, reset the search input
+    setQuery(searchQuery);
+  }, [searchQuery, pathname]);
 
   const { data: productCategories = [] } = useGetProductCategoriesQuery();
-
   const mappedProductCategories = mapCategories(productCategories);
 
-  const handleSubmitQuery = (e) => {
+  const handleSubmitQuery = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (query.trim()) {
+      searchParams.set("k", query);
+    } else {
+      searchParams.delete("k"); // Remove query param if input is empty
+    }
+    setSearchParams(searchParams);
   };
 
-  const handleSetQuery = (e) => {
+  const handleSetQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 
   const handleSetCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCategory = e.target.value;
-    console.log(selectedCategory);
-    console.log(selectedCategory === "All products");
     if (selectedCategory !== "All products") {
       searchParams.set("category", selectedCategory);
     } else {
-      searchParams.delete("category"); // prevent sending 'All products` filter value
+      searchParams.delete("category");
     }
-
     setSearchParams(searchParams);
   };
 
@@ -62,6 +72,7 @@ const Search: React.FC = () => {
         className="focus:outline-none p-2"
         type="text"
         id="search"
+        value={query}
         onChange={handleSetQuery}
       />
       <button className="border-l p-2" type="submit">

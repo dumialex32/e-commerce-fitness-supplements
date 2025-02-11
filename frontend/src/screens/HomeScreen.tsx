@@ -16,6 +16,7 @@ const HomeScreen: React.FC = () => {
 
   const page = Number(params.get("page")) || 1;
   const category = params.get("category") || "";
+  const searchKey = params.get("k") || "";
 
   const [pageSize, setPageSize] = useState<number>(
     () =>
@@ -27,6 +28,7 @@ const HomeScreen: React.FC = () => {
     page,
     category,
     pageSize,
+    searchKey,
   });
 
   if (isLoading) return <Loader size="xl" />;

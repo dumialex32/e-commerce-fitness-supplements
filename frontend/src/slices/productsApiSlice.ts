@@ -7,11 +7,16 @@ const productApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query<
       IProduct[],
-      { page?: number; pageSize?: number; category: string }
+      { page?: number; pageSize?: number; category: string; searchKey: string }
     >({
-      query: ({ page = 1, pageSize = DEFAULT_PAGE_SIZE, category }) => ({
+      query: ({
+        page = 1,
+        pageSize = DEFAULT_PAGE_SIZE,
+        category,
+        searchKey,
+      }) => ({
         url: `${PRODUCTS_URL}`,
-        params: { page, pageSize, category },
+        params: { page, pageSize, category, searchKey },
       }),
       providesTags: ["Product"],
       keepUnusedDataFor: 5000,
