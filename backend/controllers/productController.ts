@@ -5,6 +5,7 @@ import asyncHandler from "../middleware/asyncHandler";
 import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from "../constants";
 
 const getProducts = asyncHandler(async (req: Request, res: Response) => {
+  console.log(req.query.category);
   const pageSize = Math.min(
     Math.max(
       parseInt(req.query.pageSize as string, 10) || DEFAULT_PAGE_SIZE,
@@ -21,6 +22,7 @@ const getProducts = asyncHandler(async (req: Request, res: Response) => {
   if (req.query.category) {
     filter.category = req.query.category;
   }
+  console.log(filter.category);
 
   const SORTABLE_FIELDS = ["price", "date", "rating", "name"];
 
@@ -41,9 +43,18 @@ const getProducts = asyncHandler(async (req: Request, res: Response) => {
 
   res.json({
     products,
+    count,
     pageCount: Math.ceil(count / pageSize),
   });
 });
+
+const getProductCategories = asyncHandler(
+  async (req: Request, res: Response) => {
+    const productCategories = await Product.distinct("category");
+
+    res.status(200).json(productCategories);
+  }
+);
 
 const getProduct = asyncHandler(async (req: Request, res: Response) => {
   const product: IProductSchema | null = await Product.findById(req.params.id);
@@ -117,8 +128,6 @@ const createProductReview = asyncHandler(
   async (req: Request, res: Response) => {
     const { id: productId } = req.params;
     const { rating, comment } = req.body;
-    console.log(rating, comment);
-    console.log(req.body);
 
     const product = await Product.findById(productId);
 
@@ -162,6 +171,7 @@ const createProductReview = asyncHandler(
 export {
   getProducts,
   getProduct,
+  getProductCategories,
   deleteProduct,
   createProduct,
   editProduct,

@@ -1,26 +1,27 @@
 import express from "express";
-
 import {
   createProduct,
   createProductReview,
   deleteProduct,
   editProduct,
   getProduct,
+  getProductCategories,
   getProducts,
 } from "../controllers/productController";
 import { admin, protect } from "../middleware/authMiddleware";
 
-// initialize router
+// Initialize router
 const router = express.Router();
+
+router.route("/categories").get(getProductCategories);
+router.route("/:id/reviews").post(protect, createProductReview);
+
+router.route("/").get(getProducts).post(protect, admin, createProduct);
 
 router
   .route("/:id")
   .get(getProduct)
   .delete(protect, admin, deleteProduct)
   .patch(protect, admin, editProduct);
-
-router.route("/").get(getProducts).post(protect, admin, createProduct);
-
-router.route("/:id/reviews").post(protect, createProductReview);
 
 export default router;

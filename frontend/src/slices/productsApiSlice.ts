@@ -7,14 +7,20 @@ const productApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query<
       IProduct[],
-      { page?: number; pageSize?: number }
+      { page?: number; pageSize?: number; category: string }
     >({
-      query: ({ page = 1, pageSize = DEFAULT_PAGE_SIZE }) => ({
+      query: ({ page = 1, pageSize = DEFAULT_PAGE_SIZE, category }) => ({
         url: `${PRODUCTS_URL}`,
-        params: { page, pageSize },
+        params: { page, pageSize, category },
       }),
       providesTags: ["Product"],
       keepUnusedDataFor: 5000,
+    }),
+
+    getProductCategories: builder.query({
+      query: () => ({
+        url: `${PRODUCTS_URL}/categories`,
+      }),
     }),
 
     getProductDetails: builder.query<IProduct, string>({
@@ -75,6 +81,7 @@ const productApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetProductsQuery,
+  useGetProductCategoriesQuery,
   useGetProductDetailsQuery,
   useDeleteProductMutation,
   useEditProductMutation,

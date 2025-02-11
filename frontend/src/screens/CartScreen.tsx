@@ -1,14 +1,15 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../store";
 import CartItem from "../components/cart/CartItem";
 import CartOverviewCard from "../components/cart/CartOverviewCard";
 import CartList from "../components/cart/CartItemList";
 import { ICartItem } from "../types/cartTypes/cartItemTypes";
 import Message from "../components/Message";
 import NavigationButtons from "../components/NavigationButtons";
+import useCart from "../hooks/useCart";
 
 const CartScreen: React.FC = () => {
-  const { cartItems } = useSelector((state: RootState) => state.cart);
+  const {
+    cart: { cartItems },
+  } = useCart();
 
   return (
     <>

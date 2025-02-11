@@ -45,7 +45,6 @@ const Pagination: React.FC<{
   };
 
   const handleSetPageSize = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(e);
     onSetPageSize(Number(e.target.value));
     setLocalStoragePaginationSettings(
       String(pageSizeStorageKey),
@@ -60,21 +59,24 @@ const Pagination: React.FC<{
     const maxVisiblePages = 7;
     const range = 2;
 
-    // determine if to show all pages or just the first one
+    // if total pages is less than or equal to the max visible pages
+    // just return an array with all page numbers
     if (totalPages <= maxVisiblePages) {
-      for (let i = 1; i <= totalPages; i++) pages.push(i);
-    } else {
-      pages.push(1);
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+      return pages;
     }
 
-    // determine if curr page is far away from the first page and show ...
+    // for larger totalPages, build a truncated pagination list
+    pages.push(1);
+
     if (currentPage > range + 2) {
       pages.push("...");
     }
 
-    // determine the number of pages displayed around the current page
-    const start = Math.max(2, currentPage - range); // include at least page 2 avoiding 0 and 1
-    const end = Math.min(totalPages - 1, currentPage + range); //include at leastsecond to last page
+    const start = Math.max(2, currentPage - range);
+    const end = Math.min(totalPages - 1, currentPage + range);
 
     for (let i = start; i <= end; i++) {
       pages.push(i);

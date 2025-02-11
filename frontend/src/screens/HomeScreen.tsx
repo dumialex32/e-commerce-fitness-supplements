@@ -8,26 +8,27 @@ import Loader from "../components/Loader";
 import { DEFAULT_ERROR_MESSAGE, DEFAULT_PAGE_SIZE } from "../constants";
 import Pagination from "../components/pagination/Pagination";
 import Product from "../components/Product/ProductCard";
-import {
-  getLocalStorageItem,
-  getLocalStoragePaginationSettings,
-} from "../utils/localStorageUtils";
+import { getLocalStoragePaginationSetting } from "../utils/localStorageUtils";
+import SideBar from "../components/SideBar";
 
 const HomeScreen: React.FC = () => {
-  console.log(getLocalStorageItem("pageSize"));
   const [params] = useSearchParams();
+
   const page = Number(params.get("page")) || 1;
+  const category = params.get("category") || "";
+
   const [pageSize, setPageSize] = useState<number>(
     () =>
-      getLocalStoragePaginationSettings()["homeScreenPageSize"] ||
+      getLocalStoragePaginationSetting("homeScreenPageSize") ||
       DEFAULT_PAGE_SIZE
   );
 
   const { data, isLoading, error }: IuseGetProductsQuery = useGetProductsQuery({
     page,
+    category,
     pageSize,
   });
-  console.log(data, isLoading);
+
   if (isLoading) return <Loader size="xl" />;
 
   if (error) {
@@ -41,7 +42,14 @@ const HomeScreen: React.FC = () => {
   }
 
   return (
-    <div className="">
+    <div className="grid grid-cols-[16rem_1fr] h-full my-8 border-t">
+      <SideBar>
+        <div>
+          {data.products.length} of{" "}
+          {data.count < 1000 ? data.count : "of more than 1000"} results in
+        </div>
+      </SideBar>
+
       <div className="flex flex-col gap-6">
         <ul className="flex flex-wrap">
           {data.products.map((product) => (

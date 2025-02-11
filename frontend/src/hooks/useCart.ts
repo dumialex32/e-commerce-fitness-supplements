@@ -54,13 +54,13 @@ export const useCart = () => {
   };
 
   // calculate total cart items
-  const totalCartItems: number = cart.cartItems.reduce(
+  const totalCartItems: number = cart?.cartItems?.reduce(
     (acc, item) => (acc = acc + item.qty),
     0
   );
 
   // calculate total cart items price
-  const totalCartItemsPrice: number = cart.cartItems.reduce(
+  const totalCartItemsPrice: number = cart?.cartItems?.reduce(
     (acc, item) => (acc = acc + item.price * item.qty),
     0
   );
