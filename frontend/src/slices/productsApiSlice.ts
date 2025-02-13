@@ -1,17 +1,27 @@
 import { DEFAULT_PAGE_SIZE, PRODUCTS_URL, UPLOAD_URL } from "../constants";
 import apiSlice from "./apiSlice";
-import { Product, ProductPayload } from "../types/productsTypes/productTypes";
 import {
-  GetProductsQueryProps,
-  ProductsData,
-} from "../types/productsTypes/productQueryTypes";
-
-// to do: add query types
+  CreateProductResponse,
+  DeleteProductProps,
+  DeleteProductResponse,
+  EditProductProps,
+  EditProductResponse,
+  GetProductCategoriesResponse,
+  GetProductDetailsProps,
+  GetProductDetailsResponse,
+  GetProductsProps,
+  GetProductsResponse,
+  UploadProductImageResponse,
+  CreateProductProps,
+  UploadProductImageProps,
+  CreateProductReviewProps,
+  CreateProductReviewResponse,
+} from "../types/productsTypes/productSliceTypes";
 
 // Define the API slice with endpoints and types
 const productApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getProducts: builder.query<ProductsData, GetProductsQueryProps>({
+    getProducts: builder.query<GetProductsResponse, GetProductsProps>({
       query: ({
         page = 1,
         pageSize = DEFAULT_PAGE_SIZE,
@@ -25,13 +35,16 @@ const productApiSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5000,
     }),
 
-    getProductCategories: builder.query<string[], void>({
+    getProductCategories: builder.query<GetProductCategoriesResponse, void>({
       query: () => ({
         url: `${PRODUCTS_URL}/categories`,
       }),
     }),
 
-    getProductDetails: builder.query<Product, string>({
+    getProductDetails: builder.query<
+      GetProductDetailsResponse,
+      GetProductDetailsProps
+    >({
       query: (productId) => ({
         url: `${PRODUCTS_URL}/${productId}`,
       }),
@@ -39,7 +52,7 @@ const productApiSlice = apiSlice.injectEndpoints({
       providesTags: ["Product"],
     }),
 
-    deleteProduct: builder.mutation<void, { productId: string }>({
+    deleteProduct: builder.mutation<DeleteProductResponse, DeleteProductProps>({
       query: (productId) => ({
         url: `${PRODUCTS_URL}/${productId}`,
         method: "DELETE",
@@ -47,10 +60,7 @@ const productApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["Product"],
     }),
 
-    editProduct: builder.mutation<
-      Product,
-      { productId: string; patch: ProductPayload }
-    >({
+    editProduct: builder.mutation<EditProductResponse, EditProductProps>({
       query: ({ productId, ...patch }) => ({
         url: `${PRODUCTS_URL}/${productId}`,
         method: "PATCH",
@@ -59,7 +69,10 @@ const productApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["Product"],
     }),
 
-    uploadProductImage: builder.mutation({
+    uploadProductImage: builder.mutation<
+      UploadProductImageResponse,
+      UploadProductImageProps
+    >({
       query: (data) => ({
         url: UPLOAD_URL,
         method: "POST",
@@ -67,7 +80,7 @@ const productApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
-    createProduct: builder.mutation<void, ProductPayload>({
+    createProduct: builder.mutation<CreateProductResponse, CreateProductProps>({
       query: (body) => ({
         url: PRODUCTS_URL,
         method: "POST",
@@ -76,7 +89,10 @@ const productApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["Product"],
     }),
 
-    createProductReview: builder.mutation({
+    createProductReview: builder.mutation<
+      CreateProductReviewResponse,
+      CreateProductReviewProps
+    >({
       query: ({ productId, ...body }) => ({
         url: `${PRODUCTS_URL}/${productId}/reviews`,
         method: "POST",

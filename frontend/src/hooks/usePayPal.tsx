@@ -4,7 +4,11 @@ import {
   useUpdateOrderToPaidMutation,
 } from "../slices/ordersApiSlice";
 import { createToast } from "../utils/toastUtils";
-import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import {
+  PayPalButtons,
+  PayPalButtonsComponentProps,
+  usePayPalScriptReducer,
+} from "@paypal/react-paypal-js";
 import FormRow from "../components/FormRow";
 
 const usePayPal = (
@@ -26,6 +30,8 @@ const usePayPal = (
     isLoading: loadingPayPal,
     error: errorPayPal,
   } = useGetPaypalClientIdQuery();
+
+  console.log(paypal);
 
   // function to configure and load the paypal script with the client id and current currency state
   const loadPaypalScript = () => {
@@ -50,7 +56,10 @@ const usePayPal = (
   }, [currency, paypal, paypalDispatch]);
 
   // function to create a paypal order with the specified total price
-  function createOrder(data, actions) {
+  const createOrder: PayPalButtonsComponentProps["createOrder"] = async (
+    data,
+    actions
+  ) => {
     return actions.order
       .create({
         purchase_units: [
@@ -64,34 +73,38 @@ const usePayPal = (
       .then((orderId) => {
         return orderId;
       });
-  }
+  };
 
   // function to handle successful payment capture from paypal
-  function onApprove(data, actions) {
-    // if the capture is successful, it resolves to a 'details' object containing payment details
-    return actions.order.capture().then(async function (details) {
-      try {
-        await payOrder({ orderId, details });
+  const onApprove: PayPalButtonsComponentProps["onApprove"] = async (
+    data,
+    actions
+  ) => {
+    if (!actions.order) {
+      throw new Error("Order actions are undefined.");
+    }
 
-        // refetch data
-        // onSuccess();
+    try {
+      const details = await actions.order.capture();
+      await payOrder({ orderId, details });
 
-        createToast("Order successfully paid", { type: "success" });
-      } catch (err: any) {
-        console.error(err);
-        createToast(err?.data?.message || err.message || "Order pay failed", {
-          type: "error",
-        });
-      }
-    });
-  }
+      // Refetch data if needed
+      // onSuccess();
 
+      createToast("Order successfully paid", { type: "success" });
+    } catch (err: any) {
+      console.error(err);
+      createToast(err?.data?.message || err.message || "Order pay failed", {
+        type: "error",
+      });
+    }
+  };
   // function to handle errors that occur during payment process
-  function onError(err: any) {
+  const onError: PayPalButtonsComponentProps["onError"] = (err: any) => {
     createToast(err.message, {
       type: "error",
     });
-  }
+  };
 
   // function to set the currency in which paypal is processing the payment
   function handleCurrencyChange({
@@ -111,7 +124,7 @@ const usePayPal = (
             <option value="USD">USD</option>
           </select>
         </FormRow>
-        {paypal.clientId && (
+        {paypal?.clientId && (
           <PayPalButtons
             createOrder={createOrder}
             onApprove={onApprove}

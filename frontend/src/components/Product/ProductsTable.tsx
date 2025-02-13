@@ -9,6 +9,7 @@ import {
   ProductsTableProps,
   ProductTableData,
 } from "../../types/productsTypes/productsTableTypes";
+import { Product } from "../../types/productsTypes/productTypes";
 
 const ProductsTable: React.FC<ProductsTableProps> = ({ data }) => {
   const productTableData: ProductTableData[] = data.map((product) => ({
@@ -62,8 +63,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ data }) => {
           return (
             <div className="flex items-center justify-center gap-2">
               <EditProduct
-                productId={value as string}
-                product={data.find((p) => p._id === value)}
+                product={data.find((p) => p._id === value) as Product}
               />
 
               <RemoveProduct productId={value as string} />

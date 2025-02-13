@@ -31,6 +31,7 @@ const OrderScreen: React.FC = () => {
     error,
     refetch,
   } = useGetOrderDetailsQuery(orderId);
+  console.log(order);
 
   const { shippingAddress: { country, city, address, postalCode } = {} } =
     order || {};

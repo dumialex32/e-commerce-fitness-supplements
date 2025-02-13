@@ -2,6 +2,7 @@ import {
   TableProps,
   TableColumnWidth,
 } from "../types/componentsTypes/tableTypes";
+import Pagination from "./pagination/Pagination";
 
 const mapWidth: Record<TableColumnWidth, string> = {
   sm: "w-12",
@@ -53,6 +54,15 @@ const Table = <T,>({
           })}
         </tbody>
       </table>
+      {/* <div className="px-4 py-2 rounded-md bg-gray-100 w-full">
+        <Pagination
+          size={size}
+          totalPages={totalPages}
+          pageSize={pageSize}
+          pageSizeStorageKey={pageSizeStorageKey}
+          onSetPageSize={onSetPageSize}
+        />
+      </div> */}
     </div>
   );
 };

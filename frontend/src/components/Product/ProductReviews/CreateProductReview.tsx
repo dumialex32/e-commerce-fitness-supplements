@@ -38,6 +38,7 @@ const CreateProductReview: React.FC<{ productId: string }> = ({
         comment,
         rating,
       }).unwrap();
+
       createToast(res.message || "Review successfully created", {
         type: "success",
       });

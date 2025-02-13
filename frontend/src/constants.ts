@@ -31,5 +31,5 @@ export const DEFAULT_ERROR_MESSAGE =
   "An unknown error occured. Please try again";
 
 // Pagination
-export const PAGE_SIZE_OPTIONS = [3, 20, 32];
+export const PAGE_SIZE_OPTIONS = [10, 20, 30];
 export const DEFAULT_PAGE_SIZE = PAGE_SIZE_OPTIONS[0];

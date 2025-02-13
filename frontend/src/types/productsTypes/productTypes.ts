@@ -25,16 +25,6 @@ export interface Product {
   _id: string;
 }
 
-export interface ProductPayload {
-  name: string;
-  price: number;
-  category: string;
-  brand: string;
-  countInStock: number;
-  description: string;
-  image: File | string;
-}
-
 // Product reviews
 export interface ProductReviewsProps {
   reviews: Review[];

@@ -1,7 +1,17 @@
 import { PAYPAL_URL } from "../constants";
 import { ORDERS_URL } from "../constants";
-import { PopulatedOrderResponse as PopulatedOrderData } from "../types/orderTypes/orderSliceTypes";
-import { Order, OrderData } from "../types/orderTypes/OrderTypes";
+import {
+  CreateOrderProps,
+  CreateOrderResponse,
+  GetAllOrdersResponse,
+  GetOrderDetailsResponse,
+  GetOrderResponse,
+  GetPaypalClinedIdResponse,
+  PopulatedOrderResponse as UpdateOrderToDeliveredProps,
+  UpdateOrderToDeliveredResponse,
+  UpdateOrderToPaidProps,
+  UpdateOrderToPaidResponse,
+} from "../types/orderTypes/orderSliceTypes";
 
 import apiSlice from "./apiSlice";
 
@@ -9,7 +19,7 @@ import apiSlice from "./apiSlice";
 
 const ordersSliceApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
-    getOrders: build.query<OrderData[], void>({
+    getOrders: build.query<GetOrderResponse, void>({
       query: () => ({
         url: `${ORDERS_URL}/orders`,
       }),
@@ -17,7 +27,7 @@ const ordersSliceApi = apiSlice.injectEndpoints({
       providesTags: ["Order"],
     }),
 
-    getOrderDetails: build.query<OrderData, string>({
+    getOrderDetails: build.query<GetOrderDetailsResponse, string>({
       query: (id) => ({
         url: `${ORDERS_URL}/${id}`,
       }),
@@ -25,12 +35,12 @@ const ordersSliceApi = apiSlice.injectEndpoints({
       providesTags: ["Order"],
     }),
 
-    getAllOrders: build.query<PopulatedOrderData[], void>({
+    getAllOrders: build.query<GetAllOrdersResponse, void>({
       query: () => ({ url: ORDERS_URL }),
       keepUnusedDataFor: 5000,
     }),
 
-    createOrder: build.mutation<OrderData, Order>({
+    createOrder: build.mutation<CreateOrderResponse, CreateOrderProps>({
       query: (order) => ({
         url: `${ORDERS_URL}`,
         method: "POST",
@@ -39,7 +49,10 @@ const ordersSliceApi = apiSlice.injectEndpoints({
       invalidatesTags: ["Order"],
     }),
 
-    updateOrderToPaid: build.mutation({
+    updateOrderToPaid: build.mutation<
+      UpdateOrderToPaidResponse,
+      UpdateOrderToPaidProps
+    >({
       query: ({ orderId, ...details }) => ({
         url: `${ORDERS_URL}/${orderId}/pay`,
         method: "PUT",
@@ -48,7 +61,10 @@ const ordersSliceApi = apiSlice.injectEndpoints({
       invalidatesTags: ["Order"],
     }),
 
-    updateOrderToDelivered: build.mutation({
+    updateOrderToDelivered: build.mutation<
+      UpdateOrderToDeliveredResponse,
+      UpdateOrderToDeliveredProps
+    >({
       query: (orderId) => ({
         url: `${ORDERS_URL}/${orderId}/deliver`,
         method: "PUT",
@@ -56,7 +72,7 @@ const ordersSliceApi = apiSlice.injectEndpoints({
       invalidatesTags: ["Order"],
     }),
 
-    getPaypalClientId: build.query<{ clientId: string }, void>({
+    getPaypalClientId: build.query<GetPaypalClinedIdResponse, void>({
       query: () => ({ url: PAYPAL_URL, method: "GET" }),
       keepUnusedDataFor: 5000,
     }),

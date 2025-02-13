@@ -1,4 +1,4 @@
-import { ProductsData } from "../types/productsTypes/productQueryTypes";
+import { ProductsData } from "../types/productsTypes/productSliceTypes";
 
 const PageResults: React.FC<{ data: ProductsData; category: string }> = ({
   data,

@@ -13,13 +13,14 @@ import {
   validateProductName,
   validateProductPrice,
 } from "../utils/formUtils/productFormUtils";
-import { Product, ProductPayload } from "../types/productsTypes/productTypes";
+import { Product } from "../types/productsTypes/productTypes";
 import {
   ActionType,
   ProductFormField,
   ProductFormInitialState,
   IuseProductFormProps,
 } from "../types/productsTypes/ProductFormTypes";
+import { CreateEditProductPayload } from "../types/productsTypes/productSliceTypes";
 
 const validationMap: Record<ProductFormField, (value: any) => string> = {
   name: validateProductName,
@@ -100,6 +101,7 @@ const useProductForm = ({
     formData.append("image", file);
     try {
       const res = await uploadProductImage(formData).unwrap();
+      console.log(res);
 
       removeProductImage();
       setProductFormField("image", res.imagePath);
@@ -122,7 +124,7 @@ const useProductForm = ({
         productImage = res.imagePath;
       }
 
-      const patch: ProductPayload = {
+      const patch: CreateEditProductPayload = {
         ...productInputs,
         image: productImage,
       };
@@ -130,8 +132,10 @@ const useProductForm = ({
       let res;
 
       isEdit
-        ? (res = await editProduct({ productId, patch }))
-        : (res = await createProduct(patch));
+        ? (res = await editProduct({ productId, patch }).unwrap())
+        : (res = await createProduct(patch).unwrap());
+
+      console.log(res);
 
       createToast(`Product successfully ${isEdit ? "updated" : "created"}`, {
         type: "success",

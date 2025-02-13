@@ -7,16 +7,12 @@ import ScreenTitle from "../components/ScreenTitle";
 import useAuth from "../hooks/useAuth";
 import useErrorHandler from "../hooks/useErrorHandler";
 import { useGetOrdersQuery } from "../slices/ordersApiSlice";
-import { UseGetOrdersQuery } from "../types/orderTypes/orderSliceTypes";
+
 import { UserProfileTableData } from "../types/orderTypes/orderTableTypes";
 
 const ProfileScreen: React.FC = () => {
-  const {
-    data: orders,
-    isLoading,
-    error,
-  } = useGetOrdersQuery() as UseGetOrdersQuery;
-  console.log("profileScreen", orders);
+  const { data: orders, isLoading, error } = useGetOrdersQuery();
+  console.log(orders);
 
   const errorMessage = useErrorHandler(error);
 
