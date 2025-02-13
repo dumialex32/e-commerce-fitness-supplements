@@ -1,10 +1,10 @@
-import { IProduct } from "../productsTypes/productTypes";
+import { Product } from "../productsTypes/productTypes";
 
-export interface ICartItem extends IProduct {
+export interface ICartItem extends Product {
   qty: number;
 }
 
-export interface IShippingAddress {
+export interface ShippingAddress {
   address: string;
   city: string;
   postalCode: string;
@@ -16,7 +16,7 @@ export interface ICartInitialState {
   itemsPrice: number;
   taxPrice: number;
   shippingPrice: number;
-  shippingAddress: IShippingAddress;
+  shippingAddress: ShippingAddress;
   totalPrice: number;
   paymentMethod: string;
 }

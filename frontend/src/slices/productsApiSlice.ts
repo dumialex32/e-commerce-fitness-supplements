@@ -1,14 +1,17 @@
 import { DEFAULT_PAGE_SIZE, PRODUCTS_URL, UPLOAD_URL } from "../constants";
 import apiSlice from "./apiSlice";
-import { IProduct, IProductPayload } from "../types/productsTypes/productTypes";
+import { Product, ProductPayload } from "../types/productsTypes/productTypes";
+import {
+  GetProductsQueryProps,
+  ProductsData,
+} from "../types/productsTypes/productQueryTypes";
+
+// to do: add query types
 
 // Define the API slice with endpoints and types
 const productApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getProducts: builder.query<
-      IProduct[],
-      { page?: number; pageSize?: number; category: string; searchKey: string }
-    >({
+    getProducts: builder.query<ProductsData, GetProductsQueryProps>({
       query: ({
         page = 1,
         pageSize = DEFAULT_PAGE_SIZE,
@@ -22,13 +25,13 @@ const productApiSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5000,
     }),
 
-    getProductCategories: builder.query({
+    getProductCategories: builder.query<string[], void>({
       query: () => ({
         url: `${PRODUCTS_URL}/categories`,
       }),
     }),
 
-    getProductDetails: builder.query<IProduct, string>({
+    getProductDetails: builder.query<Product, string>({
       query: (productId) => ({
         url: `${PRODUCTS_URL}/${productId}`,
       }),
@@ -45,8 +48,8 @@ const productApiSlice = apiSlice.injectEndpoints({
     }),
 
     editProduct: builder.mutation<
-      IProduct,
-      { productId: string; patch: IProductPayload }
+      Product,
+      { productId: string; patch: ProductPayload }
     >({
       query: ({ productId, ...patch }) => ({
         url: `${PRODUCTS_URL}/${productId}`,
@@ -64,7 +67,7 @@ const productApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
-    createProduct: builder.mutation<void, IProductPayload>({
+    createProduct: builder.mutation<void, ProductPayload>({
       query: (body) => ({
         url: PRODUCTS_URL,
         method: "POST",
@@ -93,4 +96,4 @@ export const {
   useCreateProductMutation,
   useUploadProductImageMutation,
   useCreateProductReviewMutation,
-} = productApiSlice as any;
+} = productApiSlice;

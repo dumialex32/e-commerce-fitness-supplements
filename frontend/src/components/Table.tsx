@@ -1,5 +1,5 @@
 import {
-  ITableProps,
+  TableProps,
   TableColumnWidth,
 } from "../types/componentsTypes/tableTypes";
 
@@ -13,7 +13,7 @@ const Table = <T,>({
   columns,
   data,
   className,
-}: ITableProps<T>): JSX.Element => {
+}: TableProps<T>): JSX.Element => {
   if (data.length === 0) {
     return <p className="text-center text-gray-500">No data available.</p>;
   }

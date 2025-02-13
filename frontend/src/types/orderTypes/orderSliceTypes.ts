@@ -1,21 +1,22 @@
-import { IOrderResponse } from "../orderTypes/OrderTypes";
+import { OrderData } from "../orderTypes/OrderTypes";
+import { QueryError } from "../Redux/QueryTypes";
 
 // get all orders types
-export interface IPopulatedOrderResponse extends Omit<IOrderResponse, "user"> {
+export interface PopulatedOrderResponse extends Omit<OrderData, "user"> {
   user: {
     _id: string;
     name: string;
   };
 }
 
-export interface IuseGetAllOrdersQuery {
-  data: IPopulatedOrderResponse[];
+export interface UseGetAllOrdersQuery {
+  data: PopulatedOrderResponse[];
   isLoading: boolean;
-  error: unknown;
+  error: QueryError;
 }
 
-export interface IuseGetOrdersQuery {
-  data: IOrderResponse[];
+export interface UseGetOrdersQuery {
+  data: OrderData[];
   isLoading: boolean;
-  error: unknown;
+  error: QueryError;
 }

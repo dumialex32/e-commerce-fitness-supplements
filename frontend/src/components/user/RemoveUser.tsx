@@ -8,11 +8,15 @@ import { renderFetchBaseQueryError } from "../../utils/errorHelpers";
 const RemoveUser: React.FC<{ userId: string }> = ({ userId }) => {
   const [removeUser, { isLoading }] = useDeleteUserMutation();
 
-  const handleRemoveUser = async () => {
+  const handleRemoveUser = async (onCloseModal: () => void) => {
     try {
       const res = await removeUser(userId);
 
-      createToast("User sucessfully deleted", { type: "success" });
+      createToast(res.message || "User successfully deleted", {
+        type: "success",
+      });
+
+      onCloseModal();
     } catch (err: any) {
       console.error(err);
       createToast(
@@ -38,6 +42,7 @@ const RemoveUser: React.FC<{ userId: string }> = ({ userId }) => {
           resource="user"
           onConfirm={handleRemoveUser}
           onCloseModal
+          isLoading={isLoading}
         />
       </Modal.Window>
     </Modal>

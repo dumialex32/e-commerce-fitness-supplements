@@ -1,16 +1,16 @@
-export interface IErrors {
+export interface ShippingFormErrors {
   country: string;
   city: string;
   address: string;
   postalCode: string;
 }
 
-export interface IinitialState {
+export interface ShippingFormInitialState {
   country: string;
   city: string;
   address: string;
   postalCode: string;
-  errors: IErrors;
+  errors: ShippingFormErrors;
   cities: string[];
 }
 
@@ -20,7 +20,7 @@ type SetShippingFieldAction = {
   type: "SET_FIELD";
   payload: { field: ShippingFormField; value: string };
 };
-type SetInputErrorsAction = { type: "SET_ERRORS"; payload: IErrors };
+type SetInputErrorsAction = { type: "SET_ERRORS"; payload: ShippingFormErrors };
 type SetCittiesAction = { type: "SET_CITIES"; payload: string[] };
 
 export type ActionType =

@@ -1,37 +1,27 @@
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { IProduct } from "./productTypes";
-import { SerializedError } from "@reduxjs/toolkit";
+import { Product as Product } from "./productTypes";
+import { QueryError } from "../Redux/QueryTypes";
 
-/**
- * Interface repseresing the state of useGetProductsQuery hook
- * @interface IuseGetProductsQuery
- *
- * @property {IProduct} data - the data type returned from the query
- * @property {boolean} isLoading - boolean flag indicating the loading state
- * @property {FetchBaseQueryError | SerializedError | undefined} error - the type of encountered error during fetch or undefined if no error
- **/
-
-export interface IuseGetProductsQuery {
-  data: {
-    products: IProduct[];
-    pageCount: number;
-    count: number;
-    productCategories: string[];
-  };
-  isLoading: boolean;
-  error: FetchBaseQueryError | SerializedError | undefined;
+export interface ProductsData {
+  products: Product[];
+  pageCount: number;
+  count: number;
 }
 
-/**
- * Interface representing the state of useGetProductDetailQuery hook
- * @interface IuseGetProductDetailsQuery
- *
- * @property {IProduct} data - the data type returned from the query state
- * @property {isLoading} isLoading - boolean flag representing the loading state
- * @property {FetchBaseQueryError | SerializedError | undefined} error - the type of error encountered during fetch or undefined if there is no error
- */
-export interface IuseGetProductDetailsQuery {
-  data: IProduct;
+export interface UseGetProductsQuery {
+  data: ProductsData;
   isLoading: boolean;
-  error: FetchBaseQueryError | SerializedError | undefined;
+  error: QueryError;
+}
+
+export interface GetProductsQueryProps {
+  page?: number;
+  pageSize?: number;
+  category: string;
+  searchKey: string;
+}
+
+export interface UseGetProductDetailsQuery {
+  data: Product;
+  isLoading: boolean;
+  error: QueryError;
 }

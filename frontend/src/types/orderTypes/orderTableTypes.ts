@@ -1,7 +1,7 @@
-import { IPopulatedOrderResponse } from "./orderSliceTypes";
-import { IOrderResponse } from "./OrderTypes";
+import { PopulatedOrderResponse } from "./orderSliceTypes";
+import { OrderData as OrderData } from "./OrderTypes";
 
-export interface IOrderTableRow {
+export interface OrderTableRow {
   orderNum: number;
   orderId: string;
   user: string;
@@ -11,10 +11,10 @@ export interface IOrderTableRow {
   date: string;
 }
 
-export interface IUserProfileTableData extends IOrderResponse {
+export interface UserProfileTableData extends OrderData {
   currentUser: string;
 }
 
-export interface IOrderTableProps {
-  data: IUserProfileTableData[] | IPopulatedOrderResponse[];
+export interface OrderTableProps {
+  data: UserProfileTableData[] | PopulatedOrderResponse[];
 }

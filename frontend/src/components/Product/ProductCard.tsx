@@ -1,10 +1,10 @@
-import { IProduct } from "../../types/productsTypes/productTypes";
+import { Product } from "../../types/productsTypes/productTypes";
 import { formatPriceCurrency } from "../../utils/formatters";
 import { Link } from "react-router-dom";
 import Rating from "../Rating";
 import useAppNavigate from "../../hooks/useAppNavigate";
 
-const ProductCard = ({ product }: { product: IProduct }) => {
+const ProductCard = ({ product }: { product: Product }) => {
   const { moveTo } = useAppNavigate();
   return (
     <li className="w-full md:w-1/2 lg:w-1/5 p-2">

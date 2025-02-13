@@ -11,14 +11,14 @@ import { createPortal } from "react-dom";
 import {
   IModal,
   IModalContext,
-  IModalWindowProps,
-  TModalWindowYPosition,
+  ModalWindowProps,
+  ModalWindowYPosition,
 } from "../types/componentsTypes/ModalTypes";
 import useModal from "../hooks/useModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 
-const modalWindowPosition: Record<TModalWindowYPosition, string> = {
+const modalWindowPosition: Record<ModalWindowYPosition, string> = {
   top: "top-1/3",
   center: "top-1/2",
 };
@@ -55,7 +55,7 @@ const Open: FC<{ children: ReactElement; name: string }> = ({
   return cloneElement(children, { onClick: () => open(openWindowName) });
 };
 
-const Window: FC<IModalWindowProps> = ({
+const Window: FC<ModalWindowProps> = ({
   children,
   name,
   positionY = "center",

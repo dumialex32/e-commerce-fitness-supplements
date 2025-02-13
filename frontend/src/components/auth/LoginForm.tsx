@@ -18,6 +18,7 @@ const LoginForm: React.FC = () => {
     setPassword,
   } = useAuth();
 
+  console.log(error);
   const { redirect } = useRedirectParam();
 
   useEffect(() => {

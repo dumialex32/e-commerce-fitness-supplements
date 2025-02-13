@@ -2,9 +2,9 @@ import { FaEdit } from "react-icons/fa";
 import Modal from "../Modal";
 import ProductForm from "./ProductForm";
 
-import { IProduct } from "../../types/productsTypes/productTypes";
+import { Product } from "../../types/productsTypes/productTypes";
 
-const EditProduct: React.FC<{ product: IProduct }> = ({ product }) => {
+const EditProduct: React.FC<{ product: Product }> = ({ product }) => {
   return (
     <Modal>
       <Modal.Open name={product._id}>

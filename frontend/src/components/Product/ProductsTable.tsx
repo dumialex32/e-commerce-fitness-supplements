@@ -4,14 +4,14 @@ import { formatPriceCurrency } from "../../utils/formatters";
 import EditProduct from "./EditProduct";
 import RemoveProduct from "./RemoveProduct";
 
-import { ITableColumn } from "../../types/componentsTypes/tableTypes";
+import { TableColumn } from "../../types/componentsTypes/tableTypes";
 import {
-  IProductsTableProps,
-  IProductTableData,
+  ProductsTableProps,
+  ProductTableData,
 } from "../../types/productsTypes/productsTableTypes";
 
-const ProductsTable: React.FC<IProductsTableProps> = ({ data }) => {
-  const productTableData: IProductTableData[] = data.map((product) => ({
+const ProductsTable: React.FC<ProductsTableProps> = ({ data }) => {
+  const productTableData: ProductTableData[] = data.map((product) => ({
     productId: product._id,
     name: product?.name,
     price: product?.price,
@@ -19,7 +19,7 @@ const ProductsTable: React.FC<IProductsTableProps> = ({ data }) => {
     brand: product?.brand,
   }));
 
-  const columns: ITableColumn<IProductTableData>[] = [
+  const columns: TableColumn<ProductTableData>[] = [
     {
       id: "productId",
       label: "ID",

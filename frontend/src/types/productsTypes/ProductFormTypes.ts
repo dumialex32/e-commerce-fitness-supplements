@@ -1,4 +1,4 @@
-import { IProduct } from "./productTypes";
+import { Product } from "./productTypes";
 
 // ProductForm reducer types
 export type ProductFormField =
@@ -10,7 +10,7 @@ export type ProductFormField =
   | "countInStock"
   | "image";
 
-export interface IErrors {
+export interface ProductFormErrors {
   name: string;
   price: string;
   category: string;
@@ -20,7 +20,7 @@ export interface IErrors {
   image: string;
 }
 
-export interface IInitialState {
+export interface ProductFormInitialState {
   name: string;
   price: number;
   category: string;
@@ -28,7 +28,7 @@ export interface IInitialState {
   description: string;
   countInStock: number;
   image: File | string;
-  errors: IErrors;
+  errors: ProductFormErrors;
 }
 
 type SetProductFieldAction = {
@@ -38,7 +38,10 @@ type SetProductFieldAction = {
 
 type RemoveProductImageAction = { type: "REMOVE_PRODUCT_IMAGE" };
 
-type SetErrorsAction = { type: "SET_ERRORS"; payload: Partial<IErrors> };
+type SetErrorsAction = {
+  type: "SET_ERRORS";
+  payload: Partial<ProductFormErrors>;
+};
 
 export type ActionType =
   | SetProductFieldAction
@@ -47,7 +50,7 @@ export type ActionType =
 
 // useProductForm props
 export interface IuseProductFormProps {
-  product: IProduct;
+  product: Product;
   isEdit: boolean;
   onCloseModal: () => void;
 }

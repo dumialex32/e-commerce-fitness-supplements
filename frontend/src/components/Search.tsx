@@ -5,7 +5,7 @@ import { useGetProductCategoriesQuery } from "../slices/productsApiSlice";
 
 const mapCategories = (categories: string[]) => {
   return ["All products", ...categories].map((category) => ({
-    label: category,
+    label: category[0].toUpperCase().concat(category.slice(1)),
     value: category,
   }));
 };

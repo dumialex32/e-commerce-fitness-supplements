@@ -1,5 +1,5 @@
 // user info data types
-export interface IUserInfo {
+export interface UserInfo {
   userId: string;
   name: string;
   email: string;
@@ -7,11 +7,11 @@ export interface IUserInfo {
 }
 
 export interface IAuthSlice {
-  userInfo: IUserInfo | null;
+  userInfo: UserInfo | null;
 }
 
 // login data types
-export interface ILoginData {
+export interface LoginData {
   email: string;
   password: string;
 }

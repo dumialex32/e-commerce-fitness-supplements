@@ -1,9 +1,9 @@
-import { IProductReviewProps } from "../../../types/productsTypes/productTypes";
+import { ProductReviewProps } from "../../../types/productsTypes/productTypes";
 import { formatDate } from "../../../utils/formatters";
 import Rating from "../../Rating";
 import { FaUser } from "react-icons/fa";
 
-const ProductReview: React.FC<IProductReviewProps> = ({ review }) => {
+const ProductReview: React.FC<ProductReviewProps> = ({ review }) => {
   return (
     <li className="p-2 flex flex-col gap-2">
       <div className="flex flex-col gap-1">

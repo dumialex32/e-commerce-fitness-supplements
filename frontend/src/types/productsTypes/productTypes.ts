@@ -1,4 +1,4 @@
-export interface IReview {
+export interface Review {
   user: string;
   name: string;
   rating: number;
@@ -7,7 +7,7 @@ export interface IReview {
   updatedAt: string;
 }
 
-export interface IProduct {
+export interface Product {
   brand: string;
   category: string;
   countInStock: number;
@@ -18,14 +18,14 @@ export interface IProduct {
   numReviews: number;
   price: number;
   rating: number;
-  reviews: IReview[];
+  reviews: Review[];
   updatedAt: string;
   user: string;
   __v: number;
   _id: string;
 }
 
-export interface IProductPayload {
+export interface ProductPayload {
   name: string;
   price: number;
   category: string;
@@ -37,9 +37,9 @@ export interface IProductPayload {
 
 // Product reviews
 export interface ProductReviewsProps {
-  reviews: IReview[];
+  reviews: Review[];
 }
 
-export interface IProductReviewProps {
-  review: IReview;
+export interface ProductReviewProps {
+  review: Review;
 }

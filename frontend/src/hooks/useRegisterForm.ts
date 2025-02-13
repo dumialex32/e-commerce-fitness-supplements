@@ -14,14 +14,14 @@ import { createToast } from "../utils/toastUtils";
 import {
   ActionType,
   RegisterFormField,
-  IinitialState,
+  RegisterFormInitialState,
 } from "../types/authTypes/registerFormReducerTypes";
 import useAuth from "./useAuth";
-import { IUserInfo } from "../types/authTypes/authSliceTypes";
+import { UserInfo } from "../types/authTypes/authSliceTypes";
 import { checkFormInputs } from "../utils/formUtils/formUtils";
 import { DEFAULT_ERROR_MESSAGE } from "../constants";
 
-const init = (userInfo: IUserInfo | null) => ({
+const init = (userInfo: UserInfo | null) => ({
   name: userInfo?.name || "",
   email: userInfo?.email || "",
   password: "",
@@ -36,7 +36,7 @@ const init = (userInfo: IUserInfo | null) => ({
   isRegistrationSuccess: false,
 });
 
-const reducer = (state: IinitialState, action: ActionType) => {
+const reducer = (state: RegisterFormInitialState, action: ActionType) => {
   switch (action.type) {
     case "SET_FIELD": {
       const value = action.payload.value;
@@ -110,7 +110,7 @@ const useRegisterForm = () => {
     const userData = { name, email, password };
 
     try {
-      const userInfo: IUserInfo = isUpdating
+      const userInfo: UserInfo = isUpdating
         ? await updateProfile(userData).unwrap()
         : await register(userData).unwrap();
       setRegistrationSuccess();
@@ -151,7 +151,7 @@ const useRegisterForm = () => {
     dispatch({ type: "SET_REGISTRATION_SUCCESS" });
   };
 
-  const resetFormFields = (userInfo: IUserInfo) => {
+  const resetFormFields = (userInfo: UserInfo) => {
     dispatch({ type: "RESET_FORM", payload: userInfo });
   };
 

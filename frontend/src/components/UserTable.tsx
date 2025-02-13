@@ -1,5 +1,5 @@
-import { ITableColumn } from "../types/componentsTypes/tableTypes";
-import { IUser } from "../types/userTypes/usersSliceTypes";
+import { TableColumn } from "../types/componentsTypes/tableTypes";
+import { User } from "../types/userTypes/usersSliceTypes";
 import { formatDate } from "../utils/formatters";
 
 import Table from "./Table";
@@ -8,8 +8,9 @@ import { IoMdClose } from "react-icons/io";
 import RemoveUser from "./user/RemoveUser";
 import EditUser from "./user/EditUser";
 
-const UserTable: React.FC<{ data: IUser[] }> = ({ data }) => {
-  const columns: ITableColumn<IUser>[] = [
+const UserTable: React.FC<{ data: User[] }> = ({ data }) => {
+  console.log("usertabledata", data);
+  const columns: TableColumn<User>[] = [
     {
       label: "User ID",
       id: "_id",

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   ICartInitialState,
-  IShippingAddress,
+  ShippingAddress,
 } from "../types/cartTypes/cartItemTypes";
 import { ICartItem } from "../types/cartTypes/cartItemTypes";
 import { updateCart } from "../utils/cartUtils";
@@ -53,7 +53,7 @@ const cartSlice = createSlice({
     },
 
     storeShippingAddress: (state, action) => {
-      const shippingAddress: IShippingAddress = action.payload;
+      const shippingAddress: ShippingAddress = action.payload;
       state.shippingAddress = shippingAddress;
       updateCart(state);
     },

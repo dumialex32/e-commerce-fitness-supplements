@@ -1,6 +1,5 @@
 import { useState } from "react";
 import FormRow from "../FormRow";
-import { IUser } from "../../types/userTypes/usersSliceTypes";
 import { useUpdateUserMutation } from "../../slices/usersApiSlice";
 import {
   validateEmail,
@@ -10,35 +9,24 @@ import { checkFormInputs } from "../../utils/formUtils/formUtils";
 import ButtonLoader from "../ButtonLoader";
 import { createToast } from "../../utils/toastUtils";
 import { renderFetchBaseQueryError } from "../../utils/errorHelpers";
+import {
+  EditUserFormErrors,
+  EditUserFormInitialState,
+  EditUserFormProps,
+} from "../../types/userTypes/editUserFormTypes";
 
-const mapIsAdmin: Record<string, boolean> = {
+export const mapIsAdmin: Record<string, boolean> = {
   no: false,
   yes: true,
 };
 
-interface IEditUserForm {
-  name: string;
-  email: string;
-  isAdmin: boolean;
-}
-
-interface IEditUserFormErrors {
-  name: string;
-  email: string;
-}
-
-interface IEditUserFormProps {
-  user: IUser;
-  onCloseModal: () => void;
-}
-
-const EditUserForm: React.FC<IEditUserFormProps> = ({ user, onCloseModal }) => {
-  const [formData, setFormData] = useState<IEditUserForm>({
+const EditUserForm: React.FC<EditUserFormProps> = ({ user, onCloseModal }) => {
+  const [formData, setFormData] = useState<EditUserFormInitialState>({
     name: user?.name || "",
     email: user?.email || "",
     isAdmin: user?.isAdmin || false,
   });
-  const [editFormErrors, setEditFormErrors] = useState<IEditUserFormErrors>({
+  const [editFormErrors, setEditFormErrors] = useState<EditUserFormErrors>({
     name: "",
     email: "",
   });

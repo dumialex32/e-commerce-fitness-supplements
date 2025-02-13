@@ -1,7 +1,7 @@
 import { MAX_ORDER_PER_ITEM } from "../constants";
-import { IQuantitySelectorProps } from "../types/componentsTypes/QuantitySelectorTypes";
+import { QuantitySelectorProps } from "../types/componentsTypes/QuantitySelectorTypes";
 
-const QuantitySelector: React.FC<IQuantitySelectorProps> = ({
+const QuantitySelector: React.FC<QuantitySelectorProps> = ({
   product,
   qty,
   onHandleSelectQty,

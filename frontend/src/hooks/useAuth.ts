@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { IUserInfo } from "../types/authTypes/authSliceTypes";
+import { UserInfo } from "../types/authTypes/authSliceTypes";
 import { FormEvent, useState } from "react";
 import { useLoginMutation } from "../slices/usersApiSlice";
 import { useDispatch } from "react-redux";
@@ -24,7 +24,9 @@ const useAuth = () => {
 
     try {
       setError(null);
-      const userInfo: IUserInfo = await login({ email, password }).unwrap();
+      const userInfo: UserInfo = await login({ email, password }).unwrap();
+      console.log(userInfo);
+      console.log(isValidUser(userInfo));
 
       if (isValidUser(userInfo)) {
         dispatch(setCredentials(userInfo));
@@ -37,17 +39,17 @@ const useAuth = () => {
   };
 
   // get user info
-  const userInfo: IUserInfo | null = useSelector(
+  const userInfo: UserInfo | null = useSelector(
     (state: RootState) => state.auth.userInfo
   );
 
   // check if user is logged in and validate the id and email fields
-  const isValidUser = (user: IUserInfo | null): boolean => {
+  const isValidUser = (user: UserInfo | null): boolean => {
     if (!user) {
       return false;
     }
 
-    return Boolean(user.userId && user.email && user.name && user.isAdmin);
+    return Boolean(user.userId && user.email && user.name);
   };
 
   const isUserLoggedIn = isValidUser(userInfo);

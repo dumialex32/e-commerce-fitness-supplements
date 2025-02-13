@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useCreateOrderMutation } from "../slices/ordersApiSlice";
-import { IOrder } from "../types/orderTypes/OrderTypes";
+import { Order } from "../types/orderTypes/OrderTypes";
 import { hasEmptyValues } from "../utils/utils";
 import useCart from "./useCart";
 import useAuth from "./useAuth";
@@ -27,15 +27,26 @@ const usePlaceOrder = () => {
     },
   } = useCart();
 
-  const order: IOrder = {
-    orderItems: cartItems,
-    shippingAddress,
-    paymentMethod,
-    totalPrice,
-    itemsPrice,
-    shippingPrice,
-    taxPrice,
-  };
+  const order: Order = useMemo(
+    () => ({
+      orderItems: cartItems,
+      shippingAddress,
+      paymentMethod,
+      totalPrice,
+      itemsPrice,
+      shippingPrice,
+      taxPrice,
+    }),
+    [
+      cartItems,
+      shippingAddress,
+      paymentMethod,
+      totalPrice,
+      itemsPrice,
+      shippingPrice,
+      taxPrice,
+    ]
+  );
 
   useEffect(() => {
     if (hasEmptyValues(shippingAddress)) {
@@ -45,7 +56,7 @@ const usePlaceOrder = () => {
     }
   }, [shippingAddress, paymentMethod, cartItems]);
 
-  const handlePlaceOrder = async (order: IOrder) => {
+  const handlePlaceOrder = async (order: Order) => {
     try {
       const res = await createOrder(order).unwrap();
       dispatch(clearCartItems());

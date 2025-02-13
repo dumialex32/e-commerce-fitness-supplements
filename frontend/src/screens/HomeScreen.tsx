@@ -1,55 +1,30 @@
-import React, { useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import { useGetProductsQuery } from "../slices/productsApiSlice";
-import { IuseGetProductsQuery } from "../types/productsTypes/productQueryTypes";
-import { renderFetchBaseQueryError } from "../utils/errorHelpers";
+import React from "react";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { DEFAULT_ERROR_MESSAGE, DEFAULT_PAGE_SIZE } from "../constants";
 import Pagination from "../components/pagination/Pagination";
 import Product from "../components/Product/ProductCard";
-import { getLocalStoragePaginationSetting } from "../utils/localStorageUtils";
 import SideBar from "../components/SideBar";
+import PageResults from "../components/PageResults";
+import useProducts from "../hooks/useProducts";
+import useErrorHandler from "../hooks/useErrorHandler";
 
 const HomeScreen: React.FC = () => {
-  const [params] = useSearchParams();
-
-  const page = Number(params.get("page")) || 1;
-  const category = params.get("category") || "";
-  const searchKey = params.get("k") || "";
-
-  const [pageSize, setPageSize] = useState<number>(
-    () =>
-      getLocalStoragePaginationSetting("homeScreenPageSize") ||
-      DEFAULT_PAGE_SIZE
-  );
-
-  const { data, isLoading, error }: IuseGetProductsQuery = useGetProductsQuery({
-    page,
-    category,
-    pageSize,
-    searchKey,
-  });
+  const { data, isLoading, error, category, pageSize, setPageSize } =
+    useProducts();
+  const errorMessage = useErrorHandler(error);
 
   if (isLoading) return <Loader size="xl" />;
 
-  if (error) {
-    const errorMessage =
-      renderFetchBaseQueryError(error) || DEFAULT_ERROR_MESSAGE;
-    return <Message type="error">{errorMessage}</Message>;
-  }
+  if (errorMessage) return <Message>{errorMessage}</Message>;
 
   if (!data?.products || data.products.length === 0) {
     return <Message type="info">No products found.</Message>;
   }
 
   return (
-    <div className="grid grid-cols-[16rem_1fr] h-full my-8 border-t">
+    <div className="grid grid-cols-[18rem_1fr] h-full my-8 border-t">
       <SideBar>
-        <div>
-          {data.products.length} of{" "}
-          {data.count < 1000 ? data.count : "of more than 1000"} results in
-        </div>
+        <PageResults data={data} category={category} />
       </SideBar>
 
       <div className="flex flex-col gap-6">

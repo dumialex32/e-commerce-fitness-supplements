@@ -1,6 +1,6 @@
 import FormRow from "../FormRow";
 import useProductForm from "../../hooks/useProductForm";
-import { IProduct } from "../../types/productsTypes/productTypes";
+import { Product } from "../../types/productsTypes/productTypes";
 import UploadFile from "../UploadFile";
 import { checkFormInputs } from "../../utils/formUtils/formUtils";
 import { useRef } from "react";
@@ -9,7 +9,7 @@ import { ProductFormField } from "../../types/productsTypes/ProductFormTypes";
 
 const ProductForm: React.FC<{
   isEdit?: boolean;
-  product: IProduct;
+  product: Product;
   onCloseModal: () => void;
 }> = ({ isEdit = false, product, onCloseModal }) => {
   const addProductImageRef = useRef<HTMLInputElement | null>(null);

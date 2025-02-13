@@ -13,11 +13,11 @@ import {
   validateProductName,
   validateProductPrice,
 } from "../utils/formUtils/productFormUtils";
-import { IProduct, IProductPayload } from "../types/productsTypes/productTypes";
+import { Product, ProductPayload } from "../types/productsTypes/productTypes";
 import {
   ActionType,
   ProductFormField,
-  IInitialState,
+  ProductFormInitialState,
   IuseProductFormProps,
 } from "../types/productsTypes/ProductFormTypes";
 
@@ -31,7 +31,7 @@ const validationMap: Record<ProductFormField, (value: any) => string> = {
   description: () => "",
 };
 
-const init = (product: IProduct) => ({
+const init = (product: Product) => ({
   name: product?.name || "",
   price: product?.price || 0,
   category: product?.category || "",
@@ -51,7 +51,7 @@ const init = (product: IProduct) => ({
   },
 });
 
-const reducer = (state: IInitialState, action: ActionType) => {
+const reducer = (state: ProductFormInitialState, action: ActionType) => {
   switch (action.type) {
     case "SET_FIELD": {
       const { field, value } = action.payload;
@@ -122,7 +122,7 @@ const useProductForm = ({
         productImage = res.imagePath;
       }
 
-      const patch: IProductPayload = {
+      const patch: ProductPayload = {
         ...productInputs,
         image: productImage,
       };
@@ -132,8 +132,6 @@ const useProductForm = ({
       isEdit
         ? (res = await editProduct({ productId, patch }))
         : (res = await createProduct(patch));
-
-    
 
       createToast(`Product successfully ${isEdit ? "updated" : "created"}`, {
         type: "success",

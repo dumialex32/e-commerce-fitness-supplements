@@ -1,11 +1,16 @@
 import { USERS_URL } from "../constants";
 import apiSlice from "./apiSlice";
-import { ILoginData, IUserInfo } from "../types/authTypes/authSliceTypes";
-import { IUser } from "../types/userTypes/usersSliceTypes";
+import { LoginData, UserInfo } from "../types/authTypes/authSliceTypes";
+import {
+  UpdateUserMutationProps,
+  User,
+} from "../types/userTypes/usersSliceTypes";
+
+// to do: add query types
 
 const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation<IUserInfo, ILoginData>({
+    login: builder.mutation<UserInfo, LoginData>({
       query: (body) => ({
         url: `${USERS_URL}/login`,
         method: "POST",
@@ -36,7 +41,7 @@ const userApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["User"],
     }),
 
-    getUsers: builder.query<IUser[], void>({
+    getUsers: builder.query<User[], void>({
       query: () => ({
         url: USERS_URL,
       }),
@@ -51,7 +56,7 @@ const userApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["User"],
     }),
 
-    updateUser: builder.mutation({
+    updateUser: builder.mutation<User, UpdateUserMutationProps>({
       query: ({ userId, ...patch }) => ({
         url: `${USERS_URL}/${userId}`,
         method: "PATCH",
@@ -70,4 +75,4 @@ export const {
   useDeleteUserMutation,
   useUpdateUserMutation,
   useGetUsersQuery,
-} = userApiSlice as any;
+} = userApiSlice;

@@ -4,15 +4,15 @@ import Table from "./Table";
 import { getStatusIcon } from "../utils/tableUtils";
 import { formatDate } from "../utils/formatters";
 import {
-  IOrderTableRow,
-  IOrderTableProps,
-  IUserProfileTableData,
+  OrderTableRow,
+  OrderTableProps,
+  UserProfileTableData,
 } from "../types/orderTypes/orderTableTypes";
-import { ITableColumn } from "../types/componentsTypes/tableTypes";
-import { IPopulatedOrderResponse } from "../types/orderTypes/orderSliceTypes";
+import { TableColumn } from "../types/componentsTypes/tableTypes";
+import { PopulatedOrderResponse } from "../types/orderTypes/orderSliceTypes";
 
-const OrderTable: React.FC<IOrderTableProps> = ({ data }) => {
-  const columns: ITableColumn<IOrderTableRow>[] = [
+const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
+  const columns: TableColumn<OrderTableRow>[] = [
     { id: "orderNum", label: "" },
     {
       id: "orderId",
@@ -49,12 +49,13 @@ const OrderTable: React.FC<IOrderTableProps> = ({ data }) => {
     },
   ];
 
-  const orderDataRow: IOrderTableRow[] =
+  const orderDataRow: OrderTableRow[] =
     data?.map((order, i) => {
+      console.log(order);
       const isUserProfileData = (
-        order: IUserProfileTableData | IPopulatedOrderResponse
-      ): order is IUserProfileTableData => {
-        return (order as IUserProfileTableData).currentUser !== undefined;
+        order: UserProfileTableData | PopulatedOrderResponse
+      ): order is UserProfileTableData => {
+        return (order as UserProfileTableData).currentUser !== undefined;
       };
 
       return {
@@ -67,6 +68,7 @@ const OrderTable: React.FC<IOrderTableProps> = ({ data }) => {
         date: order.createdAt,
       };
     }) || [];
+  console.log(orderDataRow);
 
   return <Table columns={columns} data={orderDataRow} />;
 };

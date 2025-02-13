@@ -4,13 +4,13 @@ import ShippingForm from "../components/checkout/ShippingForm";
 import TotalCheckout from "../components/checkout/TotalCheckout";
 import OrderDisclaimer from "../components/checkout/OrderDisclaimer";
 import TotalCheckoutPrice from "../components/checkout/TotalCheckoutPrice";
-import CartItem from "../components/cart/CartItem";
 import OrderHelpAndReturnInfo from "../components/checkout/OrderHelpAndReturnInfo";
 import PlaceOrderButton from "../components/checkout/PlaceOrderButton";
 import CheckoutScreen from "./CheckoutScreen";
 import usePlaceOrder from "../hooks/usePlaceOrder";
 import Message from "../components/Message";
 import { Link } from "react-router-dom";
+import CartItem from "../components/cart/CartItem";
 
 const PlaceOrderScreen: React.FC = () => {
   const {
@@ -34,7 +34,7 @@ const PlaceOrderScreen: React.FC = () => {
             <div className="max-w-cm-78 grid grid-cols-[2.5fr_1fr] gap-8 items-start">
               <div className="flex flex-col gap-5">
                 <div className="p-4 bg-gray-50 rounded-md">
-                  <div className="flex justify-between items-center ">
+                  <div className="flex justify-between items-center">
                     <div>
                       <h2 className="text-xl font-semibold">
                         On delivery at {userInfo?.name}

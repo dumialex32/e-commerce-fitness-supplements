@@ -23,7 +23,7 @@ const getFormIcon: {
 
 const formRowDirection = (label) => ({
   vertical: `${
-    label ? `grid grid-cols-[6rem,1fr] gap-12` : "flex"
+    label ? `grid grid-cols-[1fr_1.5fr] gap-12` : "flex"
   }items-center mb-10`,
   horizontal: "grid grid-rows-2 gap-1 items-end mb-3",
 });
@@ -42,7 +42,7 @@ const FormRow: React.FC<{
   direction = "vertical",
 }) => {
   return (
-    <div className={`${formRowDirection(label)[direction]}`}>
+    <div className={`${formRowDirection(label || labelWithIcon)[direction]}`}>
       <div>
         {labelWithIcon ? (
           <label

@@ -1,10 +1,9 @@
 import { FaEdit } from "react-icons/fa";
 import Modal from "../Modal";
-import { IUser } from "../../types/userTypes/usersSliceTypes";
-
+import { User } from "../../types/userTypes/usersSliceTypes";
 import EditUserForm from "./EditUserForm";
 
-const EditUser: React.FC<{ user: IUser }> = ({ user }) => {
+const EditUser: React.FC<{ user: User }> = ({ user }) => {
   return (
     <div>
       <Modal>

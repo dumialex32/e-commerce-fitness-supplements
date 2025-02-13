@@ -1,24 +1,24 @@
 import { Dispatch, FC, ReactElement, ReactNode, SetStateAction } from "react";
 
-export interface IModalWindowProps {
+export interface ModalWindowProps {
   children: ReactElement;
   name: string;
-  positionY?: TModalWindowYPosition;
+  positionY?: ModalWindowYPosition;
 }
 
-export interface IModalOpenProps {
+export interface ModalOpenProps {
   children: ReactElement;
   name: string;
 }
 
-export interface IModalProps {
+export interface ModalProps {
   children: ReactNode;
   name?: string;
 }
 
-export interface IModal extends FC<IModalProps> {
-  Open: FC<IModalOpenProps>;
-  Window: FC<IModalWindowProps>;
+export interface IModal extends FC<ModalProps> {
+  Open: FC<ModalOpenProps>;
+  Window: FC<ModalWindowProps>;
 }
 
 export interface IModalContext {
@@ -27,4 +27,4 @@ export interface IModalContext {
   openName: string;
 }
 
-export type TModalWindowYPosition = "top" | "center";
+export type ModalWindowYPosition = "top" | "center";

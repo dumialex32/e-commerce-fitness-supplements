@@ -1,13 +1,13 @@
 import { useMemo } from "react";
 import { useGetOrdersQuery } from "../slices/ordersApiSlice";
-import { IuseGetOrdersQuery } from "../types/orderTypes/orderSliceTypes";
 import useAuth from "./useAuth";
 import { useProduct } from "./useProduct";
 
 const useProductScreen = () => {
   const { product, isLoading, error: productError } = useProduct();
   const { userInfo, isUserLoggedIn } = useAuth();
-  const { data: orders } = useGetOrdersQuery() as IuseGetOrdersQuery;
+  const { data: orders } = useGetOrdersQuery();
+  console.log(orders);
 
   const hasUserAlreadyReviewedProduct = useMemo(
     () => product?.reviews?.some((rev) => rev.user === userInfo?.userId),

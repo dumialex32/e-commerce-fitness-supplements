@@ -1,18 +1,24 @@
-const loadingSize = {
-  lg: "w-10",
-  xl: "w-24",
-};
-
-interface ILoaderSize {
-  size?: "lg" | "xl";
+interface LoaderCustomStyles {
+  customSize?: { lg: "w-10"; xl: "w-24" };
+  customColor?: { white: "text-white"; primary: "text-primary" };
 }
 
-const Loader: React.FC<ILoaderSize> = ({ size }) => {
-  const sizeClass = size ? loadingSize[size] : "";
+const customStyles: LoaderCustomStyles = {
+  customSize: { lg: "w-10", xl: "w-24" },
+  customColor: { white: "text-white", primary: "text-primary" },
+};
 
+const Loader: React.FC<{ size?: "lg" | "xl"; color?: "white" | "primary" }> = ({
+  size = "lg",
+  color = "primary",
+}) => {
+  const customSize = customStyles.customSize?.[size];
+  const customColor = customStyles.customColor?.[color];
   return (
     <div className="flex justify-center items-center">
-      <span className={`loading loading-spinner ${sizeClass}`}></span>
+      <span
+        className={`loading loading-spinner ${customSize} ${customColor} `}
+      ></span>
     </div>
   );
 };

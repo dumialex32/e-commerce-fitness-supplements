@@ -1,4 +1,4 @@
-import { IUserInfo } from "./authSliceTypes";
+import { UserInfo } from "./authSliceTypes";
 
 export type RegisterFormField =
   | "name"
@@ -6,7 +6,7 @@ export type RegisterFormField =
   | "password"
   | "confirmPassword";
 
-export interface IErrors {
+export interface RegisterFormErrors {
   name?: string;
   email?: string;
   password?: string;
@@ -14,12 +14,12 @@ export interface IErrors {
   registrationError?: string;
 }
 
-export interface IinitialState {
+export interface RegisterFormInitialState {
   name: string;
   email: string;
   password: string;
   confirmPassword: string;
-  errors: IErrors;
+  errors: RegisterFormErrors;
   isRegistrationSuccess: boolean;
 }
 
@@ -27,9 +27,12 @@ type SetRegistrationFieldAction = {
   type: "SET_FIELD";
   payload: { field: RegisterFormField; value: string };
 };
-type SetErrorsAction = { type: "SET_ERRORS"; payload: Partial<IErrors> };
+type SetErrorsAction = {
+  type: "SET_ERRORS";
+  payload: Partial<RegisterFormErrors>;
+};
 type setRegistrationSuccessAction = { type: "SET_REGISTRATION_SUCCESS" };
-type SetResetFormAction = { type: "RESET_FORM"; payload: IUserInfo | null };
+type SetResetFormAction = { type: "RESET_FORM"; payload: UserInfo | null };
 
 export type ActionType =
   | SetRegistrationFieldAction

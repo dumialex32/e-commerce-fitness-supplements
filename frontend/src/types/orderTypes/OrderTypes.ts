@@ -1,11 +1,11 @@
-import { ICartItem, IShippingAddress } from "../cartTypes/cartItemTypes";
+import { ICartItem, ShippingAddress } from "../cartTypes/cartItemTypes";
 
-export interface IOrder {
+export interface Order {
   orderItems: ICartItem[];
   itemsPrice: number;
   taxPrice: number;
   shippingPrice: number;
-  shippingAddress: IShippingAddress;
+  shippingAddress: ShippingAddress;
   totalPrice: number;
   paymentMethod: string;
 }
@@ -19,15 +19,15 @@ export interface IOrderItem {
   _id: string;
 }
 
-export interface IOrderResponse {
+export interface OrderData {
   user: string;
   orderItems: IOrderItem[];
-  shippingAddress: IShippingAddress;
+  shippingAddress: ShippingAddress;
   paymentMethod: string;
   itemsPrice: number;
   taxPrice: number;
   shippingPrice: number;
-  paymentResult?: IPaymentResult;
+  paymentResult?: PaymentResult;
   totalPrice: number;
   isPaid: boolean;
   isDelivered: boolean;
@@ -37,7 +37,7 @@ export interface IOrderResponse {
   __v: number;
 }
 
-interface IPaymentResult {
+interface PaymentResult {
   id: string;
   status: string;
   update_time: string;

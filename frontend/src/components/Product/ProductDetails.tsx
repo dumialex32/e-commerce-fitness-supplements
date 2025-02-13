@@ -1,9 +1,9 @@
-import { IProduct } from "../../types/productsTypes/productTypes";
+import { Product } from "../../types/productsTypes/productTypes";
 import { formatPriceCurrency } from "../../utils/formatters";
 import Rating from "../Rating";
 
 Rating;
-const ProductDetails: React.FC<{ product: IProduct }> = ({ product }) => {
+const ProductDetails: React.FC<{ product: Product }> = ({ product }) => {
   return (
     <div className="flex flex-col border-opacity-50">
       <div className="grid">

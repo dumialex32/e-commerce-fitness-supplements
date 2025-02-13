@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ICartInitialState, ICartItem } from "../types/cartTypes/cartItemTypes";
 import { addToCart, removeCartItem } from "../slices/cartSlice";
-import { IProduct } from "../types/productsTypes/productTypes";
+import { Product } from "../types/productsTypes/productTypes";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { hasEmptyValue } from "../utils/utils";
@@ -16,7 +16,7 @@ export const useCart = () => {
   const navigate = useNavigate();
 
   // add item to cart
-  const handleAddToCart = (product: IProduct): void => {
+  const handleAddToCart = (product: Product): void => {
     const cartItem: ICartItem = { ...product, qty };
 
     dispatch(addToCart(cartItem));
@@ -49,7 +49,7 @@ export const useCart = () => {
     item: ICartItem
   ) => {
     handleSelectQty(e);
-    const newItem = { ...item, qty: +e.target.value };
+    const newItem = { ...item, qty: Number(e.target.value) };
     dispatch(addToCart(newItem));
   };
 

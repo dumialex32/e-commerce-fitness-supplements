@@ -2,22 +2,18 @@ import Loader from "../../components/Loader";
 import Message from "../../components/Message";
 import OrderTable from "../../components/OrderTable";
 import ScreenTitle from "../../components/ScreenTitle";
-import { useGetOrdersQuery } from "../../slices/ordersApiSlice";
-import { IuseGetAllOrdersQuery } from "../../types/orderTypes/orderSliceTypes";
-
-import { renderFetchBaseQueryError } from "../../utils/errorHelpers";
+import useErrorHandler from "../../hooks/useErrorHandler";
+import { useGetAllOrdersQuery } from "../../slices/ordersApiSlice";
 
 const AdminOrderList: React.FC = () => {
-  const {
-    data: orders,
-    isLoading,
-    error,
-  } = useGetOrdersQuery() as IuseGetAllOrdersQuery;
+  const { data: orders, isLoading, error } = useGetAllOrdersQuery();
+  console.log("orderlist", orders);
+
+  const errorMessage = useErrorHandler(error);
 
   if (isLoading) return <Loader />;
 
-  if (error)
-    return <Message type="error">{renderFetchBaseQueryError(error)}</Message>;
+  if (errorMessage) return <Message type="error">{errorMessage}</Message>;
 
   if (!orders || orders.length === 0)
     return (

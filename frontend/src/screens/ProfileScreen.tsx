@@ -1,28 +1,35 @@
+import { useMemo } from "react";
 import RegisterForm from "../components/auth/RegisterForm";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import OrderTable from "../components/OrderTable";
 import ScreenTitle from "../components/ScreenTitle";
 import useAuth from "../hooks/useAuth";
+import useErrorHandler from "../hooks/useErrorHandler";
 import { useGetOrdersQuery } from "../slices/ordersApiSlice";
-import { IuseGetOrdersQuery } from "../types/orderTypes/orderSliceTypes";
-import { IUserProfileTableData } from "../types/orderTypes/orderTableTypes";
-import { renderFetchBaseQueryError } from "../utils/errorHelpers";
+import { UseGetOrdersQuery } from "../types/orderTypes/orderSliceTypes";
+import { UserProfileTableData } from "../types/orderTypes/orderTableTypes";
 
 const ProfileScreen: React.FC = () => {
   const {
     data: orders,
     isLoading,
     error,
-  } = useGetOrdersQuery() as IuseGetOrdersQuery;
+  } = useGetOrdersQuery() as UseGetOrdersQuery;
+  console.log("profileScreen", orders);
+
+  const errorMessage = useErrorHandler(error);
 
   const { userInfo } = useAuth();
 
-  const profileTableOrders: IUserProfileTableData[] =
-    orders?.map((order) => ({
-      ...order,
-      currentUser: userInfo?.name || "Unknown User",
-    })) || [];
+  const profileTableOrders: UserProfileTableData[] = useMemo(() => {
+    return (
+      orders?.map((order) => ({
+        ...order,
+        currentUser: userInfo?.name || "Unknown User",
+      })) || []
+    );
+  }, [userInfo?.name, orders]);
 
   const hasOrders = orders && orders.length > 0;
 
@@ -30,9 +37,7 @@ const ProfileScreen: React.FC = () => {
     return <Loader />;
   }
 
-  if (error)
-    return <Message type="error">{renderFetchBaseQueryError(error)}</Message>;
-
+  if (errorMessage) return <Message type="error">{errorMessage}</Message>;
   if (!userInfo) return <Message type="info">User could not be found.</Message>;
 
   return (

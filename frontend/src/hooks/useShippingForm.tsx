@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useReducer } from "react";
 import {
-  IinitialState,
+  ShippingFormInitialState,
   ActionType,
   ShippingFormField,
 } from "../types/cartTypes/shippingFormReducerTypes";
@@ -11,10 +11,10 @@ import { getCitties } from "../api/cittiesApi";
 
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { IShippingAddress } from "../types/cartTypes/cartItemTypes";
+import { ShippingAddress } from "../types/cartTypes/cartItemTypes";
 import { checkFormInputs } from "../utils/formUtils/formUtils";
 
-const init = (shippingAddress: IShippingAddress): IinitialState => ({
+const init = (shippingAddress: ShippingAddress): ShippingFormInitialState => ({
   country: shippingAddress.country || "",
   city: shippingAddress.city || "",
   address: shippingAddress.address || "",
@@ -28,7 +28,7 @@ const init = (shippingAddress: IShippingAddress): IinitialState => ({
   cities: [],
 });
 
-const reducer = (state: IinitialState, action: ActionType) => {
+const reducer = (state: ShippingFormInitialState, action: ActionType) => {
   switch (action.type) {
     case "SET_FIELD": {
       const { field, value } = action.payload;

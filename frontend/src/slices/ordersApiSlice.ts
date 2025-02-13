@@ -1,13 +1,15 @@
 import { PAYPAL_URL } from "../constants";
 import { ORDERS_URL } from "../constants";
-import { IPopulatedOrderResponse } from "../types/orderTypes/orderSliceTypes";
-import { IOrder, IOrderResponse } from "../types/orderTypes/OrderTypes";
+import { PopulatedOrderResponse as PopulatedOrderData } from "../types/orderTypes/orderSliceTypes";
+import { Order, OrderData } from "../types/orderTypes/OrderTypes";
 
 import apiSlice from "./apiSlice";
 
+// to do: add query types
+
 const ordersSliceApi = apiSlice.injectEndpoints({
   endpoints: (build) => ({
-    getOrders: build.query<IOrderResponse, void>({
+    getOrders: build.query<OrderData[], void>({
       query: () => ({
         url: `${ORDERS_URL}/orders`,
       }),
@@ -15,7 +17,7 @@ const ordersSliceApi = apiSlice.injectEndpoints({
       providesTags: ["Order"],
     }),
 
-    getOrderDetails: build.query<IOrderResponse, string>({
+    getOrderDetails: build.query<OrderData, string>({
       query: (id) => ({
         url: `${ORDERS_URL}/${id}`,
       }),
@@ -23,12 +25,12 @@ const ordersSliceApi = apiSlice.injectEndpoints({
       providesTags: ["Order"],
     }),
 
-    getAllOrders: build.query<IPopulatedOrderResponse[], void>({
+    getAllOrders: build.query<PopulatedOrderData[], void>({
       query: () => ({ url: ORDERS_URL }),
       keepUnusedDataFor: 5000,
     }),
 
-    createOrder: build.mutation<IOrderResponse, IOrder>({
+    createOrder: build.mutation<OrderData, Order>({
       query: (order) => ({
         url: `${ORDERS_URL}`,
         method: "POST",
@@ -69,4 +71,4 @@ export const {
   useCreateOrderMutation,
   useUpdateOrderToPaidMutation,
   useUpdateOrderToDeliveredMutation,
-} = ordersSliceApi as any;
+} = ordersSliceApi;

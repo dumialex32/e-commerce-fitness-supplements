@@ -1,10 +1,10 @@
-import { IProduct } from "./productTypes";
+import { Product } from "./productTypes";
 
-export interface IProductsTableProps {
-  data: IProduct[];
+export interface ProductsTableProps {
+  data: Product[];
 }
 
-export interface IProductTableData {
+export interface ProductTableData {
   productId: string;
   name: string;
   price: number;

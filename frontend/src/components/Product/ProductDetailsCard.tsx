@@ -1,10 +1,10 @@
 import useCart from "../../hooks/useCart";
-import { IProduct } from "../../types/productsTypes/productTypes";
+import { Product } from "../../types/productsTypes/productTypes";
 import { formatPriceCurrency } from "../../utils/formatters";
 import { getItemStockInfo } from "../../utils/productUtils";
 import QuantitySelector from "../QuantitySelector";
 
-const ProductDetailsCard: React.FC<{ product: IProduct }> = ({ product }) => {
+const ProductDetailsCard: React.FC<{ product: Product }> = ({ product }) => {
   const { handleSelectQty, handleAddToCart, qty } = useCart();
   return (
     <div className="card bg-base-100 border-2">

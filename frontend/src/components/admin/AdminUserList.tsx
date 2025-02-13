@@ -1,10 +1,10 @@
 import { useGetUsersQuery } from "../../slices/usersApiSlice";
-import { IuseGetUsersQuery } from "../../types/userTypes/usersSliceTypes";
+import { UseGetUsersQuery } from "../../types/userTypes/usersSliceTypes";
 import ScreenTitle from "../ScreenTitle";
 import UserTable from "../UserTable";
 
 const AdminUserList: React.FC = () => {
-  const { data: users }: IuseGetUsersQuery = useGetUsersQuery();
+  const { data: users }: UseGetUsersQuery = useGetUsersQuery();
 
   return (
     <div>

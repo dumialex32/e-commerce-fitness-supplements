@@ -1,10 +1,10 @@
-import CartItem from "../components/cart/CartItem";
 import CartOverviewCard from "../components/cart/CartOverviewCard";
 import CartList from "../components/cart/CartItemList";
 import { ICartItem } from "../types/cartTypes/cartItemTypes";
 import Message from "../components/Message";
 import NavigationButtons from "../components/NavigationButtons";
 import useCart from "../hooks/useCart";
+import CartItem from "../components/cart/CartItem";
 
 const CartScreen: React.FC = () => {
   const {

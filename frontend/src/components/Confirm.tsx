@@ -1,15 +1,19 @@
+import Loader from "./Loader";
+
 interface IConfirmProps {
-  onConfirm: () => void;
+  onConfirm: (onCloseModal: () => void) => void;
   onCloseModal: () => void;
   action: string;
   resourceName: string;
   resource: string;
+  isLoading?: boolean;
 }
 
 const Confirm: React.FC<IConfirmProps> = ({
   action,
   resourceName,
   resource,
+  isLoading = false,
   onConfirm,
   onCloseModal,
 }) => {
@@ -20,25 +24,31 @@ const Confirm: React.FC<IConfirmProps> = ({
     .concat(action.slice(1));
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       <h3 className="text-xl font-semibold text-center">
         {capitalizedAction}{" "}
         <span className="text-primary">{resourceName}.</span>
       </h3>
 
-      <p className="text-sm text-stone-600">
-        Are you sure you want to {action.toLowerCase()} {resource}{" "}
-        <span className="text-primary">{resourceName}</span> ?
-      </p>
+      {isLoading ? (
+        <Loader size="lg" />
+      ) : (
+        <div className="flex flex-col gap-4">
+          <p className="text-sm text-stone-600">
+            Are you sure you want to {action.toLowerCase()} {resource}{" "}
+            <span className="text-primary">{resourceName}</span> ?
+          </p>
 
-      <div className="flex justify-between gap-2">
-        <button className="btn" onClick={onConfirm}>
-          {capitalizedAction}
-        </button>
-        <button className="btn" onClick={onCloseModal}>
-          Cancel
-        </button>
-      </div>
+          <div className="flex justify-between gap-2">
+            <button className="btn" onClick={() => onConfirm(onCloseModal)}>
+              {capitalizedAction}
+            </button>
+            <button className="btn" onClick={onCloseModal}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
