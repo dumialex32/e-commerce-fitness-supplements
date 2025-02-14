@@ -19,21 +19,23 @@ const sizeMap: Record<
 
 const Pagination: React.FC<{
   size: Size;
-  totalPages: number;
   pageSize: number;
-  isLoadingPages: boolean;
-  pageSizeStorageKey: string;
   onSetPageSize: (value: number) => void;
+  totalPages: number;
+  isLoadingPages?: boolean;
+  pageSizeStorageKey: string;
 }> = ({
   totalPages,
   size,
   pageSize,
+  onSetPageSize,
   isLoadingPages,
   pageSizeStorageKey,
-  onSetPageSize,
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
+
+  console.log("pagination:", pageSize);
 
   const handlePageChange = (newPage: number | string) => {
     if (typeof newPage === "number") {

@@ -1,20 +1,18 @@
 import { useState } from "react";
-import { DEFAULT_PAGE_SIZE } from "../constants";
 import { getLocalStoragePaginationSetting } from "../utils/localStorageUtils";
 import { useSearchParams } from "react-router-dom";
 import { useGetProductsQuery } from "../slices/productsApiSlice";
+import { DEFAULT_PAGE_SIZE } from "../constants";
 
-const useProducts = () => {
+const useProducts = (paginationKey: string) => {
   const [params] = useSearchParams();
 
   const page = Number(params.get("page")) || 1;
   const category = params.get("category") || "";
   const searchKey = params.get("k") || "";
 
-  const [pageSize, setPageSize] = useState<number>(
-    () =>
-      getLocalStoragePaginationSetting("homeScreenPageSize") ||
-      DEFAULT_PAGE_SIZE
+  const [pageSize, setPageSize] = useState(
+    () => getLocalStoragePaginationSetting(paginationKey) || DEFAULT_PAGE_SIZE
   );
 
   const { data, isLoading, error } = useGetProductsQuery({
@@ -29,10 +27,11 @@ const useProducts = () => {
     isLoading,
     error,
     page,
-    category,
-    searchKey,
     pageSize,
     setPageSize,
+    category,
+
+    searchKey,
   };
 };
 

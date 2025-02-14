@@ -1,15 +1,21 @@
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
 import ScreenTitle from "../../components/ScreenTitle";
-import { useGetProductsQuery } from "../../slices/productsApiSlice";
 import ProductsTable from "../../components/Product/ProductsTable";
 import CreateProduct from "../../components/Product/CreateProduct";
 import useErrorHandler from "../../hooks/useErrorHandler";
+import useProducts from "../../hooks/useProducts";
+import Pagination from "../../components/pagination/Pagination";
 
 const AdminProducts: React.FC = () => {
-  const { data, isLoading, error } = useGetProductsQuery({});
+  // to do pageSize state
+  const { data, isLoading, error, pageSize, setPageSize } = useProducts(
+    "productTablePageSize"
+  );
+
   const errorMessage = useErrorHandler(error);
   // to do pagination
+  console.log(data);
 
   if (isLoading) return <Loader />;
   if (errorMessage) return <Message type="error">{errorMessage}</Message>;
@@ -29,6 +35,13 @@ const AdminProducts: React.FC = () => {
       </div>
 
       <ProductsTable data={data.products} />
+      <Pagination
+        size="sm"
+        pageSize={pageSize}
+        onSetPageSize={setPageSize}
+        totalPages={data.pageCount}
+        pageSizeStorageKey="productTablePageSize"
+      />
     </div>
   );
 };

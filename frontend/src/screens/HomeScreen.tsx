@@ -10,7 +10,7 @@ import useErrorHandler from "../hooks/useErrorHandler";
 
 const HomeScreen: React.FC = () => {
   const { data, isLoading, error, category, pageSize, setPageSize } =
-    useProducts();
+    useProducts("homeScreenPageSize");
   const errorMessage = useErrorHandler(error);
 
   if (isLoading) return <Loader size="xl" />;
