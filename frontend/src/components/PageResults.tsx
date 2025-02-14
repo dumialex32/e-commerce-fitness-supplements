@@ -1,13 +1,19 @@
-import { ProductsData } from "../types/productsTypes/productSliceTypes";
+const PageResults: React.FC<{
+  productsLength: number;
+  count: number;
+  category: string;
+  currentPage: number;
+  pageSize: number;
+}> = ({ productsLength, count, category, currentPage, pageSize }) => {
+  const displayedResults = Math.min(
+    (currentPage - 1) * pageSize + productsLength,
+    count
+  );
 
-const PageResults: React.FC<{ data: ProductsData; category: string }> = ({
-  data,
-  category,
-}) => {
   return (
     <div className="text-center">
-      {data.products.length} of{" "}
-      {data.count < 1000 ? data.count : "of more than 1000"} results{" "}
+      {displayedResults < count ? displayedResults : count} of{" "}
+      {count < 1000 ? count : "of more than 1000"} results{" "}
       {category && <span>for</span>}{" "}
       <span className="font-semibold text-primary">{category}</span>
     </div>
