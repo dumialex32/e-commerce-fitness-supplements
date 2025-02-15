@@ -26,6 +26,7 @@ const Search: React.FC = () => {
   }, [searchQuery, pathname]);
 
   const { data: productCategories = [] } = useGetProductCategoriesQuery();
+
   const mappedProductCategories = mapCategories(productCategories);
 
   const handleSubmitQuery = (e: React.FormEvent<HTMLFormElement>) => {

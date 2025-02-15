@@ -7,7 +7,6 @@ const useProductScreen = () => {
   const { product, isLoading, error: productError } = useProduct();
   const { userInfo, isUserLoggedIn } = useAuth();
   const { data: orders } = useGetOrdersQuery();
-  console.log(orders);
 
   const hasUserAlreadyReviewedProduct = useMemo(
     () => product?.reviews?.some((rev) => rev.user === userInfo?.userId),

@@ -9,39 +9,58 @@ import useProducts from "../hooks/useProducts";
 import useErrorHandler from "../hooks/useErrorHandler";
 
 const HomeScreen: React.FC = () => {
-  const { data, isLoading, error, category, pageSize, setPageSize } =
-    useProducts("homeScreenPageSize");
+  const {
+    products,
+    count,
+    totalPages,
+    pages,
+    currentPage,
+    isLoading,
+    error,
+    pageSize,
+    category,
+    handlePageChange,
+    handleSetPageSize,
+  } = useProducts("homeScreenPageSize");
+
   const errorMessage = useErrorHandler(error);
 
   if (isLoading) return <Loader size="xl" />;
 
   if (errorMessage) return <Message>{errorMessage}</Message>;
 
-  if (!data?.products || data.products.length === 0) {
+  if (!products || products.length === 0) {
     return <Message type="info">No products found.</Message>;
   }
 
   return (
     <div className="grid grid-cols-[18rem_1fr] h-full my-8 border-t">
       <SideBar>
-        <PageResults data={data} category={category} />
+        <PageResults
+          productsLength={products.length}
+          count={count}
+          category={category}
+          currentPage={currentPage}
+          pageSize={pageSize}
+        />
       </SideBar>
 
       <div className="flex flex-col gap-6">
         <ul className="flex flex-wrap">
-          {data.products.map((product) => (
+          {products.map((product) => (
             <Product key={product._id} product={product} />
           ))}
         </ul>
 
         <div className="self-center">
           <Pagination
-            totalPages={data.pageCount}
-            isLoadingPages={isLoading}
+            size={"md"}
+            pages={pages}
+            currentPage={currentPage}
+            totalPages={totalPages}
             pageSize={pageSize}
-            onSetPageSize={setPageSize}
-            pageSizeStorageKey="homeScreenPageSize"
-            size="md"
+            onSetPageSize={handleSetPageSize}
+            onHandlePageChange={handlePageChange}
           />
         </div>
       </div>

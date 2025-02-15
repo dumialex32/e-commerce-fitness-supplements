@@ -7,10 +7,7 @@ export interface ProductsData {
 }
 
 // get product categories
-export interface GetProductCategoriesResponse {
-  category: string[];
-}
-
+export type GetProductCategoriesResponse = string[];
 // get products types
 export interface GetProductsResponse {
   products: Product[];

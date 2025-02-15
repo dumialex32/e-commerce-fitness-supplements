@@ -12,7 +12,7 @@ import { UserProfileTableData } from "../types/orderTypes/orderTableTypes";
 
 const ProfileScreen: React.FC = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery();
-  console.log(orders);
+
 
   const errorMessage = useErrorHandler(error);
 

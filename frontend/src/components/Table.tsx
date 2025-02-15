@@ -2,6 +2,7 @@ import {
   TableProps,
   TableColumnWidth,
 } from "../types/componentsTypes/tableTypes";
+import Pagination from "./pagination/Pagination";
 
 const mapWidth: Record<TableColumnWidth, string> = {
   sm: "w-12",
@@ -13,6 +14,7 @@ const Table = <T,>({
   columns,
   data,
   className,
+  paginationData,
 }: TableProps<T>): JSX.Element => {
   if (data.length === 0) {
     return <p className="text-center text-gray-500">No data available.</p>;
@@ -52,6 +54,29 @@ const Table = <T,>({
             );
           })}
         </tbody>
+
+        <tfoot className="w-full">
+          <tr>
+            <td
+              colSpan={columns.length}
+              className="text-center py-4 bg-gray-100"
+            >
+              <div className="flex justify-center">
+                {paginationData && (
+                  <Pagination
+                    size={paginationData.size}
+                    pages={paginationData.pages}
+                    totalPages={paginationData.totalPages}
+                    currentPage={paginationData.currentPage}
+                    pageSize={paginationData.pageSize}
+                    onSetPageSize={paginationData.onSetPageSize}
+                    onHandlePageChange={paginationData.onHandlePageChange}
+                  />
+                )}
+              </div>
+            </td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   );

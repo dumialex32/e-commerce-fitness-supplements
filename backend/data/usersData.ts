@@ -31,6 +31,4 @@ const users: UserSeedData[] = Array.from({ length: 30 }, (_, i) => {
   };
 });
 
-console.log(users);
-
 export default users;

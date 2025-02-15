@@ -7,7 +7,6 @@ import { useGetAllOrdersQuery } from "../../slices/ordersApiSlice";
 
 const AdminOrderList: React.FC = () => {
   const { data: orders, isLoading, error } = useGetAllOrdersQuery();
-  console.log("orderlist", orders);
 
   const errorMessage = useErrorHandler(error);
 

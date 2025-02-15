@@ -12,7 +12,6 @@ const RemoveProduct: React.FC<{ productId: string }> = ({ productId }) => {
   const handleRemoveProduct = async () => {
     try {
       const res = await deleteProduct(productId).unwrap();
-      console.log(res);
 
       createToast(res.message || "Product successfully deleted", {
         type: "success",

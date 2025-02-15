@@ -25,8 +25,6 @@ const useAuth = () => {
     try {
       setError(null);
       const userInfo: UserInfo = await login({ email, password }).unwrap();
-      console.log(userInfo);
-      console.log(isValidUser(userInfo));
 
       if (isValidUser(userInfo)) {
         dispatch(setCredentials(userInfo));

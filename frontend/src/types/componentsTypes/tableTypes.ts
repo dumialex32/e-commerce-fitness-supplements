@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { PaginationProps } from "../Pagination/paginationTypes";
 
 export type TableColumnWidth = "sm" | "md" | "lg";
 
@@ -13,4 +14,5 @@ export interface TableProps<T> {
   columns: TableColumn<T>[];
   data: T[];
   className?: string;
+  paginationData?: PaginationProps;
 }

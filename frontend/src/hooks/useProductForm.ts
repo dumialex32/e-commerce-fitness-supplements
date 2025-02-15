@@ -101,7 +101,6 @@ const useProductForm = ({
     formData.append("image", file);
     try {
       const res = await uploadProductImage(formData).unwrap();
-      console.log(res);
 
       removeProductImage();
       setProductFormField("image", res.imagePath);
@@ -134,8 +133,6 @@ const useProductForm = ({
       isEdit
         ? (res = await editProduct({ productId, patch }).unwrap())
         : (res = await createProduct(patch).unwrap());
-
-      console.log(res);
 
       createToast(`Product successfully ${isEdit ? "updated" : "created"}`, {
         type: "success",

@@ -10,7 +10,6 @@ export const useProduct = () => {
     isLoading,
     error,
   }: UseGetProductDetailsQuery = useGetProductDetailsQuery(productId);
-  console.log(product);
 
   return { product, isLoading, error };
 };

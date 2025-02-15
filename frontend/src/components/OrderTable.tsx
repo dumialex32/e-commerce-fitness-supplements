@@ -51,7 +51,6 @@ const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
 
   const orderDataRow: OrderTableRow[] =
     data?.map((order, i) => {
-      console.log(order);
       const isUserProfileData = (
         order: UserProfileTableData | PopulatedOrderResponse
       ): order is UserProfileTableData => {
@@ -68,7 +67,6 @@ const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
         date: order.createdAt,
       };
     }) || [];
-  console.log(orderDataRow);
 
   return <Table columns={columns} data={orderDataRow} />;
 };
