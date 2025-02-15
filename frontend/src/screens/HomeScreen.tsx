@@ -7,6 +7,7 @@ import SideBar from "../components/SideBar";
 import PageResults from "../components/PageResults";
 import useProducts from "../hooks/useProducts";
 import useErrorHandler from "../hooks/useErrorHandler";
+import Carousel from "../components/Carousel";
 
 const HomeScreen: React.FC = () => {
   const {
@@ -34,37 +35,42 @@ const HomeScreen: React.FC = () => {
   }
 
   return (
-    <div className="grid grid-cols-[18rem_1fr] h-full my-8 border-t">
-      <SideBar>
-        <PageResults
-          productsLength={products.length}
-          count={count}
-          category={category}
-          currentPage={currentPage}
-          pageSize={pageSize}
-        />
-      </SideBar>
-
-      <div className="flex flex-col gap-6">
-        <ul className="flex flex-wrap">
-          {products.map((product) => (
-            <Product key={product._id} product={product} />
-          ))}
-        </ul>
-
-        <div className="self-center">
-          <Pagination
-            size={"md"}
-            pages={pages}
+    <>
+      <div className="container mx-auto ">
+        <Carousel />
+      </div>
+      <div className="grid grid-cols-[18rem_1fr] h-full my-8 border-t">
+        <SideBar>
+          <PageResults
+            productsLength={products.length}
+            count={count}
+            category={category}
             currentPage={currentPage}
-            totalPages={totalPages}
             pageSize={pageSize}
-            onSetPageSize={handleSetPageSize}
-            onHandlePageChange={handlePageChange}
           />
+        </SideBar>
+
+        <div className="flex flex-col gap-6">
+          <ul className="flex flex-wrap">
+            {products.map((product) => (
+              <Product key={product._id} product={product} />
+            ))}
+          </ul>
+
+          <div className="self-center">
+            <Pagination
+              size={"md"}
+              pages={pages}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              pageSize={pageSize}
+              onSetPageSize={handleSetPageSize}
+              onHandlePageChange={handlePageChange}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
