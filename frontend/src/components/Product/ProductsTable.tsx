@@ -11,7 +11,10 @@ import {
 } from "../../types/productsTypes/productsTableTypes";
 import { Product } from "../../types/productsTypes/productTypes";
 
-const ProductsTable: React.FC<ProductsTableProps> = ({ data }) => {
+const ProductsTable: React.FC<ProductsTableProps> = ({
+  data,
+  paginationData,
+}) => {
   const productTableData: ProductTableData[] = data.map((product) => ({
     productId: product._id,
     name: product?.name,
@@ -77,7 +80,11 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ data }) => {
 
   return (
     <>
-      <Table columns={columns} data={productTableData} />
+      <Table
+        columns={columns}
+        data={productTableData}
+        paginationData={paginationData}
+      />
     </>
   );
 };

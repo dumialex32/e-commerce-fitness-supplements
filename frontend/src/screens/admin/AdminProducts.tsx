@@ -5,21 +5,25 @@ import ProductsTable from "../../components/Product/ProductsTable";
 import CreateProduct from "../../components/Product/CreateProduct";
 import useErrorHandler from "../../hooks/useErrorHandler";
 import useProducts from "../../hooks/useProducts";
-import Pagination from "../../components/pagination/Pagination";
 
 const AdminProducts: React.FC = () => {
-  // to do pageSize state
-  const { data, isLoading, error, pageSize, setPageSize } = useProducts(
-    "productTablePageSize"
-  );
+  const {
+    products,
+    totalPages,
+    pages,
+    currentPage,
+    isLoading,
+    error,
+    pageSize,
+    handlePageChange,
+    handleSetPageSize,
+  } = useProducts("productTablePageSize");
 
   const errorMessage = useErrorHandler(error);
-  // to do pagination
-  console.log(data);
 
   if (isLoading) return <Loader />;
   if (errorMessage) return <Message type="error">{errorMessage}</Message>;
-  if (!data)
+  if (!products || products.length === 0)
     return (
       <Message type="info">
         No products available. You can start create products by clicking on
@@ -34,13 +38,17 @@ const AdminProducts: React.FC = () => {
         <CreateProduct />
       </div>
 
-      <ProductsTable data={data.products} />
-      <Pagination
-        size="sm"
-        pageSize={pageSize}
-        onSetPageSize={setPageSize}
-        totalPages={data.pageCount}
-        pageSizeStorageKey="productTablePageSize"
+      <ProductsTable
+        data={products}
+        paginationData={{
+          size: "sm",
+          pages,
+          currentPage,
+          pageSize,
+          totalPages,
+          onHandlePageChange: handlePageChange,
+          onSetPageSize: handleSetPageSize,
+        }}
       />
     </div>
   );
