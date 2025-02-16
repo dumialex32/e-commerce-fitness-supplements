@@ -4,7 +4,7 @@ import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
 type Direction = "horizontal" | "vertical";
 
 const directionMap: Record<Direction, string> = {
-  horizontal: "flex",
+  horizontal: "flex items-center",
   vertical: "flex flex-col",
 };
 
@@ -37,7 +37,6 @@ const Rating: React.FC<RatingProps> = ({
   interactive = false,
   onSetRating,
 }) => {
-  console.log(value);
   const [rate, setRate] = useState<number>(value);
   const [tempRate, setTempRate] = useState(0);
 
@@ -59,7 +58,7 @@ const Rating: React.FC<RatingProps> = ({
   };
 
   return (
-    <div className={`${directionMap[direction]} items-center gap-2`}>
+    <div className={`${directionMap[direction]} gap-2`}>
       <ul className="flex gap-1">
         {Array.from({ length: starNum }, (_, i) => {
           const isFullStar = tempRate ? tempRate >= i + 1 : rate >= i + 1;

@@ -8,6 +8,7 @@ export interface ProductsData {
 
 // get product categories
 export type GetProductCategoriesResponse = string[];
+
 // get products types
 export interface GetProductsResponse {
   products: Product[];
@@ -27,8 +28,10 @@ export interface GetProductDetailsResponse {
 }
 export type GetProductDetailsProps = string;
 
-// create product mutation
+// get top five rated products
+export type GetTopFiveRatedProductsResponse = Product[];
 
+// create product mutation
 export type CreateProductProps = CreateEditProductPayload;
 export interface CreateProductResponse {
   product: Product;

@@ -7,7 +7,8 @@ import SideBar from "../components/SideBar";
 import PageResults from "../components/PageResults";
 import useProducts from "../hooks/useProducts";
 import useErrorHandler from "../hooks/useErrorHandler";
-import Carousel from "../components/Carousel";
+import Carousel from "../components/Carousel/Carousel";
+import { useGetTopFiveRatedProductsQuery } from "../slices/productsApiSlice";
 
 const HomeScreen: React.FC = () => {
   const {
@@ -24,11 +25,24 @@ const HomeScreen: React.FC = () => {
     handleSetPageSize,
   } = useProducts("homeScreenPageSize");
 
-  const errorMessage = useErrorHandler(error);
+  const {
+    data: topFiveRatedProducts,
+    isLoading: isLoadingTopFiveRatedProducts,
+    error: topFiveRatedProductsError,
+  } = useGetTopFiveRatedProductsQuery();
 
-  if (isLoading) return <Loader size="xl" />;
+  const errors = [error, topFiveRatedProductsError]
+    .map(useErrorHandler)
+    .filter(Boolean);
 
-  if (errorMessage) return <Message>{errorMessage}</Message>;
+  if (isLoading || isLoadingTopFiveRatedProducts) return <Loader size="xl" />;
+
+  if (errors.length > 0)
+    return errors.map((error, index) => (
+      <Message key={index} type="error">
+        {error}
+      </Message>
+    ));
 
   if (!products || products.length === 0) {
     return <Message type="info">No products found.</Message>;
@@ -37,7 +51,7 @@ const HomeScreen: React.FC = () => {
   return (
     <>
       <div className="container mx-auto ">
-        <Carousel />
+        <Carousel data={topFiveRatedProducts} intervalRate={5000} />
       </div>
       <div className="grid grid-cols-[18rem_1fr] h-full my-8 border-t">
         <SideBar>

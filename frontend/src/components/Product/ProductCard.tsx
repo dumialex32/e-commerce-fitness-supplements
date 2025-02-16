@@ -26,7 +26,7 @@ const ProductCard = ({ product }: { product: Product }) => {
             value={product.rating}
             reviews={product.numReviews}
             starNum={5}
-            direction="vertical"
+            direction="horizontal"
           />
           <div className="card-actions justify-start">
             <button

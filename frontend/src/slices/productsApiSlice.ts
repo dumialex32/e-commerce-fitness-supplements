@@ -16,6 +16,7 @@ import {
   UploadProductImageProps,
   CreateProductReviewProps,
   CreateProductReviewResponse,
+  GetTopFiveRatedProductsResponse,
 } from "../types/productsTypes/productSliceTypes";
 
 // Define the API slice with endpoints and types
@@ -39,6 +40,17 @@ const productApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: `${PRODUCTS_URL}/categories`,
       }),
+      keepUnusedDataFor: 5000,
+    }),
+
+    getTopFiveRatedProducts: builder.query<
+      GetTopFiveRatedProductsResponse,
+      void
+    >({
+      query: () => ({
+        url: `${PRODUCTS_URL}/topfiverated`,
+      }),
+      keepUnusedDataFor: 5000,
     }),
 
     getProductDetails: builder.query<
@@ -107,6 +119,7 @@ export const {
   useGetProductsQuery,
   useGetProductCategoriesQuery,
   useGetProductDetailsQuery,
+  useGetTopFiveRatedProductsQuery,
   useDeleteProductMutation,
   useEditProductMutation,
   useCreateProductMutation,

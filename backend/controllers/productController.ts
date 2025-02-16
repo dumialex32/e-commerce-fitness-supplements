@@ -20,7 +20,6 @@ const getProducts = asyncHandler(async (req: Request, res: Response) => {
   const sort: Record<string, 1 | -1> = {};
 
   if (req.query.category) {
-    console.log(req.query.searcKey);
     filter.category = req.query.category;
   }
 
@@ -57,6 +56,16 @@ const getProductCategories = asyncHandler(
     const productCategories = await Product.distinct("category");
 
     res.status(200).json(productCategories);
+  }
+);
+
+const getTopFiveRatedProducts = asyncHandler(
+  async (req: Request, res: Response) => {
+    const topFiveRatedProducts = await Product.find()
+      .sort({ rating: -1, numReviews: -1 })
+      .limit(5);
+
+    res.status(200).json(topFiveRatedProducts);
   }
 );
 
@@ -176,6 +185,7 @@ export {
   getProducts,
   getProduct,
   getProductCategories,
+  getTopFiveRatedProducts,
   deleteProduct,
   createProduct,
   editProduct,
