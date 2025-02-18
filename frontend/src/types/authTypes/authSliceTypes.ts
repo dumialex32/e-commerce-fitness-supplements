@@ -9,9 +9,3 @@ export interface UserInfo {
 export interface IAuthSlice {
   userInfo: UserInfo | null;
 }
-
-// login data types
-export interface LoginData {
-  email: string;
-  password: string;
-}

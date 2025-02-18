@@ -113,6 +113,7 @@ const useRegisterForm = () => {
       const userInfo: UserInfo = isUpdating
         ? await updateProfile(userData).unwrap()
         : await register(userData).unwrap();
+
       setRegistrationSuccess();
       createToast(
         `${isUpdating ? "Profile updated" : "Register successfully done"}`,
@@ -125,6 +126,8 @@ const useRegisterForm = () => {
 
       setCredentials(userInfo);
       resetFormFields(userInfo);
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error(err);
       if (err.status === 400 && err.data.message) {

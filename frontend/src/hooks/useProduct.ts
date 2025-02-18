@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import { useGetProductDetailsQuery } from "../slices/productsApiSlice";
-import { UseGetProductDetailsQuery } from "../types/productsTypes/productSliceTypes";
 
 export const useProduct = () => {
   const { id: productId } = useParams() as { id: string };
@@ -9,7 +8,7 @@ export const useProduct = () => {
     data: product,
     isLoading,
     error,
-  }: UseGetProductDetailsQuery = useGetProductDetailsQuery(productId);
+  } = useGetProductDetailsQuery(productId);
 
   return { product, isLoading, error };
 };

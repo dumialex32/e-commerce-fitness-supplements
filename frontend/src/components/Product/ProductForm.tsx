@@ -9,8 +9,8 @@ import { ProductFormField } from "../../types/productsTypes/ProductFormTypes";
 
 const ProductForm: React.FC<{
   isEdit?: boolean;
-  product: Product;
-  onCloseModal: () => void;
+  product?: Product;
+  onCloseModal?: () => void;
 }> = ({ isEdit = false, product, onCloseModal }) => {
   const addProductImageRef = useRef<HTMLInputElement | null>(null);
 

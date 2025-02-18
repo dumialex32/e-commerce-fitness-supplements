@@ -13,5 +13,5 @@ export interface EditUserFormErrors {
 
 export interface EditUserFormProps {
   user: User;
-  onCloseModal: () => void;
+  onCloseModal?: () => void;
 }

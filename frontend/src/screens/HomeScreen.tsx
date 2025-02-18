@@ -44,14 +44,14 @@ const HomeScreen: React.FC = () => {
       </Message>
     ));
 
-  if (!products || products.length === 0) {
+  if (!products.length) {
     return <Message type="info">No products found.</Message>;
   }
 
   return (
     <>
       <div className="container mx-auto ">
-        <Carousel data={topFiveRatedProducts} intervalRate={5000} />
+        <Carousel data={topFiveRatedProducts || []} slideInterval={5000} />
       </div>
       <div className="grid grid-cols-[18rem_1fr] h-full my-8 border-t">
         <SideBar>

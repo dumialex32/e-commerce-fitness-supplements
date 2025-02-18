@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import FormRow from "../FormRow";
 import { useUpdateUserMutation } from "../../slices/usersApiSlice";
 import {
@@ -64,16 +64,20 @@ const EditUserForm: React.FC<EditUserFormProps> = ({ user, onCloseModal }) => {
     }));
   };
 
-  const handleUpdateUserSubmit = async (e) => {
+  const handleUpdateUserSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const patch = formData;
     const userId = user?._id;
 
     try {
-      const res = await updateUser({ userId, patch });
+      const res = await updateUser({ userId, patch }).unwrap();
 
-      createToast("User update successfully made", { type: "success" });
-      onCloseModal();
+      createToast(res.message || "User update successfully done", {
+        type: "success",
+      });
+      onCloseModal && onCloseModal(); // function added within Modal.window through cloneElement
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error(err);
       createToast(renderFetchBaseQueryError(err) || "User update failed", {

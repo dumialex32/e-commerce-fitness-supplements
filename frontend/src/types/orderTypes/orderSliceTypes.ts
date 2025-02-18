@@ -25,12 +25,15 @@ export type CreateOrderProps = Order;
 
 export interface UpdateOrderToPaidProps {
   orderId: string;
-  details: any;
+  details: unknown;
 }
 export type UpdateOrderToPaidResponse = OrderData;
 
 //update to delivered
-export type UpdateOrderToDeliveredResponse = OrderData;
+export interface UpdateOrderToDeliveredResponse {
+  updatedOrder: OrderData;
+  message: string;
+}
 export type UpdateOrderToDeliveredProps = string;
 
 // get paypal client id types

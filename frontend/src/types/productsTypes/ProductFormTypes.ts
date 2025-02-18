@@ -50,7 +50,7 @@ export type ActionType =
 
 // useProductForm props
 export interface IuseProductFormProps {
-  product: Product;
+  product?: Product;
   isEdit: boolean;
-  onCloseModal: () => void;
+  onCloseModal?: () => void;
 }

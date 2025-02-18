@@ -15,7 +15,6 @@ const ShippingForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
     isFormInvalid,
     cities,
     renderCityOptions,
-    shippingAddress,
     setShippingFormField,
     handleShippingFormSubmit,
   } = useShippingForm();

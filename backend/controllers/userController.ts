@@ -159,10 +159,13 @@ const updateUserProfile = asyncHandler(
       const updatedUser = await user.save();
 
       res.status(200).json({
-        _id: updatedUser._id,
-        name: updatedUser.name,
-        email: updatedUser.email,
-        isAdmin: updatedUser.isAdmin,
+        updatedUser: {
+          _id: updatedUser._id,
+          name: updatedUser.name,
+          email: updatedUser.email,
+          isAdmin: updatedUser.isAdmin,
+        },
+        message: "User successfully updated",
       });
     } else {
       res.status(400).json({ message: "User not found" });

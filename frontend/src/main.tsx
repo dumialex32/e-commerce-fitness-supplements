@@ -58,8 +58,15 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <PayPalScriptProvider deferLoading={true}>
-        <RouterProvider router={router}></RouterProvider>
+      <PayPalScriptProvider
+        options={{
+          clientId: "", // we dinamically set the client id value within usePaypal hook
+          currency: "EUR",
+          intent: "capture",
+        }}
+        deferLoading={true}
+      >
+        <RouterProvider router={router} />
       </PayPalScriptProvider>
     </Provider>
   </React.StrictMode>

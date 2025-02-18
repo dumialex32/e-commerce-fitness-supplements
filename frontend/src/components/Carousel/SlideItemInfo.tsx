@@ -5,7 +5,7 @@ const SlideItemInfo: React.FC = () => {
   const { data, currentIndex } = useCarouselContext();
 
   return (
-    <div className="p-8 text-center">
+    <div className="p-8 text-center bg-blue-50 rounded-md">
       <div className="clas flex items-center flex-col gap-4">
         <h2 className="text-3xl font-bold tracking-wider">TOP RATED </h2>
 

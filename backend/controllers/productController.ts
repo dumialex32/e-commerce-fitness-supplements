@@ -15,6 +15,7 @@ const getProducts = asyncHandler(async (req: Request, res: Response) => {
 
   const page = Math.max(parseInt(req.query.page as string, 10) || 1, 1);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const filter: Record<string, any> = {};
 
   const sort: Record<string, 1 | -1> = {};
@@ -112,7 +113,9 @@ const createProduct = asyncHandler(async (req: Request, res: Response) => {
 
   const createdProduct = await Product.create(product);
 
-  res.status(200).json(createdProduct);
+  res
+    .status(200)
+    .json({ createdProduct, message: "Product sucessfully created" });
 });
 
 const editProduct = asyncHandler(async (req: Request, res: Response) => {
@@ -130,7 +133,9 @@ const editProduct = asyncHandler(async (req: Request, res: Response) => {
     product.image = image;
     const productUpdated = await product.save();
 
-    res.status(200).json(productUpdated);
+    res
+      .status(200)
+      .json({ productUpdated, message: "Product successfully updated" });
   } else {
     res.status(404);
     throw new Error("Product not found");

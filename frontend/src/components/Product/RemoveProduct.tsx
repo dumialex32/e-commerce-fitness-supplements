@@ -16,6 +16,8 @@ const RemoveProduct: React.FC<{ productId: string }> = ({ productId }) => {
       createToast(res.message || "Product successfully deleted", {
         type: "success",
       });
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error(err);
       createToast(
@@ -25,7 +27,7 @@ const RemoveProduct: React.FC<{ productId: string }> = ({ productId }) => {
       );
     }
   };
-
+  // to do on closemodal
   return (
     <Modal>
       <Modal.Open name={productId}>
@@ -38,7 +40,6 @@ const RemoveProduct: React.FC<{ productId: string }> = ({ productId }) => {
       <Modal.Window name={productId}>
         <Confirm
           onConfirm={handleRemoveProduct}
-          onCloseModal
           resource="product"
           resourceName={productId}
           action="delete"

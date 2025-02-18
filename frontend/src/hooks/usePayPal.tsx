@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useEffect, useState } from "react";
 import {
   useGetPaypalClientIdQuery,
@@ -11,11 +12,7 @@ import {
 } from "@paypal/react-paypal-js";
 import FormRow from "../components/FormRow";
 
-const usePayPal = (
-  orderId: string,
-  totalPrice: number,
-  onSuccess: () => void
-) => {
+const usePayPal = (orderId: string, totalPrice: number) => {
   // state for setting the currency in which paypal processes the payment
   const [currency, setCurrency] = useState<string>("EUR");
 
@@ -25,18 +22,15 @@ const usePayPal = (
   const [payOrder, { isLoading: loadingPay }] = useUpdateOrderToPaidMutation();
 
   // query to fetch paypal client id from the server
-  const {
-    data: paypal,
-    isLoading: loadingPayPal,
-    error: errorPayPal,
-  } = useGetPaypalClientIdQuery();
+  const { data: paypal } = useGetPaypalClientIdQuery();
 
   // function to configure and load the paypal script with the client id and current currency state
+
   const loadPaypalScript = () => {
     paypalDispatch({
       type: "resetOptions",
       value: {
-        "client-id": paypal.clientId,
+        clientId: paypal?.clientId,
         currency: currency,
       },
     });

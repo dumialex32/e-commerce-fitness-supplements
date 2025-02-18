@@ -1,5 +1,5 @@
 // checks if properties within obj are empty
-const isEmptyVal = (val) => {
+const isEmptyVal = (val: unknown) => {
   if (val === "" || val === undefined || val === null) {
     return true;
   }

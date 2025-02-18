@@ -5,7 +5,8 @@ const PlaceOrderButton: React.FC<{ order: Order; disabled: boolean }> = ({
   order,
   disabled,
 }) => {
-  const { handlePlaceOrder, isLoading, error } = usePlaceOrder();
+  const { handlePlaceOrder } = usePlaceOrder();
+
   return (
     <button
       onClick={() => handlePlaceOrder(order)}

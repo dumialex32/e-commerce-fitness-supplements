@@ -16,7 +16,7 @@ const TreeView: React.FC<{ data: ITreeData[] }> = ({ data }) => {
     ));
   };
 
-  return <div className="">{renderTree(data)}</div>;
+  return <div>{renderTree(data)}</div>;
 };
 
 export default TreeView;

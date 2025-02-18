@@ -2,7 +2,7 @@ import Loader from "./Loader";
 
 interface IConfirmProps {
   onConfirm: (onCloseModal: () => void) => void;
-  onCloseModal: () => void;
+  onCloseModal?: () => void;
   action: string;
   resourceName: string;
   resource: string;
@@ -23,6 +23,7 @@ const Confirm: React.FC<IConfirmProps> = ({
     .toUpperCase()
     .concat(action.slice(1));
 
+  console.log(onCloseModal);
   return (
     <div className="flex flex-col gap-6">
       <h3 className="text-xl font-semibold text-center">
@@ -40,7 +41,10 @@ const Confirm: React.FC<IConfirmProps> = ({
           </p>
 
           <div className="flex justify-between gap-2">
-            <button className="btn" onClick={() => onConfirm(onCloseModal)}>
+            <button
+              className="btn"
+              onClick={() => onConfirm(onCloseModal as () => void)} // onCloseModel was added through `closeElement` within Modal.Window
+            >
               {capitalizedAction}
             </button>
             <button className="btn" onClick={onCloseModal}>

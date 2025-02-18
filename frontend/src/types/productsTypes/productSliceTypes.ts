@@ -23,9 +23,7 @@ export interface GetProductsProps {
 }
 
 // get product details querry types
-export interface GetProductDetailsResponse {
-  data: Product;
-}
+export type GetProductDetailsResponse = Product;
 export type GetProductDetailsProps = string;
 
 // get top five rated products
@@ -35,6 +33,7 @@ export type GetTopFiveRatedProductsResponse = Product[];
 export type CreateProductProps = CreateEditProductPayload;
 export interface CreateProductResponse {
   product: Product;
+  message: string;
 }
 
 // upload product mutation
@@ -67,7 +66,10 @@ export interface CreateEditProductPayload {
   image: File | string;
 }
 
-export type EditProductResponse = Product;
+export type EditProductResponse = {
+  productUpdated: Product;
+  message: string;
+};
 export interface EditProductProps {
   productId: string;
   patch: CreateEditProductPayload;

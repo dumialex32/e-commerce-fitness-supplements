@@ -7,7 +7,7 @@ import {
   GetOrderDetailsResponse,
   GetOrderResponse,
   GetPaypalClinedIdResponse,
-  PopulatedOrderResponse as UpdateOrderToDeliveredProps,
+  UpdateOrderToDeliveredProps,
   UpdateOrderToDeliveredResponse,
   UpdateOrderToPaidProps,
   UpdateOrderToPaidResponse,

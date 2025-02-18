@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ReactNode, ReactElement } from "react";
 import { faPaypal } from "@fortawesome/free-brands-svg-icons";
 
+type LabelWithIcon = "Password" | "Email" | "PayPal" | "CreditCard";
+
 const getFormIcon: {
   Password: IconDefinition;
   Email: IconDefinition;
@@ -21,7 +23,7 @@ const getFormIcon: {
   CreditCard: faCreditCard,
 };
 
-const formRowDirection = (label) => ({
+const formRowDirection = (label: string | LabelWithIcon | undefined) => ({
   vertical: `${
     label ? `grid grid-cols-[1fr_1.5fr] gap-12` : "flex"
   }items-center mb-10`,
@@ -30,7 +32,7 @@ const formRowDirection = (label) => ({
 
 const FormRow: React.FC<{
   children: ReactNode;
-  labelWithIcon?: "Password" | "Email" | "PayPal" | "CreditCard";
+  labelWithIcon?: LabelWithIcon;
   label?: string | undefined;
   error?: string;
   direction?: "vertical" | "horizontal";

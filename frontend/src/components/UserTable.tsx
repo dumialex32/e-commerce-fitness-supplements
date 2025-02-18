@@ -9,6 +9,7 @@ import RemoveUser from "./user/RemoveUser";
 import EditUser from "./user/EditUser";
 
 const UserTable: React.FC<{ data: User[] }> = ({ data }) => {
+  console.log(data);
   const columns: TableColumn<User>[] = [
     {
       label: "User ID",
@@ -38,9 +39,10 @@ const UserTable: React.FC<{ data: User[] }> = ({ data }) => {
       id: "_id",
       width: "sm",
       accessor: (value) => {
+        const user = data.find((user) => user._id === value);
         return (
           <div className="flex items-center gap-2">
-            <EditUser user={data.find((user) => user._id === value)} />
+            {user ? <EditUser user={user} /> : null}
             <RemoveUser userId={value as string} />
           </div>
         );
@@ -48,7 +50,7 @@ const UserTable: React.FC<{ data: User[] }> = ({ data }) => {
     },
   ];
 
-  return <Table columns={columns} data={data || []} />;
+  return <Table columns={columns} data={data} />;
 };
 
 export default UserTable;

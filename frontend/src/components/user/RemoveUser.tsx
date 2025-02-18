@@ -10,13 +10,15 @@ const RemoveUser: React.FC<{ userId: string }> = ({ userId }) => {
 
   const handleRemoveUser = async (onCloseModal: () => void) => {
     try {
-      const res = await removeUser(userId);
+      const res = await removeUser(userId).unwrap();
 
       createToast(res.message || "User successfully deleted", {
         type: "success",
       });
 
       onCloseModal();
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error(err);
       createToast(
@@ -41,7 +43,6 @@ const RemoveUser: React.FC<{ userId: string }> = ({ userId }) => {
           resourceName={userId}
           resource="user"
           onConfirm={handleRemoveUser}
-          onCloseModal
           isLoading={isLoading}
         />
       </Modal.Window>

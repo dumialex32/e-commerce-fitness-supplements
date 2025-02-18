@@ -30,7 +30,9 @@ export interface OrderData {
   paymentResult?: PaymentResult;
   totalPrice: number;
   isPaid: boolean;
+  paidAt?: string;
   isDelivered: boolean;
+  deliveredAt?: string;
   _id: string;
   createdAt: string;
   updatedAt: string;

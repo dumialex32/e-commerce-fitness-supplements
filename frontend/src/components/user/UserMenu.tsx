@@ -2,32 +2,26 @@ import useAuth from "../../hooks/useAuth";
 import UserBadge from "./UserBadge";
 import { useEffect, useRef, useState } from "react";
 import UserMenuList from "./UserMenuList";
+import { useLocation } from "react-router-dom";
+import useClickOutsideHook from "../../hooks/useClickOutsideHook";
 
 const UserMenu: React.FC = () => {
   const { isUserLoggedIn, userInitial } = useAuth();
+
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+
   const dropdownMenuRef = useRef<HTMLDivElement>(null);
 
+  const { pathname } = useLocation();
+
+  useClickOutsideHook(dropdownMenuRef, () => setIsDropdownOpen(false));
   const toggleDropdownMenu = () => {
     setIsDropdownOpen((prevstate) => !prevstate);
   };
 
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        dropdownMenuRef.current &&
-        !dropdownMenuRef.current.contains(e.target as Node)
-      ) {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-
-    () => {
-      return document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
+    setIsDropdownOpen(false);
+  }, [pathname]);
 
   return (
     <div className="relative" ref={dropdownMenuRef}>

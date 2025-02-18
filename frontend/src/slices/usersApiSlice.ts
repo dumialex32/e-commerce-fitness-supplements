@@ -1,30 +1,37 @@
 import { USERS_URL } from "../constants";
 import apiSlice from "./apiSlice";
-import { LoginData, UserInfo } from "../types/authTypes/authSliceTypes";
 import {
+  DeleteUserProps,
+  DeleteUserResponse,
+  GetUsersResponse,
+  LoginProps,
+  LoginResponse,
+  LogoutResponse,
+  RegisterProps,
+  RegisterResponse,
   UpdateUserMutationProps,
-  User,
+  UpdateUserResponse,
 } from "../types/userTypes/usersSliceTypes";
 
 // to do: add query types
 
 const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation<UserInfo, LoginData>({
+    login: builder.mutation<LoginResponse, LoginProps>({
       query: (body) => ({
         url: `${USERS_URL}/login`,
         method: "POST",
         body,
       }),
     }),
-    logout: builder.mutation<{ message: string }, void>({
+    logout: builder.mutation<LogoutResponse, void>({
       query: () => ({
         url: `${USERS_URL}/logout`,
         method: "POST",
       }),
     }),
 
-    register: builder.mutation({
+    register: builder.mutation<RegisterResponse, RegisterProps>({
       query: (body) => ({
         url: USERS_URL,
         method: "POST",
@@ -41,14 +48,14 @@ const userApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["User"],
     }),
 
-    getUsers: builder.query<User[], void>({
+    getUsers: builder.query<GetUsersResponse, void>({
       query: () => ({
         url: USERS_URL,
       }),
       providesTags: ["User"],
     }),
 
-    deleteUser: builder.mutation<void, string>({
+    deleteUser: builder.mutation<DeleteUserResponse, DeleteUserProps>({
       query: (userId) => ({
         url: `${USERS_URL}/${userId}`,
         method: "DELETE",
@@ -56,7 +63,7 @@ const userApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["User"],
     }),
 
-    updateUser: builder.mutation<User, UpdateUserMutationProps>({
+    updateUser: builder.mutation<UpdateUserResponse, UpdateUserMutationProps>({
       query: ({ userId, ...patch }) => ({
         url: `${USERS_URL}/${userId}`,
         method: "PATCH",

@@ -42,6 +42,8 @@ const Carousel: React.FC<CarouselProps> = ({ slideInterval = 5000, data }) => {
     goToSlide,
   };
 
+  if (!data.length) return;
+
   return (
     <CarouselContext.Provider value={value}>
       {/* carousel container  */}

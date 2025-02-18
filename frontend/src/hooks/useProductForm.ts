@@ -22,6 +22,7 @@ import {
 } from "../types/productsTypes/ProductFormTypes";
 import { CreateEditProductPayload } from "../types/productsTypes/productSliceTypes";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const validationMap: Record<ProductFormField, (value: any) => string> = {
   name: validateProductName,
   price: validateProductPrice,
@@ -32,7 +33,7 @@ const validationMap: Record<ProductFormField, (value: any) => string> = {
   description: () => "",
 };
 
-const init = (product: Product) => ({
+const init = (product: Product | undefined) => ({
   name: product?.name || "",
   price: product?.price || 0,
   category: product?.category || "",
@@ -75,8 +76,6 @@ const useProductForm = ({
   isEdit,
   onCloseModal,
 }: IuseProductFormProps) => {
-  const productId = product?._id;
-
   const [state, dispatch] = useReducer(reducer, product, init);
 
   const productInputs = {
@@ -106,13 +105,15 @@ const useProductForm = ({
       setProductFormField("image", res.imagePath);
 
       return res;
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error(err);
       throw err;
     }
   };
 
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
@@ -131,13 +132,20 @@ const useProductForm = ({
       let res;
 
       isEdit
-        ? (res = await editProduct({ productId, patch }).unwrap())
+        ? (res = await editProduct({
+            productId: product?._id as string,
+            patch,
+          }).unwrap())
         : (res = await createProduct(patch).unwrap());
 
-      createToast(`Product successfully ${isEdit ? "updated" : "created"}`, {
-        type: "success",
-      });
-      onCloseModal();
+      createToast(
+        res.message || `Product successfully ${isEdit ? "updated" : "created"}`,
+        {
+          type: "success",
+        }
+      );
+      onCloseModal && onCloseModal();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error(err);
       createToast(
