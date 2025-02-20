@@ -34,11 +34,13 @@ app.use(generalRateLimit);
 
 // products routes with user limit rate for requests
 app.use("/api/products", productRoutes);
+
 // user routes
-// app.use("/api/users", userRateLimit, userRoutes);
+app.use("/api/users", userRateLimit, userRoutes);
 app.use("/api/users", userRoutes);
+
 // order routes
-// app.use("/api/orders", orderRateLimit, orderRoutes);
+app.use("/api/orders", orderRateLimit, orderRoutes);
 app.use("/api/orders", orderRoutes);
 
 app.use("/api/upload/", uploadRoutes);
@@ -54,6 +56,8 @@ app.use(
   "/uploads/images",
   express.static(path.join(__dirname, "uploads", "images"))
 );
+
+app.use("/nodeenv", () => console.log(process.env.NODE_ENV));
 
 //  handling 404 and other errorsth
 app.use(notFound);

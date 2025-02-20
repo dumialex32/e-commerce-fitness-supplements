@@ -12,7 +12,6 @@ const TreeItem: React.FC<{
   const nodeHasChildren = node.children && node.children.length > 0;
 
   const handleTreeExpand = (e: React.MouseEvent) => {
-    console.log("dd");
     e.stopPropagation();
     setIsExpanded((prevState) => !prevState);
     onSetActiveItem(node.id);

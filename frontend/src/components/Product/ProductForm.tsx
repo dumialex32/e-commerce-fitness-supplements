@@ -60,13 +60,13 @@ const ProductForm: React.FC<{
         </FormRow>
         <FormRow label="Category" error={errors?.category || ""}>
           <input
-            type="category"
+            type="text"
             value={productInputs.category}
             id="category"
             onChange={(e) =>
               setProductFormField(
                 e.target.id as ProductFormField,
-                Number(e.target.value)
+                e.target.value
               )
             }
           />

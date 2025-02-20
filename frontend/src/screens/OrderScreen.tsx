@@ -53,7 +53,7 @@ const OrderScreen: React.FC = () => {
   const handleIsDelivered = async () => {
     try {
       const res = await updateOrderToDelivered(orderId).unwrap();
-      console.log(res);
+
       createToast(res.message || "Order delivered", { type: "success" });
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
