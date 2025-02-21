@@ -52,5 +52,5 @@ docker exec -it backend npm run data:destroy
 
 ### 6.Access the Application
 
--The frontend will be available at: http://localhost:5173 or http://localhost:[your-frontend-port]
--The backend API will be available at: http://localhost:5000/api or http://localhost:[your-backend-port]/api
+- The frontend will be available at: http://localhost:5173 or http://localhost:[your-frontend-port]
+- The backend API will be available at: http://localhost:5000/api or http://localhost:[your-backend-port]/api
