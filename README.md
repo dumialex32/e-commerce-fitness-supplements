@@ -29,7 +29,9 @@ git clone https://github.com/dumialex32/e-commerce-fitness-supplements.git
 
 ### 2.Navigate to the Project Folder
 
+```bash
 cd supplements-shop
+```
 
 ### 3.Set Up Environment Variables
 
@@ -37,12 +39,16 @@ Create a .env file in the root directory using the provided .env.example as a te
 
 ### 4.Start the Backend, Frontend, and MongoDB Services
 
+```bash
 docker-compose up --build
+```
 
 ### 5.Seed or Destroy the Database (Optional)
 
+```bash
 docker exec -it backend npm run data:import
 docker exec -it backend npm run data:destroy
+```
 
 ### 6.Access the Application
 
